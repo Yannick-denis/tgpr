@@ -3,7 +3,7 @@ package tgpr.tricount.controller;
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.tricount.TricountApp;
 import tgpr.tricount.model.User;
-import tgpr.tricount.model.MemberValidator;
+import tgpr.tricount.controller.UserValidator;
 import tgpr.tricount.model.Security;
 import tgpr.tricount.view.LoginView;
 import tgpr.framework.Controller;
@@ -20,14 +20,14 @@ public class LoginController extends Controller {
 
     public List<Error> login(String pseudo, String password) {
         var errors = new ErrorList();
-        errors.add(MemberValidator.isValidPseudo(pseudo));
-        errors.add(MemberValidator.isValidPassword(password));
+        errors.add(UserValidator.isValidPseudo(pseudo));
+        errors.add(UserValidator.isValidPassword(password));
 
         if (errors.isEmpty()) {
-            var member = Member.checkCredentials(pseudo, password);
+            var member = User.checkCredentials(pseudo, password);
             if (member != null) {
                 Security.login(member);
-                navigateTo(new MemberListController());
+//                navigateTo(new MemberListController());
             } else
                 showError(new Error("invalid credentials"));
         } else
@@ -37,7 +37,7 @@ public class LoginController extends Controller {
     }
 
     public void seedData() {
-        Model.seedData(TutoApp.DATABASE_SCRIPT_FILE);
+        Model.seedData(TricountApp.DATABASE_SCRIPT_FILE);
     }
 
     @Override
