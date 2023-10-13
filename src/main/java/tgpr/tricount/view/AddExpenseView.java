@@ -8,6 +8,7 @@ import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
@@ -65,7 +66,7 @@ public class AddExpenseView extends BasicWindow {
 
         }).addTo(root);
         //cration de l'operation avec les donne recuilli pour pouvoir l'ajoute en DB apres
-        operation =new Operation(txtTitle, ,txtAmount,new Date(String.valueOf(Date)),
+        operation =new Operation(txtTitle, 1,txtAmount, LocalDate.of(),
                                   User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now());
 
