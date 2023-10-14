@@ -1,6 +1,8 @@
 package tgpr.tricount.view;
 
 import com.googlecode.lanterna.gui2.*;
+import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.TestController;
@@ -13,18 +15,25 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
+import static java.time.LocalDate.parse;
 
 
-public class AddExpenseView extends BasicWindow {
+public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
     private  Operation operation;
-
+    private  TextBox txtTitle;
+    private  TextBox txtAmount;
+    private TextBox Date;
+    private ComboBox<String> payBy;
     public AddExpenseView(AddExpenseController controler) {
+        super("Add new expense");
         this.controler = controler;
 
-        setTitle("Add New expense");
+
+
         setHints(List.of(Hint.CENTERED));
 
         Panel root = new Panel();
@@ -34,16 +43,16 @@ public class AddExpenseView extends BasicWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         //ajout de label au panel et de leur box pour recuillir les donne
         panel.addComponent(new Label("Titlte:"));
-        TextBox txtTitle = new TextBox().addTo(panel);
+        txtTitle = new TextBox().addTo(panel);
         panel.addComponent(new Label("Amount:"));
-        TextBox txtAmount = new TextBox().addTo(panel);
+        txtAmount = new TextBox().addTo(panel);
         panel.addComponent(new Label("Date:"));
-        TextBox Date = new TextBox().addTo(panel)
+        Date = new TextBox().addTo(panel)
                 //validation que c'est une date
                 .setValidationPattern(Pattern.compile("[/\\d]{0,10}"));
         panel.addComponent(new Label("Pay By:"));
-        ComboBox<String> payBy=new ComboBox<>();
-        payBy.addItem("cc");
+        payBy=new ComboBox<>();
+        payBy.addItem("xavier");
         panel.addComponent(payBy);
         panel.addComponent(new Label("use a repartition \n template (optional) "));
         //ajout de bouton
@@ -56,22 +65,39 @@ public class AddExpenseView extends BasicWindow {
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
 
         new EmptySpace().addTo(root);
-        var btnSave = new Button("Save", () -> {
-
+        Button btnSave = new Button("Save", () -> {
+            save();
         }).addTo(root);
-        var btnSaveTemp = new Button("Save a repartition as a template", () -> {
 
+        Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
+            // Controller.navigateTo(new TemplateController);
         }).addTo(root);
-        var btnCancel = new Button("Cancel", () -> {
+        Button btnCancel = new Button("Cancel", () -> {
+            close();
+        }).addTo(root);
 
-        }).addTo(root);
-        //cration de l'operation avec les donne recuilli pour pouvoir l'ajoute en DB apres
-        operation =new Operation(txtTitle, 1,txtAmount, LocalDate.of(),
-                                  User.getByFullName(payBy.getSelectedItem()).getId(),
-                LocalDateTime.now());
 
 
     }
+
+    //bricolege pour comprende la class localdate pour instancier apartir d'un string qui vient de la text box
+    private  LocalDate verif(){
+        String date =Date.getText();
+
+        LocalDate dat =parse(date);
+        if (date.isValidDate()){
+            dat= parse(date);
+        }
+        return dat;
+    }
+    //appel la methode save du controleur qui a besoin d'une instance de la classs operation pour l'ecrir en DB
+    private void save() {
+        controler.save(txtTitle.getText(), controler.getIdTricount()
+                ,txtAmount.getLineCount(),  verif()
+                , User.getByFullName(payBy.getSelectedItem()).getId(),
+                LocalDateTime.now());
+    }
+
 
 
 }
