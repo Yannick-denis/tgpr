@@ -20,7 +20,8 @@ import java.util.regex.Pattern;
 
 import static java.time.LocalDate.parse;
 
-
+// a faire demain trouver solution pour recupere lid du tricount
+//et repartition pour enregistre le poids en DB
 public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
     private Operation operation;
@@ -34,6 +35,8 @@ public class AddExpenseView extends DialogWindow {
     public void loadParticipand(){
         tricoun.setId(controler.getIdTricount());
         participant = tricoun.getParticipants();
+        System.out.println(tricoun.getId());
+        System.out.println(controler.getIdTricount());
 
     }
 
@@ -41,6 +44,7 @@ public class AddExpenseView extends DialogWindow {
     public AddExpenseView(AddExpenseController controler) {
         super("Add new expense");
         this.controler = controler;
+
 
 
         setHints(List.of(Hint.CENTERED));
@@ -108,7 +112,7 @@ public class AddExpenseView extends DialogWindow {
     private LocalDate verif() {
         String date = Date.getText();
 
-        LocalDate dat = parse(date);
+        LocalDate dat = LocalDate.now();
         if (date.isValidDate()) {
             dat = parse(date);
         }
@@ -116,6 +120,8 @@ public class AddExpenseView extends DialogWindow {
     }
 
     //appel la methode save du controleur qui a besoin d'une instance de la classs operation pour l'ecrir en DB
+    //probleme avec amount et date
+    //pay by fonctionne
     private void save() {
         controler.save(txtTitle.getText(), controler.getIdTricount()
                 , txtAmount.getLineCount(), verif()
