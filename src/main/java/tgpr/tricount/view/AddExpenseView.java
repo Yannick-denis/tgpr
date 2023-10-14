@@ -23,15 +23,24 @@ import static java.time.LocalDate.parse;
 
 public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
-    private  Operation operation;
-    private  TextBox txtTitle;
-    private  TextBox txtAmount;
+    private Operation operation;
+    private TextBox txtTitle;
+    private TextBox txtAmount;
     private TextBox Date;
     private ComboBox<String> payBy;
+    private Tricount tricoun = new Tricount();
+
+    private List<User> participant ;
+    public void loadParticipand(){
+        tricoun.setId(controler.getIdTricount());
+        participant = tricoun.getParticipants();
+
+    }
+
+
     public AddExpenseView(AddExpenseController controler) {
         super("Add new expense");
         this.controler = controler;
-
 
 
         setHints(List.of(Hint.CENTERED));
@@ -51,18 +60,33 @@ public class AddExpenseView extends DialogWindow {
                 //validation que c'est une date
                 .setValidationPattern(Pattern.compile("[/\\d]{0,10}"));
         panel.addComponent(new Label("Pay By:"));
-        payBy=new ComboBox<>();
+        payBy = new ComboBox<>();
+        loadParticipand();
         payBy.addItem("xavier");
+
+        for (User elem : participant) {
+            payBy.addItem(elem.getFullName());
+            System.out.println(elem.getFullName());
+
+        }
         panel.addComponent(payBy);
+
         panel.addComponent(new Label("use a repartition \n template (optional) "));
         //ajout de bouton
+
+        ComboBox<String> selectTampletate = new ComboBox<>();
+        selectTampletate.addItem("No ,I use a custuom repartition ");
+        panel.addComponent(selectTampletate);
         var btnAply = new Button("Apply", () -> {
             //logique du bouton
         }).addTo(root);
-        ComboBox<String> selectTampletate=new ComboBox<>();
-        selectTampletate.addItem("No ,I use a custuom repartition ");
-        panel.addComponent(selectTampletate);
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
+        CheckBoxList<String> check= new CheckBoxList<>();
+        check.addItem("xavier");
+        for (User elme:participant){
+           check.addItem(elme.getFullName());
+        }
+        check.addTo(root);
 
         new EmptySpace().addTo(root);
         Button btnSave = new Button("Save", () -> {
@@ -77,27 +101,29 @@ public class AddExpenseView extends DialogWindow {
         }).addTo(root);
 
 
-
     }
 
-    //bricolege pour comprende la class localdate pour instancier apartir d'un string qui vient de la text box
-    private  LocalDate verif(){
-        String date =Date.getText();
 
-        LocalDate dat =parse(date);
-        if (date.isValidDate()){
-            dat= parse(date);
+    //bricolege pour comprende la class localdate pour instancier apartir d'un string qui vient de la text box destiner a disparaitre
+    private LocalDate verif() {
+        String date = Date.getText();
+
+        LocalDate dat = parse(date);
+        if (date.isValidDate()) {
+            dat = parse(date);
         }
         return dat;
     }
+
     //appel la methode save du controleur qui a besoin d'une instance de la classs operation pour l'ecrir en DB
     private void save() {
         controler.save(txtTitle.getText(), controler.getIdTricount()
-                ,txtAmount.getLineCount(),  verif()
+                , txtAmount.getLineCount(), verif()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now());
     }
 
 
-
 }
+
+
