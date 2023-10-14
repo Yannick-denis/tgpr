@@ -18,16 +18,16 @@ public class LoginController extends Controller {
         System.exit(0);
     }
 
-    public List<Error> login(String pseudo, String password) {
+    public List<Error> login(String mail, String password) {
         var errors = new ErrorList();
-        errors.add(UserValidator.isValidPseudo(pseudo));
+        errors.add(UserValidator.isValidPseudo(mail));
         errors.add(UserValidator.isValidPassword(password));
 
         if (errors.isEmpty()) {
-            var member = User.checkCredentials(pseudo, password);
+            var member = User.checkCredentials(mail, password);
             if (member != null) {
                 Security.login(member);
-//                navigateTo(new MemberListController());
+                navigateTo(new TestController());
             } else
                 showError(new Error("invalid credentials"));
         } else
@@ -35,6 +35,7 @@ public class LoginController extends Controller {
 
         return errors;
     }
+
 
     public void seedData() {
         Model.seedData(TricountApp.DATABASE_SCRIPT_FILE);

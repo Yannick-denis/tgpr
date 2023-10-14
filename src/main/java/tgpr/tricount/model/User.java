@@ -222,20 +222,15 @@ public class User extends Model {
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
     }
-    public static User checkCredentials(String fullName, String password) {
-        var user = User.getByFullName(fullName);
+    public static User checkCredentials(String mail, String password) {
+        var user = User.getByMail(mail);
         if (user != null && user.hashedPassword.equals(Tools.hash(password))) {
             return user;
         }
-        return null;
+        return user;
     }
 
-//    public static Member checkCredentials(String pseudo, String password) {
-//        var member = Member.getByPseudo(pseudo);
-//        if (member != null && member.password.equals(Tools.hash(password)))
-//            return member;
-//        return null;
-//    }
+
 
 
 

@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 public abstract class UserValidator {
 
 
-    public static Error isValidPseudo(String pseudo) {
-        if (pseudo == null || pseudo.isBlank())
-            return new Error("name required", User.Fields.FullName);
-        if (!Pattern.matches("[a-zA-Z][a-zA-Z0-9]{2,7}", pseudo))
-            return new Error("invalid name", User.Fields.FullName);
+    public static Error isValidPseudo(String mail) {
+        if (mail == null || mail.isBlank())
+            return new Error("mail required", User.Fields.FullName);
+        if (!Pattern.matches("^[A-Za-z0-9+_.-]+@(.+)$", mail))
+            return new Error("invalid mail", User.Fields.FullName);
         return Error.NOERROR;
     }
 
@@ -32,7 +32,7 @@ public abstract class UserValidator {
     public static Error isValidPassword(String password) {
         if (password == null || password.isBlank())
             return new Error("password required", User.Fields.Password);
-        if (!Pattern.matches("[a-zA-Z0-9]{3,}", password))
+        if (password.length() < 5)
             return new Error("invalid password", User.Fields.Password);
         return Error.NOERROR;
     }
