@@ -10,9 +10,13 @@ import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -103,14 +107,10 @@ public class AddExpenseView extends DialogWindow {
 
 
 
-    //bricolege pour comprende la class localdate pour instancier apartir d'un string qui vient de la text box destiner a disparaitre
-    private LocalDate verif() {
-        String date = Date.getText();
-
-        LocalDate dat = LocalDate.now();
-        if (date.isValidDate()) {
-            dat = parse(date);
-        }
+    //transforme  le string de la textbox en LocalDate
+    private LocalDate StringToDate() {
+        DateTimeFormatter format= new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
+        LocalDate  dat = LocalDate.parse(Date.getText(),format);
         return dat;
     }
 
@@ -119,7 +119,7 @@ public class AddExpenseView extends DialogWindow {
     //pay by fonctionne
     private void save() {
         controler.save(txtTitle.getText(), controler.getIdTricount()
-                , txtAmount.getLineCount(), verif()
+                , txtAmount.getLineCount(), StringToDate()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now());
     }
