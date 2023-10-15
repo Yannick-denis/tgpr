@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 import static java.time.LocalDate.parse;
 
+
 // petit souci le tricount du contoleur rete null
 //et repartition pour enregistre le poids en DB
 public class AddExpenseView extends DialogWindow {
@@ -29,23 +30,18 @@ public class AddExpenseView extends DialogWindow {
     private TextBox txtAmount;
     private TextBox Date;
     private ComboBox<String> payBy;
-    private Tricount tricoun = new Tricount();
-
     private List<User> participant;
 
     public void loadParticipand() {
-        tricoun.setId(controler.getIdTricount());
-        participant = tricoun.getParticipants();
-        System.out.println(tricoun.getId());
-        System.out.println(controler.getIdTricount());
-
+        participant = controler.getTricount().getParticipants();
     }
 
 
-    public AddExpenseView(AddExpenseController controler,Tricount tricount) {
+    public AddExpenseView(AddExpenseController controler) {
         super("Add new expense");
         this.controler = controler;
-        this.tricoun=new Tricount(tricount.getTitle(),tricount.getCreatorId());
+
+
 
         setHints(List.of(Hint.CENTERED));
 
@@ -62,7 +58,8 @@ public class AddExpenseView extends DialogWindow {
         panel.addComponent(new Label("Date:"));
         Date = new TextBox().addTo(panel)
                 //validation que c'est une date
-                .setValidationPattern(Pattern.compile("[/\\d]{0,10}"));
+                .setValidationPattern(Pattern.compile("[/\\d]{0,10}"))
+                .setTextChangeListener((txt, byUser) -> validate());;
         panel.addComponent(new Label("Pay By:"));
         payBy = new ComboBox<>();
         loadParticipand();
@@ -105,6 +102,10 @@ public class AddExpenseView extends DialogWindow {
 
     }
 
+    private void validate() {
+        if (!Date.getText().isBlank() && !Date.getText().isValidDate())
+            System.out.println();
+    }
 
     //bricolege pour comprende la class localdate pour instancier apartir d'un string qui vient de la text box destiner a disparaitre
     private LocalDate verif() {

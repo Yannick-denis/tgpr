@@ -14,8 +14,7 @@ public class TricountApp {
         if (!Model.checkDb(DATABASE_SCRIPT_FILE))
             Controller.abort("Database is not available!");
         else {
-            ticount=new Tricount("cc",1);
-            ticount.setId(2);
+            ticount=Tricount.getByKey(4);
             Controller.navigateTo(new  AddExpenseController(ticount));
         }
     }
