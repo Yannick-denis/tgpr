@@ -58,8 +58,7 @@ public class AddExpenseView extends DialogWindow {
         panel.addComponent(new Label("Date:"));
         Date = new TextBox().addTo(panel)
                 //validation que c'est une date
-                .setValidationPattern(Pattern.compile("[/\\d]{0,10}"))
-                .setTextChangeListener((txt, byUser) -> validate());;
+                .setValidationPattern(Pattern.compile("[/\\d]{0,10}"));
         panel.addComponent(new Label("Pay By:"));
         payBy = new ComboBox<>();
         loadParticipand();
@@ -102,10 +101,7 @@ public class AddExpenseView extends DialogWindow {
 
     }
 
-    private void validate() {
-        if (!Date.getText().isBlank() && !Date.getText().isValidDate())
-            System.out.println();
-    }
+
 
     //bricolege pour comprende la class localdate pour instancier apartir d'un string qui vient de la text box destiner a disparaitre
     private LocalDate verif() {
