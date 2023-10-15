@@ -10,21 +10,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class AddExpenseController extends Controller {
-    private final AddExpenseView view = new AddExpenseView(this);
+    private final AddExpenseView view = new AddExpenseView(this,this.tricount);
 
 
 
 
 
-    private  Tricount tricount;
+    private  Tricount tricount ;
     // besoin de recevoir l' Id du tricount pour savoir dans quel tricount nous somme
     public  AddExpenseController(Tricount tricount) {
-        this.tricount = new Tricount();
+        this.tricount = new Tricount(tricount.getTitle(),tricount.getCreatorId());
         tricount.setId(tricount.getId());
     }
     public int getIdTricount(){
         if (this.tricount==null){
-            return 0;
+            return 1;
         }
         return this.tricount.getId();
     }

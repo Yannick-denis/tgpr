@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 import static java.time.LocalDate.parse;
 
-// a faire demain trouver solution pour recupere lid du tricount
+// petit souci le tricount du contoleur rete null
 //et repartition pour enregistre le poids en DB
 public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
@@ -31,8 +31,9 @@ public class AddExpenseView extends DialogWindow {
     private ComboBox<String> payBy;
     private Tricount tricoun = new Tricount();
 
-    private List<User> participant ;
-    public void loadParticipand(){
+    private List<User> participant;
+
+    public void loadParticipand() {
         tricoun.setId(controler.getIdTricount());
         participant = tricoun.getParticipants();
         System.out.println(tricoun.getId());
@@ -41,11 +42,10 @@ public class AddExpenseView extends DialogWindow {
     }
 
 
-    public AddExpenseView(AddExpenseController controler) {
+    public AddExpenseView(AddExpenseController controler,Tricount tricount) {
         super("Add new expense");
         this.controler = controler;
-
-
+        this.tricoun=new Tricount(tricount.getTitle(),tricount.getCreatorId());
 
         setHints(List.of(Hint.CENTERED));
 
@@ -66,7 +66,6 @@ public class AddExpenseView extends DialogWindow {
         panel.addComponent(new Label("Pay By:"));
         payBy = new ComboBox<>();
         loadParticipand();
-        payBy.addItem("xavier");
 
         for (User elem : participant) {
             payBy.addItem(elem.getFullName());
@@ -85,10 +84,9 @@ public class AddExpenseView extends DialogWindow {
             //logique du bouton
         }).addTo(root);
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
-        CheckBoxList<String> check= new CheckBoxList<>();
-        check.addItem("xavier");
-        for (User elme:participant){
-           check.addItem(elme.getFullName());
+        CheckBoxList<String> check = new CheckBoxList<>();
+        for (User elme : participant) {
+            check.addItem(elme.getFullName());
         }
         check.addTo(root);
 
