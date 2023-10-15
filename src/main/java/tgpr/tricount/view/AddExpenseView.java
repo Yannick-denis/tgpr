@@ -1,8 +1,10 @@
 package tgpr.tricount.view;
 
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Controller;
+import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.TestController;
@@ -12,6 +14,7 @@ import tgpr.tricount.model.User;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -25,7 +28,7 @@ import java.util.regex.Pattern;
 import static java.time.LocalDate.parse;
 
 
-// petit souci le tricount du contoleur rete null
+// demain check doit etre cocher par defaut et le poids
 //et repartition pour enregistre le poids en DB
 public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
@@ -35,6 +38,7 @@ public class AddExpenseView extends DialogWindow {
     private TextBox Date;
     private ComboBox<String> payBy;
     private List<User> participant;
+    private Label errDate =new Label("");
 
     public void loadParticipand() {
         participant = controler.getTricount().getParticipants();
@@ -62,7 +66,11 @@ public class AddExpenseView extends DialogWindow {
         panel.addComponent(new Label("Date:"));
         Date = new TextBox().addTo(panel)
                 //validation que c'est une date
-                .setValidationPattern(Pattern.compile("[/\\d]{0,10}"));
+                .setValidationPattern(Pattern.compile("[/\\d]{0,10}"))
+                .setText(LocalDate.now().asString())
+                 .setTextChangeListener((txt, byUser)-> validate());
+        panel.addEmpty();
+        errDate.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         panel.addComponent(new Label("Pay By:"));
         payBy = new ComboBox<>();
         loadParticipand();
@@ -73,22 +81,24 @@ public class AddExpenseView extends DialogWindow {
 
         }
         panel.addComponent(payBy);
-
+        //new EmptySpace().addTo(root);
         panel.addComponent(new Label("use a repartition \n template (optional) "));
-        //ajout de bouton
-
         ComboBox<String> selectTampletate = new ComboBox<>();
         selectTampletate.addItem("No ,I use a custuom repartition ");
         panel.addComponent(selectTampletate);
+        //bouton aply template
         var btnAply = new Button("Apply", () -> {
             //logique du bouton
         }).addTo(root);
+        new EmptySpace().addTo(root);
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
         CheckBoxList<String> check = new CheckBoxList<>();
         for (User elme : participant) {
-            check.addItem(elme.getFullName());
+            check.addItem(elme.getFullName()+"( )");
         }
         check.addTo(root);
+
+      //  new EmptySpace().addTo(root);
 
         new EmptySpace().addTo(root);
         Button btnSave = new Button("Save", () -> {
@@ -96,7 +106,7 @@ public class AddExpenseView extends DialogWindow {
         }).addTo(root);
 
         Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
-            // Controller.navigateTo(new TemplateController);
+            // save repartition comme template
         }).addTo(root);
         Button btnCancel = new Button("Cancel", () -> {
             close();
@@ -119,9 +129,13 @@ public class AddExpenseView extends DialogWindow {
     //pay by fonctionne
     private void save() {
         controler.save(txtTitle.getText(), controler.getIdTricount()
-                , txtAmount.getLineCount(), StringToDate()
+                , Double.parseDouble(txtAmount.getText()), StringToDate()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now());
+    }
+    private  void validate(){
+        Error errors = controler.validateDate(Date.getText());
+        errDate.setText(errors.getMessage());
     }
 
 
