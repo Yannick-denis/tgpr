@@ -1,8 +1,14 @@
 package tgpr.tricount.view;
 
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
+import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyType;
 import tgpr.framework.Controller;
 import tgpr.framework.Error;
 import tgpr.framework.Layouts;
@@ -12,6 +18,8 @@ import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -30,6 +38,7 @@ import static java.time.LocalDate.parse;
 
 // demain check doit etre cocher par defaut et le poids
 //et repartition pour enregistre le poids en DB
+//comment cree un keyboard listner
 public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
     private Operation operation;
@@ -37,6 +46,7 @@ public class AddExpenseView extends DialogWindow {
     private TextBox txtAmount;
     private TextBox Date;
     private ComboBox<String> payBy;
+    private CheckBoxList<String> check ;
     private List<User> participant;
     private Label errDate =new Label("");
 
@@ -50,7 +60,6 @@ public class AddExpenseView extends DialogWindow {
         this.controler = controler;
 
 
-
         setHints(List.of(Hint.CENTERED));
 
         Panel root = new Panel();
@@ -59,8 +68,9 @@ public class AddExpenseView extends DialogWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         //ajout de label au panel et de leur box pour recuillir les donne
-        panel.addComponent(new Label("Titlte:"));
-        txtTitle = new TextBox().addTo(panel);
+        panel.addComponent(new Label("Title:"));
+        txtTitle = new TextBox().addTo(panel)
+                .setPreferredSize(new TerminalSize(40,1));
         panel.addComponent(new Label("Amount:"));
         txtAmount = new TextBox().addTo(panel);
         panel.addComponent(new Label("Date:"));
@@ -90,11 +100,11 @@ public class AddExpenseView extends DialogWindow {
         var btnAply = new Button("Apply", () -> {
             //logique du bouton
         }).addTo(root);
-        new EmptySpace().addTo(root);
+       // new EmptySpace().addTo(root);
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
-        CheckBoxList<String> check = new CheckBoxList<>();
+         check = new CheckBoxList<>();
         for (User elme : participant) {
-            check.addItem(elme.getFullName()+"( )");
+            check.addItem(elme.getFullName()+" ("+weight()+")").addListener(addKeyboardListener(KeyType.ArrowRight));
         }
         check.addTo(root);
 
@@ -113,6 +123,12 @@ public class AddExpenseView extends DialogWindow {
         }).addTo(root);
 
 
+    }
+
+
+
+    private int weight() {
+        return 1;
     }
 
 
