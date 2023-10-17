@@ -116,12 +116,10 @@ public class Subscription extends Model {
     }
 
     public void addNew(){
-        int x;
         var params = new Params()
                 .add("idTricount", this.tricountId)
                 .add("idUser", this.userId);
-        String sql = "insert into subscription (tricount, user)" +
-                "values (:idTricount, :idUser)";
-        x = insert(sql, params);
+        int x = execute("insert into subscriptions (tricount, user) values (:idTricount, :idUser)",params );
+        Assert.isTrue(x == 1, "ça va pas");
     }
 }
