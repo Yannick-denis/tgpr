@@ -8,35 +8,22 @@ import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
-import com.googlecode.lanterna.input.KeyType;
-import tgpr.framework.Controller;
 import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
-import tgpr.tricount.controller.TestController;
 import tgpr.tricount.model.Operation;
-import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
-import static java.time.LocalDate.parse;
 
 
-// demain check doit etre cocher par defaut et le poids
+
+// le poids
 //et repartition pour enregistre le poids en DB
 //comment cree un keyboard listner
 public class AddExpenseView extends DialogWindow {
@@ -104,8 +91,10 @@ public class AddExpenseView extends DialogWindow {
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
          check = new CheckBoxList<>();
         for (User elme : participant) {
-            check.addItem(elme.getFullName()+" ("+weight()+")").addListener(addKeyboardListener(KeyType.ArrowRight));
+            check.addItem(elme.getFullName() +weight(),true);
+
         }
+         check.addListener((check,ArrowRight)-> keyPressed());
         check.addTo(root);
 
       //  new EmptySpace().addTo(root);
@@ -125,10 +114,14 @@ public class AddExpenseView extends DialogWindow {
 
     }
 
+    private void keyPressed() {
+        if (check.isEnabled())
+            System.out.println("cc");
+    }
 
 
-    private int weight() {
-        return 1;
+    private String weight() {
+            return " ("+1+")";
     }
 
 
