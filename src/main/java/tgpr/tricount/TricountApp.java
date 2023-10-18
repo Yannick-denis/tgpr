@@ -3,7 +3,6 @@ package tgpr.tricount;
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
 import tgpr.tricount.controller.LoginController;
-import tgpr.tricount.controller.TestController;
 
 public class TricountApp {
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";
