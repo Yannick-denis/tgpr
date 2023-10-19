@@ -1,9 +1,11 @@
 package tgpr.tricount.model;
 
 import org.springframework.util.Assert;
+import tgpr.framework.Error;
 import tgpr.framework.Model;
 import tgpr.framework.Params;
 import tgpr.framework.Tools;
+import tgpr.tricount.controller.UserValidator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -222,4 +224,16 @@ public class User extends Model {
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
     }
+    public static User checkCredentials(String mail, String password) {
+        var user = User.getByMail(mail);
+        if (user != null && UserValidator.isHerPassword(mail, password) == Error.NOERROR ){
+            return user;
+        }
+        return user;
+    }
+
+
+
+
+
 }

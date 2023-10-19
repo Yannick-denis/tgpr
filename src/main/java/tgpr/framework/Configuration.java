@@ -8,7 +8,8 @@ import java.util.Properties;
  * ressources
  * du projet.
  */
-public class Configuration {
+public class
+Configuration {
     private static final Properties props = new Properties();
 
     static {

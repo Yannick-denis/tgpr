@@ -1,0 +1,37 @@
+package tgpr.tricount.controller;
+
+import com.googlecode.lanterna.gui2.Window;
+import tgpr.framework.Controller;
+import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Subscription;
+import tgpr.tricount.view.TestView;
+
+//pas vraiment un controleur plutot quelque fonction a inclure dans viewTricount
+public class DeleteParticipantController extends Controller {
+
+ private  Subscription sub;
+ private boolean beDeleted;
+    public DeleteParticipantController(int idTricount,int idUser ,boolean bedeleted){
+        this.sub=new Subscription(idTricount,idUser);
+        delete();
+
+    }
+
+    private void delete(){
+        if (beDeleted){
+            sub.delete();
+            sub=null;
+        }
+        else {
+            showError("this user be not deledeted");
+        }
+    }
+
+
+
+
+    @Override
+    public Window getView() {
+        return new TestView(new TestController());
+    }
+}
