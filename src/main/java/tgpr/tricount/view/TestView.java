@@ -1,6 +1,7 @@
 package tgpr.tricount.view;
 
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.ComboBox;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
@@ -10,24 +11,41 @@ import tgpr.framework.Spacing;
 import tgpr.tricount.controller.TestController;
 import tgpr.tricount.model.User;
 
+import com.googlecode.lanterna.gui2.menu.Menu;
+import com.googlecode.lanterna.gui2.menu.MenuBar;
+import com.googlecode.lanterna.gui2.menu.MenuItem;
+import com.googlecode.lanterna.input.KeyStroke;
+import tgpr.tricount.model.Security;
+
 import java.util.List;
 
-public class TestView extends DialogWindow {
+public class TestView extends BasicWindow {
     private final TestController controller;
     // la première combo contient des objets de type User
     private final ComboBox<User> cbo1;
     // la seconde combo contient des strings car on y mélange des objets User et un string pour la première entrée
     private final ComboBox<String> cbo2;
     private final Label lbl;
+    private final Menu menuFile;
 
     public TestView(TestController controller) {
         super("Test");
+
         setHints(List.of(Hint.EXPANDED));
+
+        Panel root = new Panel();
+        setComponent(root);
+        MenuBar menuBar = new MenuBar().addTo(root);
+        menuFile = new Menu("File");
+        menuBar.add(menuFile);
+        MenuItem menuLogout = new MenuItem("Logout", controller::logout);
+        menuFile.add(menuLogout);
+
 
         this.controller = controller;
 
-        var root = Panel.gridPanel(1, Margin.of(1), Spacing.of(1));
-        setComponent(root);
+        //root = Panel.gridPanel(1, Margin.of(1), Spacing.of(1));
+        //setComponent(root);
 
         cbo1 = new ComboBox<User>()
                 .sizeTo(25)
