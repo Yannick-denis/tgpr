@@ -22,4 +22,8 @@ public class TricountListController extends Controller {
         navigateTo(new LoginController());
     }
 
+    public void balance() {
+        navigateTo( new BalanceController());
+    }
+
 }
