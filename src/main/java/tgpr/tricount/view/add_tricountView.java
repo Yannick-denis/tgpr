@@ -1,50 +1,62 @@
 package tgpr.tricount.view;
 
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Button;
-import tgpr.tricount.model.Tricount;
+import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.googlecode.lanterna.gui2.*;
+import com.googlecode.lanterna.screen.Screen;
+import tgpr.tricount.controller.add_tricountController;
 
-public class add_tricountView extends Tricount {
+import java.util.List;
+
+import static sun.security.util.KeyUtil.validate;
 
 
-        public static void main(String[] args) {
-            JFrame fenetre = new JFrame("Saisie de Titre et Description");
-            fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            fenetre.setSize(400, 200);
+public class add_tricountView extends DialogWindow {
 
-            JPanel panel = new JPanel();
-            panel.setLayout(new GridLayout(2, 2));
-
-            JLabel labelTitre = new JLabel("Titre:");
-            JTextField champTitre = new JTextField(20);
-            JLabel labelDescription = new JLabel("Description:");
-            JTextField champDescription = new JTextField(20);
-
-            panel.add(labelTitre);
-            panel.add(champTitre);
-            panel.add(labelDescription);
-            panel.add(champDescription);
-
-            JButton boutonCreate = new JButton("Create");
-            boutonCreate.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String titre = champTitre.getText();
-                    String description = champDescription.getText();
-                    JOptionPane.showMessageDialog(fenetre, "Titre : " + titre + "\nDescription : " + description);
-                }
-            });
-
-            fenetre.add(panel, BorderLayout.CENTER);
-            fenetre.add(boutonCreate, BorderLayout.SOUTH);
-
-            fenetre.setVisible(true);
-        }
+    public add_tricountView(String title){
+        super(title);
     }
+
+    public static void main(String[] args) {
+        // Créer une fenêtre principale
+        MultiWindowTextGUI gui = new MultiWindowTextGUI((TextGUIThreadFactory) new DefaultWindowManager(), (Screen) new EmptySpace(TextColor.ANSI.BLACK));
+
+        // Créer une fenêtre de saisie
+        BasicWindow window = new BasicWindow("Saisie de Titre et Description");
+        Panel contentPanel = new Panel();
+        contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+
+        // Champ de saisie pour le titre
+        Label labelTitre = new Label("Titre:");
+        TextBox textBoxTitre = new TextBox().addTo(contentPanel);
+
+        // Champ de saisie pour la description
+        Label labelDescription = new Label("Description:");
+        TextBox textBoxDescription = new TextBox().addTo(contentPanel);
+
+        // Bouton "Create"
+        Button createButton = new Button("Create", new Runnable() {
+            @Override
+            public void run() {
+                String titre = textBoxTitre.getText();
+                String description = textBoxDescription.getText();
+                Object MessageBox;
+
+            }
+        }).addTo(contentPanel);
+
+        window.setComponent(contentPanel);
+        gui.addWindowAndWait(window);
+    }
+}
+
+
+
 
 
 
@@ -68,3 +80,15 @@ public class add_tricountView extends Tricount {
 //    }).addTo(root);
 
 
+//    private void validate() {
+//        var errors = controller.validate(
+//                txtBody.getText()
+//        );
+//        errBody.setText(errors.getFirstErrorMessage(Message.Fields.Body));
+//        btnPost.setEnabled(errors.isEmpty());
+//    }
+//
+//    private void post() {
+//        controller.post(txtBody.getText(), chkPrivate.isChecked());
+//        close();
+//    }
