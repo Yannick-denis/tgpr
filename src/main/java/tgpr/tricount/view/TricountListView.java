@@ -56,9 +56,9 @@ public class TricountListView extends BasicWindow {
         for (int i=0; i<Math.min(12, tricounts.size()); ++i) {
             var tricount = tricounts.get(i);
             Panel p = Panel.verticalPanel();
-            new Label(tricount.getTitle()).addTo(p);
-            new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).addTo(p);
-            new Label(tricount.getCreator().getFullName()).addTo(p);
+            new Label(tricount.getTitle()).center().addTo(p);
+            new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).center().addTo(p);
+            new Label(tricount.getCreator().getFullName()).center().addTo(p);
             pnlBody.addComponent(p.withBorder(Borders.singleLine()));
         }
     }
