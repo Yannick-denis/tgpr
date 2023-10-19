@@ -3,10 +3,14 @@ package tgpr.tricount;
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import tgpr.tricount.controller.AddParticipantController;
 =======
 import tgpr.tricount.controller.DeleteParticipantController;
 >>>>>>> feat_delete_participant
+=======
+import tgpr.tricount.controller.LoginController;
+>>>>>>> feat_login
 import tgpr.tricount.controller.TestController;
 
 public class TricountApp {
@@ -17,8 +21,12 @@ public class TricountApp {
             Controller.abort("Database is not available!");
         else {
 
-            Controller.navigateTo(new AddParticipantController(4,5)); //à changer dans edit (POUR MARGAUX)
-            Controller.navigateTo(new DeleteParticipantController(2,1,true));
+
+//            Controller.navigateTo(new AddParticipantController(4,5)); //à changer dans edit (POUR MARGAUX)
+//            Controller.navigateTo(new DeleteParticipantController(2,1,true));
+//=======
+            Controller.navigateTo(new LoginController());
+
         }
     }
 }
