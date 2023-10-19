@@ -1,17 +1,13 @@
 package tgpr.tricount.view;
 
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.gui2.BasicWindow;
-import com.googlecode.lanterna.gui2.EmptySpace;
-import com.googlecode.lanterna.gui2.Panel;
-import com.googlecode.lanterna.gui2.table.Table;
+import com.googlecode.lanterna.gui2.*;
 import tgpr.framework.ColumnSpec;
 import tgpr.framework.ObjectTable;
-import tgpr.framework.Tools;
+import tgpr.framework.Spacing;
 import tgpr.framework.ViewManager;
 import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.model.Tricount;
-import tgpr.tricount.model.User;
 
 
 import java.util.List;
@@ -19,22 +15,52 @@ import java.util.List;
 public class TricountListView extends BasicWindow {
 
     private final TricountListController controller;
-    private final ObjectTable<Tricount> table;
+//    private final ObjectTable<Tricount> table;
+    private final Panel pnlBody;
 
     public TricountListView(TricountListController controller) {
         this.controller = controller;
 
-        setTitle("fils de pute");
+        setTitle("pas de titre");
         setHints(List.of(Hint.EXPANDED));
 
         Panel root = new Panel();
         setComponent(root);
 
-        new EmptySpace().addTo(root);
-        table = new ObjectTable<>(new ColumnSpec<>("Tricount",Tricount.getAll()));
-        root.addComponent(table);
-        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(),15));
 
+
+        pnlBody = Panel.gridPanel(3, Spacing.of(1) ).addTo(root);
+
+
+//        root.withBorder(pnlBody.withBorder(Borders.singleLine()));
+
+
+//        new EmptySpace().addTo(root);
+//        table = new ObjectTable<>(
+//                new ColumnSpec<>("titre",Tricount::getTitle),
+//                new ColumnSpec<>("descr",Tricount::getDescription)
+//        );
+//        root.addComponent(table);
+
+
+
+//        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(),15));
+        reloadData();
+    }
+
+    public void reloadData() {
+//        table.clear();
+        var tricounts = controller.getTricounts();
+//        table.add(tricount);
+
+        for (int i=0; i<Math.min(12, tricounts.size()); ++i) {
+            var tricount = tricounts.get(i);
+            Panel p = Panel.verticalPanel();
+            new Label(tricount.getTitle()).addTo(p);
+            new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).addTo(p);
+            new Label(tricount.getCreator().getFullName()).addTo(p);
+            pnlBody.addComponent(p.withBorder(Borders.singleLine()));
+        }
     }
 
 

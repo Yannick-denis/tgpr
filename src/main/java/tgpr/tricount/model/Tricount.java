@@ -168,6 +168,11 @@ public class Tricount extends Model {
         return queryList(Tricount.class, "select * from tricounts");
     }
 
+    public static List<Tricount> getPaginated(int start, int count) {
+        return queryList(Tricount.class, "select * from tricounts limit :start, :count",
+                new Params().add("start", start).add("count", count));
+    }
+
     public Tricount save() {
         int c;
         Tricount obj = getByKey(id);

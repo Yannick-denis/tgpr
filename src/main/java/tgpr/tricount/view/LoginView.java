@@ -29,9 +29,9 @@ public class LoginView extends BasicWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
         panel.addComponent(new Label("Mail:"));
-        txtPseudo = new TextBox().addTo(panel).sizeTo(40);
+        txtPseudo = new TextBox().addTo(panel).sizeTo(20);
         panel.addComponent(new Label("Password:"));
-        txtPassword = new TextBox().setMask('*').addTo(panel).sizeTo(40);
+        txtPassword = new TextBox().setMask('*').addTo(panel).sizeTo(20);
 
         new EmptySpace().addTo(root);
 
