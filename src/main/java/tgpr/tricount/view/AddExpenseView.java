@@ -99,21 +99,12 @@ public class AddExpenseView extends DialogWindow {
 
         }
          check.addListener((index,checked)-> keyPressed() );
-        check.addTo(root);
+        check.addTo(panel);
 
       //  new EmptySpace().addTo(root);
 
-        new EmptySpace().addTo(root);
-        Button btnSave = new Button("Save", () -> {
-            save();
-        }).addTo(root);
-
-        Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
-            // save repartition comme template
-        }).addTo(root);
-        Button btnCancel = new Button("Cancel", () -> {
-            close();
-        }).addTo(root);
+        new EmptySpace().addTo(panel);
+        butons().addTo(panel);
 
 
     }
@@ -128,6 +119,24 @@ public class AddExpenseView extends DialogWindow {
         var btnAply = new Button("Apply", () -> {
             //save();
         }).addTo(panel);
+
+        return panel;
+    }
+    private Panel butons(){
+        Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1))
+                .setLayoutData(Layouts.LINEAR_CENTER);
+
+        Button btnSave = new Button("Save", () -> {
+            save();
+        }).addTo(panel);
+
+        Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
+            // save repartition comme template
+        }).addTo(panel);
+        Button btnCancel = new Button("Cancel", () -> {
+            close();
+        }).addTo(panel);
+
 
         return panel;
     }
