@@ -12,6 +12,8 @@ import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Repartition;
+import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.User;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,10 +24,10 @@ import java.util.regex.Pattern;
 
 
 
-
+//stocke des repartition pour tout le monde qui est dans le tricount et apres on ira l'ecrire en DB
 // le poids
 //et repartition pour enregistre le poids en DB
-//comment cree un keyboard listner
+//keyboard listner sur tout la fenetre et que si isfoucus pour lajout du poids
 public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
     private Operation operation;
@@ -33,15 +35,18 @@ public class AddExpenseView extends DialogWindow {
     private TextBox txtAmount;
     private TextBox Date;
     private ComboBox<String> payBy;
-    private CheckBoxList<String> check ;
+    private CheckBoxList<Subscription> check ;
     private List<User> participant;
+    private  List<Subscription> sub;
     private Label errDate =new Label("");
 
     public void loadParticipand() {
         participant = controler.getTricount().getParticipants();
     }
 
-
+    private void loadSub(){
+        sub= controler.getTricount().getSubscriptions();
+    }
     public AddExpenseView(AddExpenseController controler) {
         super("Add new expense");
         this.controler = controler;
@@ -58,6 +63,7 @@ public class AddExpenseView extends DialogWindow {
         panel.addComponent(new Label("Title:"));
         txtTitle = new TextBox().addTo(panel)
                 .setPreferredSize(new TerminalSize(40,1));
+
         panel.addComponent(new Label("Amount:"));
         txtAmount = new TextBox().addTo(panel);
         panel.addComponent(new Label("Date:"));
@@ -80,21 +86,19 @@ public class AddExpenseView extends DialogWindow {
         panel.addComponent(payBy);
         //new EmptySpace().addTo(root);
         panel.addComponent(new Label("use a repartition \n template (optional) "));
-        ComboBox<String> selectTampletate = new ComboBox<>();
-        selectTampletate.addItem("No ,I use a custuom repartition ");
-        panel.addComponent(selectTampletate);
-        //bouton aply template
-        var btnAply = new Button("Apply", () -> {
-            //logique du bouton
-        }).addTo(root);
-       // new EmptySpace().addTo(root);
+
+       applyAndComb().addTo(panel);
+        loadSub();
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
          check = new CheckBoxList<>();
-        for (User elme : participant) {
-            check.addItem(elme.getFullName() +weight(),true);
+
+        for (Subscription elme : sub) {
+
+             Repartition rep= new Repartition( 0,elme.getUserId(),1);
+            check.addItem(elme,true);
 
         }
-         check.addListener((check,ArrowRight)-> keyPressed());
+         check.addListener((index,checked)-> keyPressed() );
         check.addTo(root);
 
       //  new EmptySpace().addTo(root);
@@ -114,9 +118,22 @@ public class AddExpenseView extends DialogWindow {
 
     }
 
+    private Panel applyAndComb(){
+        Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
+                .setLayoutData(Layouts.LINEAR_CENTER);
+        ComboBox<String> selectTampletate = new ComboBox<>();
+        selectTampletate.addItem("No ,I use a custuom repartition ");
+        panel.addComponent(selectTampletate);
+        //bouton aply template
+        var btnAply = new Button("Apply", () -> {
+            //save();
+        }).addTo(panel);
+
+        return panel;
+    }
+
     private void keyPressed() {
-        if (check.isEnabled())
-            System.out.println("cc");
+
     }
 
 
