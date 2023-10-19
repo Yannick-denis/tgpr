@@ -5,6 +5,8 @@ import tgpr.tricount.model.User;
 import tgpr.tricount.view.TestView;
 import tgpr.framework.Controller;
 
+import tgpr.tricount.model.Security;
+
 import java.util.List;
 
 public class TestController extends Controller {
@@ -14,6 +16,11 @@ public class TestController extends Controller {
     public Window getView() {
         return view;
     }
+    public void logout() {
+        Security.logout();
+        navigateTo(new LoginController());
+    }
+
 
     public List<User> getUsers() {
         return User.getAll();
