@@ -20,6 +20,7 @@ import tgpr.tricount.model.User;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,6 +46,7 @@ public class AddExpenseView extends DialogWindow {
     private List<User> participant;
     private  List<Repartition> rep =new ArrayList<>();
     private Label errDate =new Label("");
+    private Button btnSave;
 
     public void loadParticipand() {
         participant = controler.getTricount().getParticipants();
@@ -71,16 +73,19 @@ public class AddExpenseView extends DialogWindow {
         //ajout de label au panel et de leur box pour recuillir les donne
         panel.addComponent(new Label("Title:"));
         txtTitle = new TextBox().addTo(panel)
-                .setPreferredSize(new TerminalSize(40,1));
+                .setPreferredSize(new TerminalSize(40,1))
+                .setTextChangeListener((txt, byUser)-> activebuton());
 
         panel.addComponent(new Label("Amount:"));
-        txtAmount = new TextBox().addTo(panel);
+        txtAmount = new TextBox().addTo(panel)
+                .setTextChangeListener((txt, byUser)-> activebuton());
         panel.addComponent(new Label("Date:"));
         Date = new TextBox().addTo(panel)
                 //validation que c'est une date
                 .setValidationPattern(Pattern.compile("[/\\d]{0,10}"))
                 .setText(LocalDate.now().asString())
                  .setTextChangeListener((txt, byUser)-> validate());
+
         panel.addEmpty();
         errDate.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         panel.addComponent(new Label("Pay By:"));
@@ -105,15 +110,17 @@ public class AddExpenseView extends DialogWindow {
             check.addItem(elme,true);
         }
          check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
+
+
+
         this.addKeyboardListener(check,keyStroke -> {
             keyStroke.getKeyType();
-            if (keyStroke.getKeyType()==KeyType.ArrowRight||keyStroke.getCharacter()=='+'){
-                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()+1);
-            }
-            if (keyStroke.getKeyType() == KeyType.ArrowLeft||keyStroke.getCharacter()=='-'){
-                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
-            }
-            return true;
+//            if (keyStroke.getKeyType()==KeyType.ArrowRight||keyStroke.getCharacter()=='+'){
+//                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()+1);
+//            }else if ((keyStroke.getKeyType() == KeyType.ArrowLeft||keyStroke.getCharacter()=='-')&&check.getSelectedItem().getWeight()>0){
+//                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
+//            }
+            return  true;
         });
 
         check.addTo(panel);
@@ -126,6 +133,14 @@ public class AddExpenseView extends DialogWindow {
         butons().addTo(panel);
 
 
+    }
+
+    private void activebuton() {
+        if (toutComplet()){
+           btnSave.setEnabled(true);
+        }else {
+            btnSave.setEnabled(false);
+        }
     }
 
     private Panel applyAndComb(){
@@ -145,9 +160,10 @@ public class AddExpenseView extends DialogWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_CENTER);
 
-        Button btnSave = new Button("Save", () -> {
+         btnSave = new Button("Save", () -> {
             save();
         }).addTo(panel);
+         btnSave.setEnabled(false);
 
         Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
             // save repartition comme template
@@ -160,15 +176,9 @@ public class AddExpenseView extends DialogWindow {
         return panel;
     }
 
-    private void keyPressed() {
-
+    private boolean toutComplet() {
+        return !(txtAmount.getText().isEmpty()||txtTitle.getText().isEmpty());
     }
-
-
-    private String weight() {
-            return " ("+1+")";
-    }
-
 
 
     //transforme  le string de la textbox en LocalDate
