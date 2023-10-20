@@ -60,14 +60,20 @@ public abstract class ViewOperation  extends BasicWindow {
         contentPanel.addComponent(new Label("Amount:"));
         contentPanel.addComponent(new TextBox(String.valueOf(operation.getAmount())));
         contentPanel.addComponent(new Label("Date:"));
-        contentPanel.addComponent(setComponent(););
+        contentPanel.addComponent(new TextBox(String.valueOf(operation.getOperationDate())));
         contentPanel.addComponent(new Label("Paid by:"));
-        contentPanel.addComponent(new TextBox(""));
+        contentPanel.addComponent(new TextBox(operation.getInitiator().getFullName()));
+        contentPanel.addComponent(new Label("From whom:" ));
+        contentPanel.addComponent(new TextBox("Participant", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
+       // contentPanel.addComponent(new TextBox("Weight",repartition.getWeight()));
+        contentPanel.addComponent(new TextBox("Amout", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
+
+
 
 
         window.setComponent(contentPanel);
 
-        MultiWindowTextGUI textGUI;
+        MultiWindowTextGUI textGUI = null;
         textGUI.addWindowAndWait(window);
     }
 
