@@ -104,14 +104,14 @@ public class AddExpenseView extends DialogWindow {
         for ( Repartition elme : rep) {
             check.addItem(elme,true);
         }
-         check.addListener((index,checked)-> keyPressed() );
+         check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
         this.addKeyboardListener(check,keyStroke -> {
             keyStroke.getKeyType();
             if (keyStroke.getKeyType()==KeyType.ArrowRight||keyStroke.getCharacter()=='+'){
-                rep.get(0).setWeight(rep.get(0).getWeight()+1);
+                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()+1);
             }
             if (keyStroke.getKeyType() == KeyType.ArrowLeft||keyStroke.getCharacter()=='-'){
-                rep.get(0).setWeight(rep.get(0).getWeight()-1);
+                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
             }
             return true;
         });
