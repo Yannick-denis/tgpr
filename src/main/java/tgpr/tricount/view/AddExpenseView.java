@@ -110,6 +110,9 @@ public class AddExpenseView extends DialogWindow {
             if (keyStroke.getKeyType()==KeyType.ArrowRight||keyStroke.getCharacter()=='+'){
                 rep.get(0).setWeight(rep.get(0).getWeight()+1);
             }
+            if (keyStroke.getKeyType() == KeyType.ArrowLeft||keyStroke.getCharacter()=='-'){
+                rep.get(0).setWeight(rep.get(0).getWeight()-1);
+            }
             return true;
         });
 
