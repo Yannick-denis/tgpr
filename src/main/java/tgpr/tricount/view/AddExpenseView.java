@@ -8,6 +8,8 @@ import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
@@ -15,10 +17,14 @@ import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.User;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -35,9 +41,9 @@ public class AddExpenseView extends DialogWindow {
     private TextBox txtAmount;
     private TextBox Date;
     private ComboBox<String> payBy;
-    private CheckBoxList<Subscription> check ;
+    private CheckBoxList<Repartition> check ;
     private List<User> participant;
-    private  List<Subscription> sub;
+    private  List<Repartition> rep =new ArrayList<>();
     private Label errDate =new Label("");
 
     public void loadParticipand() {
@@ -45,7 +51,10 @@ public class AddExpenseView extends DialogWindow {
     }
 
     private void loadSub(){
-        sub= controler.getTricount().getSubscriptions();
+
+            for (int i=0;i<participant.size();i++) {
+                rep.add(new Repartition(0,participant.get(i).getId(),1));
+            }
     }
     public AddExpenseView(AddExpenseController controler) {
         super("Add new expense");
@@ -90,16 +99,23 @@ public class AddExpenseView extends DialogWindow {
        applyAndComb().addTo(panel);
         loadSub();
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
-         check = new CheckBoxList<>();
+         check = new CheckBoxList<Repartition>();
 
-        for (Subscription elme : sub) {
-
-             Repartition rep= new Repartition( 0,elme.getUserId(),1);
+        for ( Repartition elme : rep) {
             check.addItem(elme,true);
-
         }
          check.addListener((index,checked)-> keyPressed() );
+        this.addKeyboardListener(check,keyStroke -> {
+            keyStroke.getKeyType();
+            if (keyStroke.getKeyType()==KeyType.ArrowRight||keyStroke.getCharacter()=='+'){
+                rep.get(0).setWeight(rep.get(0).getWeight()+1);
+            }
+            return true;
+        });
+
         check.addTo(panel);
+
+
 
       //  new EmptySpace().addTo(root);
 
