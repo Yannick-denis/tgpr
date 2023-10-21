@@ -6,10 +6,7 @@ import tgpr.framework.Params;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +15,7 @@ public class Tricount extends Model {
         Id, Title, Description, CreatedAt, Templates, Creator
     }
 
-    public Tricount() {
+    public Tricount(int idTricount, String title, String destription, Template templates, int creator) {
     }
 
     public Tricount(String title, int creatorId) {
