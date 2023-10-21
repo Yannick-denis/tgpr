@@ -170,6 +170,10 @@ public class Operation extends Model {
                 new Params("id", id));
     }
 
+    public static Operation getByTitle(String title) {
+        return queryOne(Operation.class, "select * from operations where title =:title",
+                new Params("title", title));
+    }
     public static List<Operation> getAll() {
         return queryList(Operation.class, "select * from operations");
     }

@@ -3,7 +3,9 @@ package tgpr.tricount.controller;
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
 import tgpr.framework.Error;
+import tgpr.framework.ErrorList;
 import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.view.AddExpenseView;
 
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.List;
 
 public class AddExpenseController extends Controller {
     private final AddExpenseView view ;
@@ -42,11 +45,23 @@ public class AddExpenseController extends Controller {
         view.close();
 
     }
-    public Error validateDate(String date) {
-        Error erorr=new Error("");
+    public void save(List<Repartition> list){
+        for (Repartition elem :list){
+            Repartition rep =elem;
+            rep.save();
+        }
+    }
+    public ErrorList validateDate(String date,String title,double amount) {
+        var erorr=new ErrorList();
          String today=LocalDate.now().asString();
         if (date.compareTo(today)>0){
-            erorr=new Error("pas de date dans le future");
+            erorr.add("Date many not be in the future",Operation.Fields.CreatedAt);
+        }
+        if (amount<0){
+            erorr.add("amount must be positive",Operation.Fields.Amount);
+        }
+        if(title.length()<3){
+            erorr.add("minimum 3 chars",Operation.Fields.Title);
         }
         return erorr;
     }

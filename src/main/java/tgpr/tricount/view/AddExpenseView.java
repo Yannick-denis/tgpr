@@ -13,10 +13,7 @@ import com.googlecode.lanterna.input.KeyType;
 import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
-import tgpr.tricount.model.Operation;
-import tgpr.tricount.model.Repartition;
-import tgpr.tricount.model.Subscription;
-import tgpr.tricount.model.User;
+import tgpr.tricount.model.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -31,21 +28,19 @@ import java.util.regex.Pattern;
 
 
 
-//stocke des repartition pour tout le monde qui est dans le tricount et apres on ira l'ecrire en DB
-// le poids
-//et repartition pour enregistre le poids en DB
-//keyboard listner sur tout la fenetre et que si isfoucus pour lajout du poids
 public class AddExpenseView extends DialogWindow {
     private AddExpenseController controler;
     private Operation operation;
-    private TextBox txtTitle;
-    private TextBox txtAmount;
+    private TextBox txtTitle =new TextBox(" ");
+    private TextBox txtAmount=new TextBox("");
     private TextBox Date;
     private ComboBox<String> payBy;
     private CheckBoxList<Repartition> check ;
     private List<User> participant;
     private  List<Repartition> rep =new ArrayList<>();
     private Label errDate =new Label("");
+    private Label errTitle =new Label("");
+    private Label errAmount =new Label("");
     private Button btnSave;
 
     public void loadParticipand() {
@@ -68,26 +63,16 @@ public class AddExpenseView extends DialogWindow {
         Panel root = new Panel();
         setComponent(root);
         //creation du panel
-        Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
+        Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(0))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         //ajout de label au panel et de leur box pour recuillir les donne
         panel.addComponent(new Label("Title:"));
-        txtTitle = new TextBox().addTo(panel)
-                .setPreferredSize(new TerminalSize(40,1))
-                .setTextChangeListener((txt, byUser)-> activebuton());
+        Title().addTo(panel);
 
         panel.addComponent(new Label("Amount:"));
-        txtAmount = new TextBox().addTo(panel)
-                .setTextChangeListener((txt, byUser)-> activebuton());
+        Amount().addTo(panel);
         panel.addComponent(new Label("Date:"));
-        Date = new TextBox().addTo(panel)
-                //validation que c'est une date
-                .setValidationPattern(Pattern.compile("[/\\d]{0,10}"))
-                .setText(LocalDate.now().asString())
-                 .setTextChangeListener((txt, byUser)-> validate());
-
-        panel.addEmpty();
-        errDate.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
+      Date().addTo(panel);
         panel.addComponent(new Label("Pay By:"));
         payBy = new ComboBox<>();
         loadParticipand();
@@ -98,11 +83,12 @@ public class AddExpenseView extends DialogWindow {
 
         }
         panel.addComponent(payBy);
-        //new EmptySpace().addTo(root);
         panel.addComponent(new Label("use a repartition \n template (optional) "));
 
        applyAndComb().addTo(panel);
         loadSub();
+        panel.addEmpty();
+        panel.addEmpty();
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
          check = new CheckBoxList<Repartition>();
 
@@ -114,12 +100,19 @@ public class AddExpenseView extends DialogWindow {
 
 
         this.addKeyboardListener(check,keyStroke -> {
-            keyStroke.getKeyType();
-//            if (keyStroke.getKeyType()==KeyType.ArrowRight||keyStroke.getCharacter()=='+'){
-//                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()+1);
-//            }else if ((keyStroke.getKeyType() == KeyType.ArrowLeft||keyStroke.getCharacter()=='-')&&check.getSelectedItem().getWeight()>0){
-//                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
-//            }
+            var character = keyStroke.getCharacter();
+            var type = keyStroke.getKeyType();
+            if (type==KeyType.ArrowRight||character!=null&& character=='+'){
+                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()+1);
+                if (check.getSelectedItem().getWeight()==1){
+                    check.setChecked(check.getSelectedItem(),true);
+                }
+            }else if ((type== KeyType.ArrowLeft||character!=null &&character=='-')&&check.getSelectedItem().getWeight()>0){
+                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
+                if (check.getSelectedItem().getWeight()==0){
+                    check.setChecked(check.getSelectedItem(),false);
+                }
+            }
             return  true;
         });
 
@@ -134,13 +127,38 @@ public class AddExpenseView extends DialogWindow {
 
 
     }
+   private Panel Date(){
+       Panel panel = new Panel().setLayoutManager(new GridLayout(1).setBottomMarginSize(0).setLeftMarginSize(0))
+               .setLayoutData(Layouts.LINEAR_CENTER);
+       Date = new TextBox().addTo(panel)
+               //validation que c'est une date
+               .setValidationPattern(Pattern.compile("[/\\d]{0,10}"))
+               .setText(LocalDate.now().asString())
+               .setTextChangeListener((txt, byUser)-> validate());
 
-    private void activebuton() {
-        if (toutComplet()){
-           btnSave.setEnabled(true);
-        }else {
-            btnSave.setEnabled(false);
-        }
+       panel.addEmpty();
+       errDate.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
+       return panel;
+
+   }
+    private Panel Amount() {
+        Panel panel = new Panel().setLayoutManager(new GridLayout(1).setBottomMarginSize(0).setLeftMarginSize(0))
+                .setLayoutData(Layouts.LINEAR_CENTER);
+        txtAmount = new TextBox().addTo(panel)
+                .setValidationPattern(Pattern.compile("[.\\d]{0,10}"))
+                .setTextChangeListener((txt, byUser)-> validate());
+        errAmount.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
+        return  panel;
+    }
+
+    private Panel Title(){
+        Panel panel = new Panel().setLayoutManager(new GridLayout(1).setLeftMarginSize(0).setBottomMarginSize(0))
+                .setLayoutData(Layouts.LINEAR_CENTER);
+        txtTitle = new TextBox().addTo(panel)
+                .setPreferredSize(new TerminalSize(40,1))
+                .setTextChangeListener((txt, byUser)-> validate());
+        errTitle.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
+        return panel;
     }
 
     private Panel applyAndComb(){
@@ -148,6 +166,9 @@ public class AddExpenseView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER);
         ComboBox<String> selectTampletate = new ComboBox<>();
         selectTampletate.addItem("No ,I use a custuom repartition ");
+        for (Template elem:Template.getByTricount(controler.getTricount().getId())){
+            selectTampletate.addItem(elem.getTitle());
+        }
         panel.addComponent(selectTampletate);
         //bouton aply template
         var btnAply = new Button("Apply", () -> {
@@ -175,16 +196,22 @@ public class AddExpenseView extends DialogWindow {
 
         return panel;
     }
-
+     //permet de savoir si le titre et le montant sont rempli tout les deux
     private boolean toutComplet() {
-        return !(txtAmount.getText().isEmpty()||txtTitle.getText().isEmpty());
+        return !(txtAmount.getText().isEmpty()||txtTitle.getText().isEmpty()||errDate.getText().equals("pas de date dans le future"));
     }
 
 
     //transforme  le string de la textbox en LocalDate
+    // si le champ date est vidé nous metrons la date du jour en DB
     private LocalDate StringToDate() {
+        LocalDate  dat ;
+        if (Date.getText().isEmpty()){
+            dat=  LocalDate.now();
+        }else {
         DateTimeFormatter format= new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
-        LocalDate  dat = LocalDate.parse(Date.getText(),format);
+          dat = LocalDate.parse(Date.getText(),format);
+        }
         return dat;
     }
 
@@ -196,10 +223,36 @@ public class AddExpenseView extends DialogWindow {
                 , Double.parseDouble(txtAmount.getText()), StringToDate()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now());
+        operation=Operation.getByTitle(txtTitle.getText());
+        for (int i=0;i<rep.size();i++){
+            rep.get(i).setOperationId(operation.getId());
+            if (rep.get(i).getWeight()==0){
+                rep.remove(i);
+                i--;
+            }
+        }
+        controler.save(rep);
     }
     private  void validate(){
-        Error errors = controler.validateDate(Date.getText());
-        errDate.setText(errors.getMessage());
+        double amount;
+        String title;
+        if (txtAmount.getText().isEmpty()){
+            amount=0;
+        }else{
+            amount=Double.parseDouble(txtAmount.getText());
+        }
+        if (txtTitle.getText().isEmpty()){
+            title=" ";
+        }else {
+            title=txtTitle.getText();
+        }
+        var errors = controler.validateDate(Date.getText(),
+                                          title  ,amount);
+        errDate.setText(errors.getFirstErrorMessage(Operation.Fields.CreatedAt));
+        errAmount.setText(errors.getFirstErrorMessage(Operation.Fields.Amount));
+        errTitle.setText(errors.getFirstErrorMessage(Operation.Fields.Title));
+
+        btnSave.setEnabled(toutComplet()&&errors.isEmpty());
     }
 
 
