@@ -19,16 +19,19 @@ public class DeleteParticipantController extends Controller {
     }
 
     private void delete(){
+
         if (beDeleted){
-            sub.delete();
+            try {
+                sub.delete();
+            }catch (Exception e){
+                showError("this user be not deledeted because not in tricount");
+            }
             sub=null;
         }
         else {
             showError("this user be not deledeted");
         }
     }
-
-
 
 
     @Override
