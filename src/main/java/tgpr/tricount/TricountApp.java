@@ -4,12 +4,24 @@ import tgpr.framework.Controller;
 import tgpr.framework.Model;
 
 
+
 import tgpr.tricount.controller.AddParticipantController;
 
 import tgpr.tricount.controller.DeleteParticipantController;
 
 
 import tgpr.tricount.controller.AddExpenseController;
+
+
+import tgpr.tricount.controller.AddParticipantController;
+
+import tgpr.tricount.controller.DeleteParticipantController;
+
+import tgpr.tricount.controller.LoginController;
+
+
+import tgpr.tricount.controller.LoginController;
+
 
 import tgpr.tricount.controller.TestController;
 import tgpr.tricount.model.Tricount;
@@ -27,8 +39,12 @@ public class TricountApp {
 //            Controller.navigateTo(new AddParticipantController(4,5)); //à changer dans edit (POUR MARGAUX)
 //            Controller.navigateTo(new DeleteParticipantController(2,1,true));
 
+
             ticount=Tricount.getByKey(4);
             Controller.navigateTo(new  AddExpenseController(ticount));
+
+//            Controller.navigateTo(new LoginController());
+
 
         }
     }
