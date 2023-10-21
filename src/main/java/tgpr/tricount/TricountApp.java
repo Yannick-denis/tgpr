@@ -2,11 +2,11 @@ package tgpr.tricount;
 
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
-<<<<<<< HEAD
+
 import tgpr.tricount.controller.AddParticipantController;
-=======
+
 import tgpr.tricount.controller.DeleteParticipantController;
->>>>>>> feat_delete_participant
+
 import tgpr.tricount.controller.TestController;
 
 public class TricountApp {
