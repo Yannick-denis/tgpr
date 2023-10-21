@@ -41,7 +41,7 @@ public class Tricount extends Model {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id =id;
     }
 
     public List<Operation> getOperations() {
