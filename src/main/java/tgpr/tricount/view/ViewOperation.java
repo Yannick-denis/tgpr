@@ -1,17 +1,13 @@
 package tgpr.tricount.view;
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
-import tgpr.framework.ColumnSpec;
 import tgpr.framework.ObjectTable;
-import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
-import tgpr.tricount.model.Tricount;
 
 import java.util.List;
 
 
-public abstract class ViewOperation  extends BasicWindow {
+public class ViewOperation  extends BasicWindow {
     private Operation operation;
     private  Repartition repartition;
     private List<Expense> expenses;
@@ -21,10 +17,10 @@ public abstract class ViewOperation  extends BasicWindow {
     private int index = 0;
     private  Button edit;
     private  Button close;
-    private OperationController controller;
-    public ViewOperation(List<Expense> expenses, OperationController controller, Repartition repartition) {
+    private Operation controller;
+    public ViewOperation(/*List<Expense> expenses, */ Operation controller, Repartition repartition) {
         super("View Expense Detail");
-        this.expenses = expenses;
+        //this.expenses = expenses;
         this.controller = controller;
         this.repartition = repartition;
         setTitle(operation.getTitle());
@@ -126,11 +122,11 @@ public abstract class ViewOperation  extends BasicWindow {
     }
 
      */
-    public OperationController getController() {
+    public Operation getController() {
         return controller;
     }
 
-    public void setController(OperationController controller) {
+    public void setController(Operation controller) {
         this.controller = controller;
     }
 

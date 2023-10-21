@@ -1,40 +1,68 @@
 package tgpr.tricount.controller;
 
-import com.googlecode.lanterna.gui2.Interactable;
+import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.Window;
-import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Controller;
 import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Repartition;
+import tgpr.tricount.view.TestView;
 import tgpr.tricount.view.ViewOperation;
-
-import java.util.List;
-import java.util.function.Function;
 
 public class OperationController extends Controller {
     private ViewOperation viewOperation;
-    private Operation operation;
 
-    public OperationController(ViewOperation viewOperation, Operation operation) {
-        this.viewOperation = viewOperation;
-        this.operation = operation;
+    public OperationController(Operation operationController, Repartition repartition) {
+        viewOperation = new ViewOperation( operationController, repartition);
+        // Vous pouvez ajouter d'autres initialisations si nécessaire
+        viewOperation.getClose().addListener(this::handleCloseButtonClick);
+        viewOperation.getEdit().addListener(this::handleEditButtonClick);
+        viewOperation.getUp().addListener(this::handleUpButtonClick);
+        viewOperation.getDown().addListener(this::handleDownButtonClick);
+
     }
 
-    public void setOperation(Operation operation) {
-        this.operation = operation;
+
+
+    private void handleCloseButtonClick(Button button) {
+        // Logique à exécuter lorsque le bouton "Close" est cliqué
+        // Par exemple, fermer la fenêtre ou effectuer d'autres actions
+        if (button == viewOperation.getClose()){
+            viewOperation.close();
+        }
     }
 
-    public void setViewOperation(ViewOperation viewOperation) {
-        this.viewOperation = viewOperation;
+    private void handleEditButtonClick(Button button) {
+        // Logique à exécuter lorsque le bouton "Edit" est cliqué
+        // Par exemple, ouvrir une vue d'édition
+        if (button == viewOperation.getEdit()){
+
+        }
+    }
+
+    private void handleUpButtonClick(Button button) {
+        // Logique à exécuter lorsque le bouton "Up" est cliqué
+        // Par exemple, passer à l'élément précédent de la liste d'expenses
+
+        if (button == viewOperation.getUp()){
+            viewOperation.getUp();
+        }
+    }
+
+    private void handleDownButtonClick(Button button) {
+        // Logique à exécuter lorsque le bouton "Down" est cliqué
+        // Par exemple, passer à l'élément suivant de la liste d'expenses
+        if (button == viewOperation.getDown()){
+            viewOperation.getDown();
+        }
+
     }
 
     @Override
     public Window getView() {
-        return null;
+        return new TestView(new TestController());
     }
+
     public ViewOperation getViewOperation() {
         return viewOperation;
-    }
-    public Operation getOperation() {
-        return operation;
     }
 }
