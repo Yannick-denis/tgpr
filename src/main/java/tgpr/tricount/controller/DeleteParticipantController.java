@@ -11,8 +11,9 @@ public class DeleteParticipantController extends Controller {
 
  private  Subscription sub;
  private boolean beDeleted;
-    public DeleteParticipantController(int idTricount,int idUser ,boolean bedeleted){
+    public DeleteParticipantController(int idTricount,int idUser ,boolean beDeleted){
         this.sub=new Subscription(idTricount,idUser);
+        this.beDeleted=beDeleted;
         delete();
 
     }
