@@ -1,19 +1,18 @@
 package tgpr.tricount.controller;
-
 import com.googlecode.lanterna.gui2.Window;
+import tgpr.framework.Controller;
+
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.view.TestView;
 
-import javax.xml.crypto.Data;
-import java.util.Date;
 
 import static tgpr.framework.Controller.askConfirmation;
 
-public class deleteTricountController {
+public class DeleteTricountController {
     private Tricount tricount;
 
 
-    public deleteTricountController(String title, String destription, int creator) {
+    public DeleteTricountController(String title, String destription, int creator) {
         this.tricount = new Tricount(title, destription, creator);
 
     }
@@ -25,5 +24,9 @@ public class deleteTricountController {
             // viewTricount.close();
         }
 
+    }
+
+    public Window getView() {
+        return new TestView(new TestController());
     }
 }
