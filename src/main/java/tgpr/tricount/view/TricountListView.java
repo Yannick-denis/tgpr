@@ -11,6 +11,8 @@ import tgpr.tricount.model.Tricount;
 
 import java.util.List;
 
+
+
 public class TricountListView extends BasicWindow {
 
     private final TricountListController controller;
@@ -20,6 +22,7 @@ public class TricountListView extends BasicWindow {
     private final Panel pnlBasDePage;
     private final TextBox filter;
     private final Button createTricount;
+    private final Paginator pagination;
 
 
 
@@ -35,11 +38,13 @@ public class TricountListView extends BasicWindow {
 
 
         Component MenuBar = new MenuBar();
+
         pnlEnTete = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
         pnlEnTete.addComponent(new Label("filter:"));
         filter = new TextBox().addTo(pnlEnTete).sizeTo(20);
-        pnlBody = Panel.gridPanel(3, Spacing.of(1) ).addTo(root);
+
+        pnlBody = Panel.gridPanel(3, Spacing.of(0) ).addTo(root);
 
 
 
@@ -57,9 +62,14 @@ public class TricountListView extends BasicWindow {
 
 //        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(),15));
         reloadData();
+        new EmptySpace().addTo(root);
         pnlBasDePage = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
+        new EmptySpace().addTo(root);
         createTricount = new Button("Create a new Tricount").addTo(root);
+        pagination = new Paginator(this,12,Tricount.getPaginated(1,)).addTo(root);
+        int i = ;
+        pagination.setCount(30);
     }
 
     public void reloadData() {
@@ -73,11 +83,12 @@ public class TricountListView extends BasicWindow {
             new Label(tricount.getTitle()).center().addTo(p);
             new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).center().addTo(p);
             new Label("Created By "+tricount.getCreator().getFullName()).center().addTo(p);
-            if (tricount.getParticipants().isEmpty()){
+            int nbrParticipant = tricount.getParticipants().size();
+            if ((nbrParticipant-1) == 0){
                 new Label("with no friends ").center().addTo(p);
             }else {
-                int nbrParticipant = tricount.getParticipants().size();
-                new Label("with "+ nbrParticipant + "friends ").center().addTo(p);
+
+                new Label("with "+ (nbrParticipant-1) + "friends ").center().addTo(p);
             }
             new Button("Open").center().addTo(p);
             pnlBody.addComponent(p.withBorder(Borders.singleLine()));
