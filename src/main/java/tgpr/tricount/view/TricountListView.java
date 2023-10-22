@@ -2,10 +2,9 @@ package tgpr.tricount.view;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
-import tgpr.framework.ColumnSpec;
-import tgpr.framework.ObjectTable;
-import tgpr.framework.Spacing;
-import tgpr.framework.ViewManager;
+import com.googlecode.lanterna.gui2.menu.Menu;
+import com.googlecode.lanterna.gui2.menu.MenuBar;
+import tgpr.framework.*;
 import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.model.Tricount;
 
@@ -17,6 +16,13 @@ public class TricountListView extends BasicWindow {
     private final TricountListController controller;
 //    private final ObjectTable<Tricount> table;
     private final Panel pnlBody;
+    private final Panel pnlEnTete;
+    private final Panel pnlBasDePage;
+    private final TextBox filter;
+    private final Button createTricount;
+
+
+
 
     public TricountListView(TricountListController controller) {
         this.controller = controller;
@@ -28,8 +34,13 @@ public class TricountListView extends BasicWindow {
         setComponent(root);
 
 
-
+        Component MenuBar = new MenuBar();
+        pnlEnTete = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
+                .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
+        pnlEnTete.addComponent(new Label("filter:"));
+        filter = new TextBox().addTo(pnlEnTete).sizeTo(20);
         pnlBody = Panel.gridPanel(3, Spacing.of(1) ).addTo(root);
+
 
 
 //        root.withBorder(pnlBody.withBorder(Borders.singleLine()));
@@ -46,6 +57,9 @@ public class TricountListView extends BasicWindow {
 
 //        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(),15));
         reloadData();
+        pnlBasDePage = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
+                .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
+        createTricount = new Button("Create a new Tricount").addTo(root);
     }
 
     public void reloadData() {
@@ -58,7 +72,14 @@ public class TricountListView extends BasicWindow {
             Panel p = Panel.verticalPanel();
             new Label(tricount.getTitle()).center().addTo(p);
             new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).center().addTo(p);
-            new Label(tricount.getCreator().getFullName()).center().addTo(p);
+            new Label("Created By "+tricount.getCreator().getFullName()).center().addTo(p);
+            if (tricount.getParticipants().isEmpty()){
+                new Label("with no friends ").center().addTo(p);
+            }else {
+                int nbrParticipant = tricount.getParticipants().size();
+                new Label("with "+ nbrParticipant + "friends ").center().addTo(p);
+            }
+            new Button("Open").center().addTo(p);
             pnlBody.addComponent(p.withBorder(Borders.singleLine()));
         }
     }
