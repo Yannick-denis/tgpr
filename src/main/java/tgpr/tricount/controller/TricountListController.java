@@ -13,8 +13,9 @@ public class TricountListController extends Controller {
     public Window getView(){
         return new TricountListView(this);
     }
-    public List<Tricount> getTricounts(){
-        return Tricount.getPaginated(1, 12);
+    public List<Tricount> getTricounts(String filter){
+        Tricount.getPaginated(1, 12);
+        return Tricount.getFiltered(filter);
     }
 
 }

@@ -1,6 +1,7 @@
 package tgpr.tricount.view;
 
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.menu.Menu;
 import com.googlecode.lanterna.gui2.menu.MenuBar;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class TricountListView extends BasicWindow {
 
+
     private final TricountListController controller;
 //    private final ObjectTable<Tricount> table;
     private final Panel pnlBody;
@@ -22,7 +24,7 @@ public class TricountListView extends BasicWindow {
     private final Panel pnlBasDePage;
     private final TextBox filter;
     private final Button createTricount;
-    private final Paginator pagination;
+    //private final Paginator pagination;
 
 
 
@@ -44,6 +46,7 @@ public class TricountListView extends BasicWindow {
         pnlEnTete.addComponent(new Label("filter:"));
         filter = new TextBox().addTo(pnlEnTete).sizeTo(20);
 
+
         pnlBody = Panel.gridPanel(3, Spacing.of(0) ).addTo(root);
 
 
@@ -62,26 +65,27 @@ public class TricountListView extends BasicWindow {
 
 //        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(),15));
         reloadData();
+        filter.takeFocus();
         new EmptySpace().addTo(root);
         pnlBasDePage = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
         new EmptySpace().addTo(root);
         createTricount = new Button("Create a new Tricount").addTo(root);
-        pagination = new Paginator(this,12,Tricount.getPaginated(1,)).addTo(root);
-        int i = ;
-        pagination.setCount(30);
+//        pagination = new Paginator(this,12,Tricount.getPaginated(1,)).addTo(root);
+//        int i = ;
+//        pagination.setCount(30);
     }
 
     public void reloadData() {
 //        table.clear();
-        var tricounts = controller.getTricounts();
+        var tricounts = controller.getTricounts(filter.getText());
 //        table.add(tricount);
 
         for (int i=0; i<Math.min(12, tricounts.size()); ++i) {
             var tricount = tricounts.get(i);
             Panel p = Panel.verticalPanel();
-            new Label(tricount.getTitle()).center().addTo(p);
-            new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).center().addTo(p);
+            new Label(tricount.getTitle()).setForegroundColor(TextColor.ANSI.BLUE).center().addTo(p);
+            new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).setForegroundColor(TextColor.ANSI.BLACK_BRIGHT).center().addTo(p);
             new Label("Created By "+tricount.getCreator().getFullName()).center().addTo(p);
             int nbrParticipant = tricount.getParticipants().size();
             if ((nbrParticipant-1) == 0){

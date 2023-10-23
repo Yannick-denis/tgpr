@@ -3,6 +3,7 @@ package tgpr.tricount.model;
 import org.springframework.util.Assert;
 import tgpr.framework.Model;
 import tgpr.framework.Params;
+import tgpr.framework.SortOrder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -205,5 +206,15 @@ public class Tricount extends Model {
         int c = execute("delete from tricounts where id=:id",
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
+    }
+    public static List<Tricount> getFiltered(String filterText){
+        String filter = '%' + filterText + '%';
+        Params params = new Params("filter", filter);
+        String sql = "SELECT t.id \n" +
+                "FROM tricounts t , users u \n" +
+                "WHERE t.creator = u.id\n" +
+                "and (t.title = :filter or t.description = :filter or u.full_name = :filter)";
+
+        return queryList(Tricount.class, sql, params);
     }
 }
