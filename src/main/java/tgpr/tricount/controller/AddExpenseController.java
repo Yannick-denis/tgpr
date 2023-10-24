@@ -57,7 +57,11 @@ public class AddExpenseController extends Controller {
         if (date.compareTo(today)>0){
             erorr.add("Date many not be in the future",Operation.Fields.CreatedAt);
         }
+        if (date.compareTo("2023/00/00")<=0||date.compareTo("2023/00/01")<=0){
+            erorr.add("margaux arette te betise",Operation.Fields.CreatedAt);
+        }
         if(date.length()<10){
+
             erorr.add("respect format dd/mm/yyyy",Operation.Fields.CreatedAt);
         }
         if (amount<0){
