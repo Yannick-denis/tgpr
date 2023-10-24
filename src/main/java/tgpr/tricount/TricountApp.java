@@ -40,9 +40,9 @@ public class TricountApp {
 //            Controller.navigateTo(new DeleteParticipantController(2,1,true));
 
 
-//            ticount=Tricount.getByKey(4);
-//            Controller.navigateTo(new  AddExpenseController(ticount));
-            Controller.navigateTo(new DeleteParticipantController(4,2,true));
+            ticount=Tricount.getByKey(4);
+            Controller.navigateTo(new  AddExpenseController(ticount));
+//            Controller.navigateTo(new DeleteParticipantController(4,3,true));
 
 //            Controller.navigateTo(new LoginController());
 
