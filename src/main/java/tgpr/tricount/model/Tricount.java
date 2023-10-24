@@ -201,4 +201,10 @@ public class Tricount extends Model {
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
     }
+
+    public boolean isImplicate(User user) {
+        int idUser = user.getId();
+        String sql = ""
+
+    }
 }
