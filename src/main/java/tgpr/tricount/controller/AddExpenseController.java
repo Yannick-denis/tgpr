@@ -54,15 +54,11 @@ public class AddExpenseController extends Controller {
     public ErrorList validateDate(String date,String title,double amount) {
         var erorr=new ErrorList();
          String today=LocalDate.now().asString();
+        if (dateInvalide(date)){
+            erorr.add("respect format dd/mm/yyyy",Operation.Fields.CreatedAt);
+        }
         if (date.compareTo(today)>0){
             erorr.add("Date many not be in the future",Operation.Fields.CreatedAt);
-        }
-        if (date.compareTo("00/00:2023")<=0||date.compareTo("00/01/2023")<=0){
-            erorr.add("margaux arette te betise",Operation.Fields.CreatedAt);
-        }
-        if(date.length()<10){
-
-            erorr.add("respect format dd/mm/yyyy",Operation.Fields.CreatedAt);
         }
         if (amount<0){
             erorr.add("amount must be positive",Operation.Fields.Amount);
@@ -72,6 +68,17 @@ public class AddExpenseController extends Controller {
         }
         return erorr;
     }
+
+    private boolean dateInvalide(String date) {
+        try {
+            DateTimeFormatter format= new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
+            LocalDate dat = LocalDate.parse(date,format);
+        }catch (Exception e){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public Window getView() {
         return view;
