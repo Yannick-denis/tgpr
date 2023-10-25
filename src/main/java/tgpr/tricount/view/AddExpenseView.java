@@ -111,8 +111,10 @@ public class AddExpenseView extends DialogWindow {
                 check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
                 if (check.getSelectedItem().getWeight()==0){
                     check.setChecked(check.getSelectedItem(),false);
+                    validate();
                 }
             }
+
             return  true;
         });
 
@@ -247,7 +249,7 @@ public class AddExpenseView extends DialogWindow {
             title=txtTitle.getText();
         }
         var errors = controler.validateDate(Date.getText(),
-                                          title  ,amount);
+                                          title  ,amount,check.getCheckedItems());
         errDate.setText(errors.getFirstErrorMessage(Operation.Fields.CreatedAt));
         errAmount.setText(errors.getFirstErrorMessage(Operation.Fields.Amount));
         errTitle.setText(errors.getFirstErrorMessage(Operation.Fields.Title));

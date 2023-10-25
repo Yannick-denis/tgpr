@@ -51,9 +51,12 @@ public class AddExpenseController extends Controller {
             rep.save();
         }
     }
-    public ErrorList validateDate(String date,String title,double amount) {
+    public ErrorList validateDate(String date,String title,double amount,List<Repartition> repartitions) {
         var erorr=new ErrorList();
          String today=LocalDate.now().asString();
+         if (repartitions.size()<1){
+             erorr.add("you must selected must least one",Operation.Fields.Repartition);
+         }
         if (dateInvalide(date)){
             erorr.add("respect format dd/mm/yyyy",Operation.Fields.CreatedAt);
         } else if (dateInTheFuture(date)){
