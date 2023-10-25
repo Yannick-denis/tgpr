@@ -39,6 +39,7 @@ public class AddExpenseView extends DialogWindow {
     private List<User> participant;
     private  List<Repartition> rep =new ArrayList<>();
     private Label errDate =new Label("");
+    private Label  errcheched =new Label("");
     private Label errTitle =new Label("");
     private Label errAmount =new Label("");
     private Button btnSave;
@@ -119,6 +120,8 @@ public class AddExpenseView extends DialogWindow {
         });
 
         check.addTo(panel);
+        panel.addEmpty();
+        errcheched.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
 
 
 
@@ -253,7 +256,7 @@ public class AddExpenseView extends DialogWindow {
         errDate.setText(errors.getFirstErrorMessage(Operation.Fields.CreatedAt));
         errAmount.setText(errors.getFirstErrorMessage(Operation.Fields.Amount));
         errTitle.setText(errors.getFirstErrorMessage(Operation.Fields.Title));
-
+        errcheched.setText(errors.getFirstErrorMessage(Operation.Fields.Repartition));
         btnSave.setEnabled(toutComplet()&&errors.isEmpty());
     }
 
