@@ -10,6 +10,7 @@ import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.model.Tricount;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,11 +19,12 @@ public class TricountListView extends BasicWindow {
 
 
     private final TricountListController controller;
-//    private final ObjectTable<Tricount> table;
+    private final List<Tricount> tricountList = Tricount.getAll();
     private final Panel pnlBody;
     private final Panel pnlEnTete;
     private final Panel pnlBasDePage;
     private final TextBox filter;
+    private  String search;
     private final Button createTricount;
     //private final Paginator pagination;
 
@@ -44,7 +46,10 @@ public class TricountListView extends BasicWindow {
         pnlEnTete = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
         pnlEnTete.addComponent(new Label("filter:"));
-        filter = new TextBox().addTo(pnlEnTete).sizeTo(20);
+        filter = new TextBox().addTo(pnlEnTete).sizeTo(20).setTextChangeListener((txt, filter) -> filterRecherche(txt));
+        filter.addTo(pnlEnTete);
+//        new Label("Filter:").addTo(pnlEnTete);
+//        filter.addTo(pnlEnTete).takeFocus().setTextChangeListener((txt, filter) -> reloadData());
 
 
         pnlBody = Panel.gridPanel(3, Spacing.of(0) ).addTo(root);
@@ -65,7 +70,6 @@ public class TricountListView extends BasicWindow {
 
 //        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(),15));
         reloadData();
-        filter.takeFocus();
         new EmptySpace().addTo(root);
         pnlBasDePage = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
@@ -75,9 +79,20 @@ public class TricountListView extends BasicWindow {
 //        int i = ;
 //        pagination.setCount(30);
     }
+    public void filterRecherche(String txt){
+        search = txt;
+        List<Tricount> list = new ArrayList<>();
+        if (!txt.isEmpty()){
+            for (int i = 0 ; i < tricountList.size() ; i++){
+                if (tricountList.get(i).tricountFilter(txt))
+                    list.add(tricountList.get(i));
+            }
+        }
+        Tricount.getAll();
+    }
 
     public void reloadData() {
-//        table.clear();
+//      table.clear();
         var tricounts = controller.getTricounts(filter.getText());
 //        table.add(tricount);
 
@@ -98,6 +113,5 @@ public class TricountListView extends BasicWindow {
             pnlBody.addComponent(p.withBorder(Borders.singleLine()));
         }
     }
-
 
 }

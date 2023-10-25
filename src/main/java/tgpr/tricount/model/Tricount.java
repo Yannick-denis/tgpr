@@ -208,13 +208,41 @@ public class Tricount extends Model {
         Assert.isTrue(c == 1, "Something went wrong");
     }
     public static List<Tricount> getFiltered(String filterText){
-        String filter = '%' + filterText + '%';
-        Params params = new Params("filter", filter);
-        String sql = "SELECT t.id \n" +
-                "FROM tricounts t , users u \n" +
-                "WHERE t.creator = u.id\n" +
-                "and (t.title = :filter or t.description = :filter or u.full_name = :filter)";
+            Tricount.getAll();
+            String filter = '%' + filterText + '%';
+            Params params = new Params("filter", filter);
+            String sql = "SELECT * FROM tricounts ";
 
-        return queryList(Tricount.class, sql, params);
-    }
+            return queryList(Tricount.class,sql, params);
+        }
+        //return Tricount.getAll();
+        public boolean tricountFilter(String filtre){
+        String title = "";
+        String description = "";
+        String creator = "";
+        for (int i = 0 ; i < Tricount.getAll().size() ;i++ ){
+            if (title.length() < filtre.length() ||creator.length() < filtre.length() ){
+git                 title += Tricount.getAll().get(i).getTitle().charAt(i);
+               // creator += User.getNameByKey(Tricount.getAll().get(i).getCreatorId());
+            }
+            if (description.length() < filtre.length() && Tricount.getAll().get(i).getDescription() != null){
+                description += Tricount.getAll().get(i).getDescription().charAt(i);
+            }
+        }
+        if (title.equalsIgnoreCase(filtre) || description.equalsIgnoreCase(filtre ) || creator.equalsIgnoreCase(filtre)){
+            return true;
+        }
+        return false;
+//            int idx = 0;
+//            for (int i = 0; i < Tricount.getAll().size() ; i++){
+//            if (filtre.charAt(idx) == Tricount.getAll().get(i).getTitle().charAt(i)){
+//                    idx++;
+//                    if (idx == filtre.length())
+//                        return true;
+//                }else
+//                    idx = 0;
+//                return false;
+//            }
+       }
+
 }

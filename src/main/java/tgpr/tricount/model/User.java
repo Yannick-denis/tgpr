@@ -174,6 +174,10 @@ public class User extends Model {
         return queryOne(User.class, "select * from users where id=:id",
                 new Params("id", id));
     }
+    public static User getNameByKey(int id) {
+        return queryOne(User.class, "select full_name from users where id=:id",
+                new Params("id", id));
+    }
 
     public static User getByMail(String mail) {
         return queryOne(User.class, "select * from users where mail=:mail",
