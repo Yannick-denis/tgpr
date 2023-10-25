@@ -222,7 +222,7 @@ public class Tricount extends Model {
         String creator = "";
         for (int i = 0 ; i < Tricount.getAll().size() ;i++ ){
             if (title.length() < filtre.length() ||creator.length() < filtre.length() ){
-git                 title += Tricount.getAll().get(i).getTitle().charAt(i);
+               title += Tricount.getAll().get(i).getTitle().charAt(i);
                // creator += User.getNameByKey(Tricount.getAll().get(i).getCreatorId());
             }
             if (description.length() < filtre.length() && Tricount.getAll().get(i).getDescription() != null){
