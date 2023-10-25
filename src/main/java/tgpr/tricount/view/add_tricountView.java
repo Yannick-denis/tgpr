@@ -9,6 +9,7 @@ import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.screen.Screen;
+import tgpr.framework.Margin;
 import tgpr.tricount.controller.add_tricountController;
 
 import java.util.List;
@@ -18,42 +19,99 @@ import static sun.security.util.KeyUtil.validate;
 
 public class add_tricountView extends DialogWindow {
 
-    public add_tricountView(String title){
+    private final TextBox txtBody = new TextBox("", TextBox.Style.MULTI_LINE);
+    private final CheckBox chkPrivate = new CheckBox();
+    private final Button btnPost = new Button("Post");
+    private final Label errBody = new Label("");
+
+    public add_tricountView(String title) {
         super(title);
+
+
+        setHints(List.of(Hint.CENTERED, Hint.MODAL));
+        setCloseWindowWithEscape(true);
+
+        Panel root = Panel.verticalPanel();
+        setComponent(root);
+
+        createFields().addTo(root);
+        createButtons().addTo(root);
+
+        txtBody.takeFocus();
     }
 
-    public static void main(String[] args) {
-        // Créer une fenêtre principale
-        MultiWindowTextGUI gui = new MultiWindowTextGUI((TextGUIThreadFactory) new DefaultWindowManager(), (Screen) new EmptySpace(TextColor.ANSI.BLACK));
 
-        // Créer une fenêtre de saisie
-        BasicWindow window = new BasicWindow("Saisie de Titre et Description");
-        Panel contentPanel = new Panel();
-        contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+    private Panel createFields() {
+        Panel panel = Panel.gridPanel(2, Margin.of(1));
+        //Panel panel2 = Panel.gridPanel(2, Margin.of(3));
 
-        // Champ de saisie pour le titre
-        Label labelTitre = new Label("Titre:");
-        TextBox textBoxTitre = new TextBox().addTo(contentPanel);
 
-        // Champ de saisie pour la description
-        Label labelDescription = new Label("Description:");
-        TextBox textBoxDescription = new TextBox().addTo(contentPanel);
-
-        // Bouton "Create"
-        Button createButton = new Button("Create", new Runnable() {
-            @Override
-            public void run() {
-                String titre = textBoxTitre.getText();
-                String description = textBoxDescription.getText();
-                Object MessageBox;
-
-            }
-        }).addTo(contentPanel);
-
-        window.setComponent(contentPanel);
-        gui.addWindowAndWait(window);
+        // body
+        new Label("Titre").addTo(panel);
+        txtBody.sizeTo(30, 1).addTo(panel);
+        panel.addEmpty();
+        errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
+      //  txtBody.setTextChangeListener((txt, byUser) -> validate());
+        new Label ("Description").addTo(panel);
+        txtBody.sizeTo(30, 5).addTo(panel);
+        panel.addEmpty();
+        errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
+        // private
+        return panel;
     }
+
+    private Panel createButtons() {
+        var panel = Panel.horizontalPanel().center();
+
+        //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
+         new Button("Create", this::close).addTo(panel);
+        new Button("Cancel", this::close).addTo(panel);
+
+
+        return panel;
+    }
+
+
+
+//    private final TextBox txtBody = new TextBox("testets");
+//    private final CheckBox chkPrivate = new CheckBox();
+//    private final Label errBody = new Label("");
+
+//
+//        var root = new Panel().setLayoutManager(
+//                new LinearLayout(Direction.VERTICAL)
+//        );Label label = new Label("Hello World!");
+//        Panel panel = new Panel();
+//        panel.addComponent(new Label("Hello"));
+//        new Label("World").addTo(panel);
+//
+//
+//    }
+//    private Panel createFields() {
+//        Panel panel = Panel.gridPanel(2, Margin.of(1));
+//
+//        // body
+//        new Label("Body:").addTo(panel);
+//        txtBody.sizeTo(30, 5).addTo(panel);
+//        panel.addEmpty();
+//        errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
+//       // txtBody.setTextChangeListener((txt, byUser) -> validate());
+//
+//        // private
+//        new Label("Is Private:").addTo(panel);
+//        chkPrivate.addTo(panel);
+//
+//        return panel;
+//    }
+//    TextBox txt1 = new TextBox();
+//
+//
+
+
+
+
 }
+
 
 
 

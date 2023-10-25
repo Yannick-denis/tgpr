@@ -5,13 +5,20 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.screen.Screen;
 import tgpr.framework.Controller;
 import tgpr.tricount.view.add_tricountView;
+import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 
 public class add_tricountController extends Controller {
     @Override
     public Window getView() {
         return (Window) new add_tricountView("Create a new Tricount");
 
+
+
     }
+
+
+
+    TextBox txt1 = new TextBox();
 
     // creer les liens entre les infos entree dans le add_tricountView et la bases de données
     // ajouter le tricount dans la BD
