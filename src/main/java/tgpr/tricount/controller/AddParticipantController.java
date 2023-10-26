@@ -9,8 +9,8 @@ public class AddParticipantController extends Controller {
 
 
     public AddParticipantController(int idP, int idT){ //idP = id du participant, idT = id du Tricount
-        this.subscription = new Subscription(idT, idP);
-        this.subscription.addNew();
+        Subscription subscription = new Subscription(idT, idP);
+        subscription.addNew();
     }
     @Override
     public Window getView(){

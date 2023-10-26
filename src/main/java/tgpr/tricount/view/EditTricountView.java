@@ -6,8 +6,11 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Margin;
 import tgpr.tricount.controller.EditTricountController;
+import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.Tricount;
+import tgpr.tricount.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -23,7 +26,8 @@ public class EditTricountView extends DialogWindow {
     private final Label errTitle = new Label("");
     private final Label errDescription = new Label("");
 
-    private Button btnSave;
+    private Button btnAdd;
+    private ArrayList list = (ArrayList) User.getAll();
 
     public EditTricountView(EditTricountController controller, Tricount tricount){
         super("Edit Tricount");
@@ -38,12 +42,6 @@ public class EditTricountView extends DialogWindow {
         setComponent(root);
 
         createFieldsGrid().addTo(root);
-        createButtonsPanel().addTo(root);
-
-        refresh();
-
-
-
     }
 
     private Panel createFieldsGrid() {
@@ -51,44 +49,65 @@ public class EditTricountView extends DialogWindow {
 
         new Label("Title:").addTo(panel);
         txtTitle = new TextBox().sizeTo(15).addTo(panel)
-                .setTextChangeListener((txt, byUser) -> validate());
+                .setTextChangeListener((txt, byUser) -> validateForEdit());
         panel.addEmpty();
         errTitle.addTo(panel)
                 .setForegroundColor(TextColor.ANSI.RED);
 
         new Label("Description:").addTo(panel);
         txtDescription = new TextBox().sizeTo(30).addTo(panel)
-                .setTextChangeListener((txt, byUser) -> validate());
+                .setTextChangeListener((txt, byUser) -> validateForEdit());
+        panel.addEmpty();
         errDescription.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
 
+
         new Label("Subscribers:").addTo(panel);
-        listeBox = new ActionListBox();
+        listeBox = new ActionListBox().addTo(panel);
         for (var participant : tricount.getParticipants()) {
+            list.remove(participant);
             var libelle = participant.toString();
-            if (si le participant est dans une dépense ou est le createur)
-                libelle += " (.)"
+            if (controller.isImplicate(participant.getId(), tricount.getId()))
+                libelle += " (*)";
             listeBox.addItem(libelle, () -> {
                 System.out.println(participant);
             });
-
         }
-        listeBox.addTo(panel);
+        panel.addEmpty();
+
+        comboBoxAndButton().addTo(panel);
+
+        return panel;
     }
 
+    private Panel comboBoxAndButton() {
+        var panel = Panel.gridPanel(3, Margin.of(1));
+        selectUser = new ComboBox<>();
+        selectUser.addItem("--- Select a User ---").isReadOnly();
+        for (var partcipant: list) {
+            selectUser.addItem(partcipant.toString());
+        }
+        selectUser.addTo(panel);
 
-    private static int nbParticipants();
+        btnAdd = new Button("Add", () -> {
+            add(selectUser.getSelectedItem());
+        }).addTo(panel);
 
-    private void validate() {
-        var errors = controller.validate(
+        return panel;
+    }
+
+    private void add(String nomUser){
+        controller.add(User.getByFullName(nomUser).getId(), tricount.getId());
+    }
+
+    private void validateForEdit() {
+        var errors = controller.validateForEdit(
                 txtTitle.getText(),
-                txtDescription.getText(),
-                selectUser.getText()
+                txtDescription.getText()
         );
+        errTitle.setText(errors.getFirstErrorMessage(Tricount.Fields.Title));
+        errDescription.setText(errors.getFirstErrorMessage(Tricount.Fields.Description));
 
-        errTitle.setText(errors.getFirstErrorMessage(Tricount.));
-        errDescription.setText(errors.getFirstErrorMessage(Member.Fields.Profile));
-
-        btnAddUpdate.setEnabled(errors.isEmpty());
+        btnAdd.setEnabled(errors.isEmpty());
     }
 
 }

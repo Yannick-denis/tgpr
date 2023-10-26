@@ -120,6 +120,6 @@ public class Subscription extends Model {
                 .add("idTricount", this.tricountId)
                 .add("idUser", this.userId);
         int x = execute("insert into subscriptions (tricount, user) values (:idTricount, :idUser)",params );
-        Assert.isTrue(x == 1, "ça va pas");
+        Assert.isTrue(x == 1, "Something went wrong");
     }
 }
