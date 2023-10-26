@@ -319,7 +319,7 @@ public class AddExpenseView extends DialogWindow {
         operation=Operation.getByTitle(txtTitle.getText());
         for (int i=0;i<rep.size();i++){
             rep.get(i).setOperationId(operation.getId());
-            if (rep.get(i).getWeight()==0&&rep.get(i).getOperationId()==0){
+            if (rep.get(i).getOperationId()==0&&rep.get(i).getWeight()==0){
                 rep.remove(i);
                 i--;
             }
