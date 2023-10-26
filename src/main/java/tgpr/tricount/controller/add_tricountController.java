@@ -16,10 +16,6 @@ public class add_tricountController extends Controller {
 
     }
 
-
-
-    TextBox txt1 = new TextBox();
-
     // creer les liens entre les infos entree dans le add_tricountView et la bases de données
     // ajouter le tricount dans la BD
 
