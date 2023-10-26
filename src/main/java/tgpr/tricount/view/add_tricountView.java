@@ -47,11 +47,11 @@ public class add_tricountView extends DialogWindow {
         txtTitre.sizeTo(30, 1).addTo(panel);
         panel.addEmpty();
         errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
-       // txtTitre.setTextChangeListener((txt, byUser) -> validate());
+        // txtTitre.setTextChangeListener((txt, byUser) -> validate());
         new Label ("Description :").addTo(panel);
-       txtDescription.sizeTo(30, 5).addTo(panel);
+        txtDescription.sizeTo(30, 5).addTo(panel);
         panel.addEmpty();
-       errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
+        errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
 
         return panel;
     }
@@ -60,11 +60,34 @@ public class add_tricountView extends DialogWindow {
         var panel = Panel.horizontalPanel().center();
 
         //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
-         new Button("Create", this::close).addTo(panel); // this doit etre save ou create
+        new Button("Create", this::create_tricount).addTo(panel); // DOIT CREER LE TRICOUNT AVEC UN TITLE ,IDCREATOR ET DESCRIPTION
+        /*
+        *     public Tricount(String title, String description, int creatorId) {
+        this.title = title;
+        this.description = description;
+        this.createdAt = LocalDateTime.now();
+        this.creatorId = creatorId;
+    }*/
+
+
+
         new Button("Cancel", this::close).addTo(panel);
 
 
         return panel;
+    }
+
+    public void create_tricount(){
+        // DOIT CREER LE TRICOUNT AVEC UN TITLE ,IDCREATOR ET DESCRIPTION
+        /*
+        *     public Tricount(String title, String description, int creatorId) {
+        this.title = title;
+        this.description = description;
+        this.createdAt = LocalDateTime.now();
+        this.creatorId = creatorId;
+    }*/
+
+
     }
 //    private void validate() {
 //        var errors = controller.validate(
@@ -121,7 +144,7 @@ public class add_tricountView extends DialogWindow {
 
 
 
-    //code visuel du addtricount
+//code visuel du addtricount
 
 //
 //            new EmptySpace().addTo(root);
