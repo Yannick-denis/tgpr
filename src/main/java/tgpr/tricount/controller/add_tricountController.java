@@ -4,8 +4,11 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.screen.Screen;
 import tgpr.framework.Controller;
+import tgpr.tricount.model.Tricount;
 import tgpr.tricount.view.add_tricountView;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+
+import java.time.LocalDateTime;
 
 public class add_tricountController extends Controller {
     @Override
@@ -15,12 +18,21 @@ public class add_tricountController extends Controller {
 
 
     }
+    public Tricount addTricount(String title, String description, int creatorId){
+       return new Tricount();
+//           public Tricount(String title, String description, int creatorId) {
+//            this.title = title;
+//            this.description = description;
+//            this.createdAt = LocalDateTime.now();
+//            this.creatorId = creatorId;
+        }
+    }
 
     // creer les liens entre les infos entree dans le add_tricountView et la bases de données
     // ajouter le tricount dans la BD
 
 
-}
+
 
 
 
