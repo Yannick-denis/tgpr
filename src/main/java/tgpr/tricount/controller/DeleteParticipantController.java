@@ -32,7 +32,7 @@ public class DeleteParticipantController extends Controller {
             showError("this user be not deledeted");
         }
     }
-
+ 
 
     @Override
     public Window getView() {

@@ -24,6 +24,7 @@ import tgpr.tricount.controller.LoginController;
 
 
 import tgpr.tricount.controller.TestController;
+import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
 
 public class TricountApp {
@@ -40,11 +41,15 @@ public class TricountApp {
 //            Controller.navigateTo(new DeleteParticipantController(2,1,true));
 
 
-//            ticount=Tricount.getByKey(4);
-//            Controller.navigateTo(new  AddExpenseController(ticount));
-            Controller.navigateTo(new DeleteParticipantController(4,2,true));
+            ticount=Tricount.getByKey(4);
+            Operation ope=Operation.getByTitle("ccc");
+            Controller.navigateTo(new  AddExpenseController(ticount));
+//            Controller.navigateTo(new DeleteParticipantController(4,3,true));
 
 //            Controller.navigateTo(new LoginController());
+// pour les test de edit operation et add operation
+// si vous voullez utuliser addoperation conctructeur avec tricount
+//pour edit operation conctructeur avec tricount + operation
 
 
         }
