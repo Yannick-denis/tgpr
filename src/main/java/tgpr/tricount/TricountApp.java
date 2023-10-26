@@ -43,7 +43,7 @@ public class TricountApp {
 
             ticount=Tricount.getByKey(4);
             Operation ope=Operation.getByTitle("ccc");
-            Controller.navigateTo(new  AddExpenseController(ticount,ope));
+            Controller.navigateTo(new  AddExpenseController(ticount));
 //            Controller.navigateTo(new DeleteParticipantController(4,3,true));
 
 //            Controller.navigateTo(new LoginController());
