@@ -93,13 +93,25 @@ public class view_tricountView extends DialogWindow {
         var panel = Panel.horizontalPanel().center();
 
         //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
-        new Button("Balance", this::close).addTo(panel);
-        new Button("New expense", this::close).addTo(panel);
-        new Button("Edit tricount", this::close).addTo(panel);// doit renvoyer vers edit tricount
+        new Button("Balance", this::view_balance).addTo(panel);//renvoi vers view_balance
+        new Button("New expense", this::add_operation).addTo(panel); //renvoi vers add_operation
+        new Button("Edit tricount", this::edit_tricount).addTo(panel);// doit renvoyer vers edit_tricount
         new Button("Close", this::close).addTo(panel);
 
 
         return panel;
+    }
+    private void view_balance(){
+        //renverra vers la classe view balance.controller
+
+    }
+    private void add_operation(){
+        //renverra vers la classe view add_operation.controller
+
+    }
+    private void edit_tricount(){
+        //renverra vers la classe view edit_tricount.controller
+
     }
 
 
