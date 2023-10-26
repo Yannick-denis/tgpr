@@ -1,5 +1,6 @@
 package tgpr.tricount.view;
 import com.googlecode.lanterna.gui2.*;
+import tgpr.framework.ColumnSpec;
 import tgpr.framework.ObjectTable;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
@@ -52,19 +53,28 @@ public class ViewOperation  extends BasicWindow {
 
         Panel contentPanel = new Panel(gridLayout);
         contentPanel.addComponent(new Label("Title:"));
-        contentPanel.addComponent(new TextBox(operation.getTitle()));
+        contentPanel.addComponent(new Label(operation.getTitle()));
         contentPanel.addComponent(new Label("Amount:"));
-        contentPanel.addComponent(new TextBox(String.valueOf(operation.getAmount())));
+        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount())));
         contentPanel.addComponent(new Label("Date:"));
-        contentPanel.addComponent(new TextBox(String.valueOf(operation.getOperationDate())));
+        contentPanel.addComponent(new Label (String.valueOf(operation.getOperationDate())));
         contentPanel.addComponent(new Label("Paid by:"));
-        contentPanel.addComponent(new TextBox(operation.getInitiator().getFullName()));
-        contentPanel.addComponent(new Label("From whom:" ));
+        contentPanel.addComponent(new Label(operation.getInitiator().getFullName()));
+        new EmptySpace().addTo(root);
+       contentPanel.addComponent(new Label("From whom:" ));
+       table = new ObjectTable<>(
+               new ColumnSpec<>("Participant", o ->operation.getInitiator().getFullName()),
+               new ColumnSpec<>("Weight",w ->repartition.getWeight()),
+               new ColumnSpec<>("Amout",o ->operation.getAmount())
+              // new ColumnSpec<>(),
+
+       );
+
+       /*
         contentPanel.addComponent(new TextBox("Participant", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
        // contentPanel.addComponent(new TextBox("Weight",repartition.getWeight()));
         contentPanel.addComponent(new TextBox("Amout", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
-
-
+       */
 
 
         window.setComponent(contentPanel);
