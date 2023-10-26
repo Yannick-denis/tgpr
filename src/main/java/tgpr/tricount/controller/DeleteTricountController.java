@@ -1,4 +1,5 @@
 package tgpr.tricount.controller;
+import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
 
@@ -11,6 +12,7 @@ import static tgpr.framework.Controller.askConfirmation;
 public class DeleteTricountController {
     private Tricount tricount;
 
+    private Button button;
 
     public DeleteTricountController(String title, String destription, int creator) {
         this.tricount = new Tricount(title, destription, creator);
