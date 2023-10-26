@@ -41,13 +41,13 @@ public class view_tricountView extends DialogWindow {
         Panel panel = Panel.gridPanel(2, Margin.of(1));
 
 
-        new Label("Titre :").addTo(panel); // doit renvoyer le titre
+        new Label("Titre :").addTo(panel); // GET TITLE
         panel.addEmpty();
-        new Label ("Description :").addTo(panel); // doit renvoyer la description
+        new Label ("Description :").addTo(panel); // GET DESCRIPTION
         panel.addEmpty();
-        new Label("Create by :").addTo(panel); // doit renvoyer le user qui a creer le tricount
+        new Label("Create by :").addTo(panel); // GET CREATOR ID
         panel.addEmpty();
-        new Label("Date :").addTo(panel); // renvoi la date de creation
+        new Label("Date :").addTo(panel); // getCreatedAt
         panel.addEmpty();
         new Label("Total Expenses :").addTo(panel);// total des montants des dépsense de ce tricount
         panel.addEmpty();
@@ -73,6 +73,8 @@ public class view_tricountView extends DialogWindow {
 
         new Label("operations:").addTo(panel);
         panel.addEmpty();
+
+        // DOIT RECUPERER LA TABLE DES OPERATIONS DE CE TRICOUNT POUR L'AFFICHER
 
 //        var panel  = new Panel().fill();
 //        Border border = panel.withBorder(Borders.singleLine(" Operation"));
