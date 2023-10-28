@@ -9,16 +9,17 @@ import tgpr.tricount.view.TestView;
 import tgpr.tricount.view.ViewOperation;
 
 public class OperationController extends Controller {
-    private ViewOperation viewOperation;
+    private final ViewOperation viewOperation = new ViewOperation(this);
 
-    public OperationController(Operation operationController, Repartition repartition) {
-        viewOperation = new ViewOperation( operationController, repartition);
+    public OperationController() {
+
         // Vous pouvez ajouter d'autres initialisations si nécessaire
-        viewOperation.getClose().addListener(this::handleCloseButtonClick);
+      /*  viewOperation.getClose().addListener(this::handleCloseButtonClick);
         viewOperation.getEdit().addListener(this::handleEditButtonClick);
         viewOperation.getUp().addListener(this::handleUpButtonClick);
         viewOperation.getDown().addListener(this::handleDownButtonClick);
 
+       */
     }
 
 
@@ -59,7 +60,7 @@ public class OperationController extends Controller {
 
     @Override
     public Window getView() {
-        return new TestView(new TestController());
+        return viewOperation;
     }
 
     public ViewOperation getViewOperation() {

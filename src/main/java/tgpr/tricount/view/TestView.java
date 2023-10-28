@@ -21,7 +21,7 @@ public class TestView extends DialogWindow {
     private final Label lbl;
 
     public TestView(TestController controller) {
-        super("Test");
+        super("Coucou");
         setHints(List.of(Hint.EXPANDED));
 
         this.controller = controller;

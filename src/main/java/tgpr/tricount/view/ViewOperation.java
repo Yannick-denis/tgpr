@@ -2,6 +2,7 @@ package tgpr.tricount.view;
 import com.googlecode.lanterna.gui2.*;
 import tgpr.framework.ColumnSpec;
 import tgpr.framework.ObjectTable;
+import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
 
@@ -12,25 +13,23 @@ public class ViewOperation  extends BasicWindow {
     private Operation operation;
     private  Repartition repartition;
     private List<Expense> expenses;
-    private ObjectTable<Operation> table;
+    private final ObjectTable<Repartition> table;
     private Button up;
     private  Button down;
     private int index = 0;
     private  Button edit;
     private  Button close;
     private Operation controller;
-    public ViewOperation(/*List<Expense> expenses, */ Operation controller, Repartition repartition) {
+    public ViewOperation(/*List<Expense> expenses, */ OperationController controller) {
         super("View Expense Detail");
         //this.expenses = expenses;
-        this.controller = controller;
-        this.repartition = repartition;
-        setTitle(operation.getTitle());
+       // setTitle(operation.getTitle());
         setHints(List.of(Hint.EXPANDED));
         Panel root = new Panel();
         setComponent(root);
 
-        Panel fields = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
-
+        Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
+/*
         up = new Button("Up", this::moveUp);
         down = new Button("Down", this::moveDown);
         edit = new Button("Edit",this::getEdit);
@@ -47,41 +46,54 @@ public class ViewOperation  extends BasicWindow {
         if(index == expenses.size() -1){
             down.setEnabled(false);
         }
-        BasicWindow window = new BasicWindow();
+
         window.setComponent(buttonPanel);
+
+         */
         GridLayout gridLayout = new GridLayout(4);
 
-        Panel contentPanel = new Panel(gridLayout);
+        operation = Operation.getByKey(1);
+       // Panel contentPanel = new Panel(gridLayout);
         contentPanel.addComponent(new Label("Title:"));
-        contentPanel.addComponent(new Label(operation.getTitle()));
+        contentPanel.addComponent(new Label(operation.getTitle()).addTo(contentPanel));
         contentPanel.addComponent(new Label("Amount:"));
-        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount())));
+        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount())).addTo(contentPanel));
         contentPanel.addComponent(new Label("Date:"));
-        contentPanel.addComponent(new Label (String.valueOf(operation.getOperationDate())));
+        contentPanel.addComponent(new Label (String.valueOf(operation.getOperationDate())).addTo(contentPanel));
         contentPanel.addComponent(new Label("Paid by:"));
-        contentPanel.addComponent(new Label(operation.getInitiator().getFullName()));
-        new EmptySpace().addTo(root);
+        contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel));
+        new EmptySpace();
+     /*   BasicWindow window = new BasicWindow();
+        window.setComponent(contentPanel);
+
+      */
        contentPanel.addComponent(new Label("From whom:" ));
        table = new ObjectTable<>(
-               new ColumnSpec<>("Participant", o ->operation.getInitiator().getFullName()),
-               new ColumnSpec<>("Weight",w ->repartition.getWeight()),
-               new ColumnSpec<>("Amout",o ->operation.getAmount())
+               new ColumnSpec<>("Participant", Repartition::getUser),
+               new ColumnSpec<>("Weight", Repartition::getWeight)
+               //new ColumnSpec<>("Amout", Operation::getAmount)
               // new ColumnSpec<>(),
-
        );
 
-       /*
-        contentPanel.addComponent(new TextBox("Participant", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
+       contentPanel.addComponent(table);
+
+
+       // contentPanel.addComponent(new TextBox("Participant", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
        // contentPanel.addComponent(new TextBox("Weight",repartition.getWeight()));
-        contentPanel.addComponent(new TextBox("Amout", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
-       */
+        // contentPanel.addComponent(new TextBox("Amout", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
 
 
-        window.setComponent(contentPanel);
+/*
+
 
         MultiWindowTextGUI textGUI = null;
         textGUI.addWindowAndWait(window);
+
+ */
     }
+
+
+
 
     private void showExpense(Expense expense) {
         // Implement how to display the expense details on the UI
@@ -132,6 +144,7 @@ public class ViewOperation  extends BasicWindow {
     }
 
      */
+
     public Operation getController() {
         return controller;
     }
@@ -182,7 +195,6 @@ public class ViewOperation  extends BasicWindow {
 
     public static class Expense {
         private String paidBy;
-
         public Expense(String paidBy, double amount) {
             this.paidBy = paidBy;
         }
