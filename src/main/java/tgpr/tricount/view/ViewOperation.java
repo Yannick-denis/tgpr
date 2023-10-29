@@ -1,7 +1,10 @@
 package tgpr.tricount.view;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import tgpr.framework.ColumnSpec;
 import tgpr.framework.ObjectTable;
+import tgpr.framework.ViewManager;
 import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
@@ -27,17 +30,11 @@ public class ViewOperation  extends BasicWindow {
         setHints(List.of(Hint.EXPANDED));
         Panel root = new Panel();
         setComponent(root);
-
+        Panel content = new Panel().addTo(root).setLayoutManager(new LinearLayout(Direction.VERTICAL));
         Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
-/*
-        up = new Button("Up", this::moveUp);
-        down = new Button("Down", this::moveDown);
-        edit = new Button("Edit",this::getEdit);
-        close = new Button("Close", this::close);
 
-        Panel buttonPanel = new Panel();
-        buttonPanel.addComponent(up);
-        buttonPanel.addComponent(down);
+/*
+
 
         if (index == 0){
             up.setEnabled(false);
@@ -50,7 +47,7 @@ public class ViewOperation  extends BasicWindow {
         window.setComponent(buttonPanel);
 
          */
-        GridLayout gridLayout = new GridLayout(4);
+
 
         operation = Operation.getByKey(1);
        // Panel contentPanel = new Panel(gridLayout);
@@ -62,21 +59,22 @@ public class ViewOperation  extends BasicWindow {
         contentPanel.addComponent(new Label (String.valueOf(operation.getOperationDate())).addTo(contentPanel));
         contentPanel.addComponent(new Label("Paid by:"));
         contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel));
-        new EmptySpace();
+        new EmptySpace().addTo(contentPanel);
      /*   BasicWindow window = new BasicWindow();
         window.setComponent(contentPanel);
 
       */
-       contentPanel.addComponent(new Label("From whom:" ));
-       table = new ObjectTable<>(
+        Label nameTabel = new Label("From whom:");
+        root.addComponent(nameTabel,LinearLayout.createLayoutData(LinearLayout.Alignment.Beginning));
+        table = new ObjectTable<>(
                new ColumnSpec<>("Participant", Repartition::getUser),
-               new ColumnSpec<>("Weight", Repartition::getWeight)
-               //new ColumnSpec<>("Amout", Operation::getAmount)
-              // new ColumnSpec<>(),
-       );
+               new ColumnSpec<>("Weight", Repartition::getWeight),
+               new ColumnSpec<>("Amout", r -> repartition.getOperation().getAmount())
+        );
 
-       contentPanel.addComponent(table);
 
+        root.addComponent(table);
+        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 4));
 
        // contentPanel.addComponent(new TextBox("Participant", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
        // contentPanel.addComponent(new TextBox("Weight",repartition.getWeight()));
@@ -90,6 +88,16 @@ public class ViewOperation  extends BasicWindow {
         textGUI.addWindowAndWait(window);
 
  */
+        GridLayout gridLayout = new GridLayout(4);
+        Panel buttonPanel = new Panel();
+         up = new Button("Up", this::moveUp);
+         down = new Button("Down", this::moveDown);
+         edit = new Button("Edit", this::getEdit);
+         close = new Button("Close", this::getClose);
+
+
+        buttonPanel.addComponent(up );
+        buttonPanel.addComponent(down);
     }
 
 
