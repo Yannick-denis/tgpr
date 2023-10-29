@@ -7,9 +7,6 @@ import tgpr.tricount.view.AddTemplateView;
 public class AddTemplateController extends Controller {
     private AddTemplateView addTemplateView;
 
-    public AddTemplateController(){
-
-    }
 
     @Override
     public Window getView() {

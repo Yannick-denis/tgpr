@@ -8,6 +8,7 @@ import java.util.List;
 
 public class AddTemplateView extends BasicWindow {
     private AddTemplateController addTemplateController;
+    // private ViewTemplate viewTemplate;
     private final TextBox txtTitle;
    public  AddTemplateView(AddTemplateController addTemplateController){
       super("Create a new Template");
@@ -24,9 +25,25 @@ public class AddTemplateView extends BasicWindow {
 
        Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
-       Button btnCreate = new Button("Create").addTo(buttons);
-       Button btnCancel = new Button("Cancel").addTo(buttons);
+       Button btnCreate = new Button("Create", () -> {
+           String enteredTitle = txtTitle.getText();
+           saveTitle(enteredTitle);
+       }).addTo(buttons);
+           Button btnCancel = new Button("Cancel").addTo(buttons);
 
+       /*
+       //Devrais permettre d'aller à la page precedente à tester quand j'aurais les pages.
+       Button btnCancel = new Button("Cancel", () ->{
+                previousPage.setVisible(true); // Afficher la page précédente
+                setVisible(false);
+        }).addTo(buttons);
+
+        */
+
+
+   }
+   // Méthode saveTitle sauvegardera le titre dans le template
+   private void saveTitle(String title){
 
    }
 }
