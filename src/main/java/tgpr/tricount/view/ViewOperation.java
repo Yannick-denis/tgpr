@@ -3,6 +3,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import tgpr.framework.ColumnSpec;
+import tgpr.framework.Layouts;
 import tgpr.framework.ObjectTable;
 import tgpr.framework.ViewManager;
 import tgpr.tricount.controller.OperationController;
@@ -19,11 +20,10 @@ public class ViewOperation  extends BasicWindow {
     private final ObjectTable<Repartition> table;
     private Button up;
     private  Button down;
-    private int index = 0;
     private  Button edit;
     private  Button close;
     private Operation controller;
-    public ViewOperation(/*List<Expense> expenses, */ OperationController controller) {
+    public ViewOperation(/*List<Expense> expenses, */ OperationController controller ) {
         super("View Expense Detail");
         //this.expenses = expenses;
        // setTitle(operation.getTitle());
@@ -49,7 +49,7 @@ public class ViewOperation  extends BasicWindow {
          */
 
 
-        operation = Operation.getByKey(1);
+        operation = Operation.getByKey(2);
        // Panel contentPanel = new Panel(gridLayout);
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(operation.getTitle()).addTo(contentPanel));
@@ -65,16 +65,18 @@ public class ViewOperation  extends BasicWindow {
 
       */
         Label nameTabel = new Label("From whom:");
+        Panel dbTable = new Panel();
         root.addComponent(nameTabel,LinearLayout.createLayoutData(LinearLayout.Alignment.Beginning));
         table = new ObjectTable<>(
                new ColumnSpec<>("Participant", Repartition::getUser),
                new ColumnSpec<>("Weight", Repartition::getWeight),
-               new ColumnSpec<>("Amout", r -> repartition.getOperation().getAmount())
+               new ColumnSpec<>("Amout", repartition -> repartition.getOperation().getAmount())
         );
 
 
         root.addComponent(table);
-        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 4));
+        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 3));
+
 
        // contentPanel.addComponent(new TextBox("Participant", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
        // contentPanel.addComponent(new TextBox("Weight",repartition.getWeight()));
@@ -88,16 +90,19 @@ public class ViewOperation  extends BasicWindow {
         textGUI.addWindowAndWait(window);
 
  */
+        new EmptySpace().addTo(content);
+        Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
+                .setLayoutData(Layouts.LINEAR_END).addTo(root);
         GridLayout gridLayout = new GridLayout(4);
-        Panel buttonPanel = new Panel();
-         up = new Button("Up", this::moveUp);
-         down = new Button("Down", this::moveDown);
-         edit = new Button("Edit", this::getEdit);
-         close = new Button("Close", this::getClose);
-
-
-        buttonPanel.addComponent(up );
-        buttonPanel.addComponent(down);
+        //Panel buttonPanel = new Panel();
+         up = new Button("Up").addTo(buttons);
+         buttons.addComponent(up );
+         down = new Button("Down").addTo(buttons);
+         buttons.addComponent(down);
+         edit = new Button("Edit", this::getEdit).addTo(buttons);
+         buttons.addComponent(edit);
+         close = new Button("Close", this::getClose).addTo(buttons);
+         buttons.addComponent(up);
     }
 
 
@@ -108,29 +113,7 @@ public class ViewOperation  extends BasicWindow {
 
     }
 
-    private void moveUp() {
-        if (index > 0) {
-            index--;
-            showExpense(expenses.get(index));
-            down.setEnabled(true);
-        }
-        if (index == 0) {
-            up.setEnabled(false);
-        }
-    }
 
-    private void moveDown() {
-        if (index < expenses.size() - 1) {
-           index++;
-            showExpense(expenses.get(index));
-            up.setEnabled(true);
-        }
-        if (index == expenses.size() - 1) {
-            down.setEnabled(false);
-        }
-
-
-    }
 
   /*  public void addExpense(String paidBy, double amount) {
         amount = operation.getAmount();
@@ -152,6 +135,17 @@ public class ViewOperation  extends BasicWindow {
     }
 
      */
+
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public ObjectTable<Repartition> getTable() {
+        return table;
+    }
+
+
 
     public Operation getController() {
         return controller;
