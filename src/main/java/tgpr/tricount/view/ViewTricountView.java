@@ -1,17 +1,14 @@
 package tgpr.tricount.view;
 
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
-import com.googlecode.lanterna.input.KeyStroke;
-import tgpr.framework.ColumnSpec;
 import tgpr.framework.Margin;
 import tgpr.framework.ObjectTable;
 import tgpr.tricount.model.Operation;
 
 import java.util.List;
 
-public class view_tricountView extends DialogWindow {
+public class ViewTricountView extends DialogWindow {
     private final Button btnPost = new Button("Post");
     private final Label errBody = new Label("");
     private final CheckBox chkPrivate = new CheckBox();
@@ -21,7 +18,7 @@ public class view_tricountView extends DialogWindow {
 
 
 
-    public view_tricountView(String viewTricountDetails) {
+    public ViewTricountView(String viewTricountDetails) {
         super(viewTricountDetails);
 
         setHints(List.of(Hint.CENTERED, Hint.MODAL));
