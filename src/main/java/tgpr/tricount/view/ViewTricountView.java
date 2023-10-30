@@ -5,6 +5,7 @@ import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Margin;
 import tgpr.framework.ObjectTable;
 import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Tricount;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class ViewTricountView extends DialogWindow {
     private final Label errBody = new Label("");
     private final CheckBox chkPrivate = new CheckBox();
     private ObjectTable<Operation> operationsTable;
+    private Tricount triC;
 
 
 
@@ -27,24 +29,24 @@ public class ViewTricountView extends DialogWindow {
         Panel root = Panel.verticalPanel();
         setComponent(root);
 
-        createFields().addTo(root);
+        createFields(triC).addTo(root);
         createOperationsPanel().addTo(root);
         createButtons().addTo(root);
 
 
     }
 
-    private Panel createFields() {
+    private Panel createFields(Tricount triC) {
         Panel panel = Panel.gridPanel(2, Margin.of(1));
 
 
-        new Label("Titre :").addTo(panel); // GET TITLE
+        new Label("Titre :"+triC.getTitle()).addTo(panel); // GET TITLE
         panel.addEmpty();
-        new Label ("Description :").addTo(panel); // GET DESCRIPTION
+        new Label ("Description :"+triC.getDescription()).addTo(panel); // GET DESCRIPTION
         panel.addEmpty();
-        new Label("Create by :").addTo(panel); // GET CREATOR ID
+        new Label("Create by :"+triC.getCreator()).addTo(panel); // GET CREATOR ID
         panel.addEmpty();
-        new Label("Date :").addTo(panel); // getCreatedAt
+        new Label("Date :"+triC.getCreatedAt()).addTo(panel); // getCreatedAt
         panel.addEmpty();
         new Label("Total Expenses :").addTo(panel);// total des montants des dépsense de ce tricount
         panel.addEmpty();
@@ -101,15 +103,15 @@ public class ViewTricountView extends DialogWindow {
         return panel;
     }
     private void view_balance(){
-        //renverra vers la classe view balance.controller
+        //renverra vers la classe ViewBalanceController
 
     }
     private void add_operation(){
-        //renverra vers la classe view add_operation.controller
+        //renverra vers la classe  AddOperationController
 
     }
     private void edit_tricount(){
-        //renverra vers la classe view edit_tricount.controller
+        //renverra vers la classe  EditTricountController
 
     }
 
