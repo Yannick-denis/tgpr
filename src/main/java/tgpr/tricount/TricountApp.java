@@ -2,7 +2,7 @@ package tgpr.tricount;
 
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //<<<<<<< HEAD
 //<<<<<<< HEAD
 import tgpr.tricount.controller.AddParticipantController;
@@ -15,7 +15,7 @@ import tgpr.tricount.controller.AddTricountControler;
 import tgpr.tricount.controller.TestController;
 import tgpr.tricount.model.User;
 
-=======
+//=======
 
 
 
@@ -40,7 +40,7 @@ import tgpr.tricount.controller.LoginController;
 import tgpr.tricount.controller.TestController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
->>>>>>> abdd79b1e57528a825f1675de0b797dc20d75570
+//>>>>>>> abdd79b1e57528a825f1675de0b797dc20d75570
 
 public class TricountApp {
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";
@@ -52,13 +52,13 @@ public class TricountApp {
         else {
 //<<<<<<< HEAD
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
         //    Controller.navigateTo(new AddParticipantController(4,5)); //à changer dans edit (POUR MARGAUX)
           //  Controller.navigateTo(new DeleteParticipantController(2,1,true));
 //=======
             Controller.navigateTo(new AddTricountControler(User.getByKey(1)));
 //>>>>>>> feat_add_tricount
-=======
+//=======
 
 //            Controller.navigateTo(new AddParticipantController(4,5)); //à changer dans edit (POUR MARGAUX)
 //            Controller.navigateTo(new DeleteParticipantController(2,1,true));
@@ -75,7 +75,7 @@ public class TricountApp {
 //pour edit operation conctructeur avec tricount + operation
 
 
->>>>>>> abdd79b1e57528a825f1675de0b797dc20d75570
+//>>>>>>> abdd79b1e57528a825f1675de0b797dc20d75570
         }
     }
 }
