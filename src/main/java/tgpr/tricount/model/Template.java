@@ -98,6 +98,10 @@ public class Template extends Model {
         return queryOne(Template.class, "select * from templates where id=:id",
                 new Params("id", id));
     }
+    public static List<Template> getByTricount(int id) {
+        return queryList(Template.class, "select * from templates where tricount=:id",
+                new Params("id", id));
+    }
 
     public static Template getByTitle(int id, String title) {
         return queryOne(Template.class, "select * from templates where tricount=:id and title=:title",

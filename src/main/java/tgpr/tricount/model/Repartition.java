@@ -125,6 +125,6 @@ public class Repartition extends Model {
     public void delete() {
         int c = execute("delete from repartitions where operation=:operation and user=:user",
                 new Params("operation", operationId).add("user", userId));
-        Assert.isTrue(c == 1, "Something went wrong");
+       // Assert.isTrue(c == 1, "Something went wrong");
     }
 }

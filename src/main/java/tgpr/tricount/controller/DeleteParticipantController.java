@@ -11,24 +11,28 @@ public class DeleteParticipantController extends Controller {
 
  private  Subscription sub;
  private boolean beDeleted;
-    public DeleteParticipantController(int idTricount,int idUser ,boolean bedeleted){
+    public DeleteParticipantController(int idTricount,int idUser ,boolean beDeleted){
         this.sub=new Subscription(idTricount,idUser);
+        this.beDeleted=beDeleted;
         delete();
 
     }
 
     private void delete(){
+
         if (beDeleted){
-            sub.delete();
+            try {
+                sub.delete();
+            }catch (Exception e){
+                showError("this user be not deledeted because not in tricount");
+            }
             sub=null;
         }
         else {
             showError("this user be not deledeted");
         }
     }
-
-
-
+ 
 
     @Override
     public Window getView() {
