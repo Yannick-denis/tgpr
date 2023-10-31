@@ -1,12 +1,20 @@
 package tgpr.tricount.view;
 
+import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import tgpr.framework.Controller;
+import tgpr.framework.Layouts;
 import tgpr.framework.Margin;
 import tgpr.framework.ObjectTable;
+import tgpr.tricount.controller.ViewTricoutController;
+import tgpr.tricount.model.Comparateur;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
+import tgpr.tricount.model.User;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ViewTricountView extends DialogWindow {
@@ -15,77 +23,112 @@ public class ViewTricountView extends DialogWindow {
     private final CheckBox chkPrivate = new CheckBox();
     private ObjectTable<Operation> operationsTable;
     private Tricount triC;
+    private List<Operation >list;
+    private User me;
+private ViewTricoutController controller;
 
 
 
 
-
-    public ViewTricountView(String viewTricountDetails) {
-        super(viewTricountDetails);
-
+    public ViewTricountView(ViewTricoutController controller) {
+        super("View Details Tricount");
+        this.controller=controller;
         setHints(List.of(Hint.CENTERED, Hint.MODAL));
         setCloseWindowWithEscape(true);
-
         Panel root = Panel.verticalPanel();
         setComponent(root);
+        triC=controller.getTricount();
+        list=triC.getOperations();
+        this.me=controller.getMe();
 
         createFields(triC).addTo(root);
-        createOperationsPanel().addTo(root);
+       tableaudesOperation().addTo(root);
         createButtons().addTo(root);
 
+
+
+        setHints(List.of(Hint.CENTERED));
+        //replit la list des operation
+
+        setComponent(root);
 
     }
 
     private Panel createFields(Tricount triC) {
         Panel panel = Panel.gridPanel(2, Margin.of(1));
 
-
-        new Label("Titre :"+triC.getTitle()).addTo(panel); // GET TITLE
+        new Label("Titre :").addTo(panel);
+        new Label(triC.getTitle()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
+        new Label ("Description :").addTo(panel);
+        new Label(triC.getDescription()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
+        new Label("Create by :").addTo(panel);
+        new Label(triC.getCreator().getFullName()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
+        new Label("Date :").addTo(panel);
+        new Label(triC.getCreatedAt().asString()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
+        new Label("Total Expenses :").addTo(panel);
+        new Label(totalExpense()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
+        new Label("My Expenses :").addTo(panel);
+        new Label(myExpense()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
+        new Label("My Balances:").addTo(panel);//algo a creer
         panel.addEmpty();
-        new Label ("Description :"+triC.getDescription()).addTo(panel); // GET DESCRIPTION
-        panel.addEmpty();
-        new Label("Create by :"+triC.getCreator()).addTo(panel); // GET CREATOR ID
-        panel.addEmpty();
-        new Label("Date :"+triC.getCreatedAt()).addTo(panel); // getCreatedAt
-        panel.addEmpty();
-        new Label("Total Expenses :").addTo(panel);// total des montants des dépsense de ce tricount
-        panel.addEmpty();
-        new Label("My Expenses :").addTo(panel);// total des dépenses de l'utilisateur courant
-        panel.addEmpty();
-        new Label("My Balances:").addTo(panel);// total de montants payes moins le total des dépenses que l'user courant a faite renvois ce qu'il doit paye ou ce qu'il doit recevoir
-        panel.addEmpty();
-
-
-
-       // errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
-
-
 
 
       //  errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
 
         return panel;
     }
-    private Panel createOperationsPanel() {
+//    private Panel createOperationsPanel() {
+//
+//        Panel panel = Panel.gridPanel(2, Margin.of(1));
+//
+//        new Label("operations:").addTo(panel);
+//        panel.addEmpty();
+//
+//        // DOIT RECUPERER LA TABLE DES OPERATIONS DE CE TRICOUNT POUR L'AFFICHER
+//
+////        var panel  = new Panel().fill();
+////        Border border = panel.withBorder(Borders.singleLine(" Operation"));
+//
+//      //  operationsTable = new ObjectTable<>(
+////               new ColumnSpec<>("Operation",
+////                new ColumnSpec<>("Amount",
+////                new ColumnSpec<>("Paid by",
+////                       .setOverflowHandling(ColumnSpec.OverflowHandling.Wrap),
+////                new ColumnSpec<>("Date")).addTo(panel);
+//// code du DIsplayMemberView du TUTO
+//
+//        return panel;
+//    }
 
-        Panel panel = Panel.gridPanel(2, Margin.of(1));
+    private Panel tableaudesOperation() {
+        //panel a 4 colone pour cree le tableau  avec les operation
+        /*
+        il faut s'arrange pour que le 4 label ajoute dans la foreach objet table
+         */
 
-        new Label("operations:").addTo(panel);
-        panel.addEmpty();
 
-        // DOIT RECUPERER LA TABLE DES OPERATIONS DE CE TRICOUNT POUR L'AFFICHER
-
-//        var panel  = new Panel().fill();
-//        Border border = panel.withBorder(Borders.singleLine(" Operation"));
-
-      //  operationsTable = new ObjectTable<>(
-//               new ColumnSpec<>("Operation",
-//                new ColumnSpec<>("Amount",
-//                new ColumnSpec<>("Paid by",
-//                       .setOverflowHandling(ColumnSpec.OverflowHandling.Wrap),
-//                new ColumnSpec<>("Date")).addTo(panel);
-// code du DIsplayMemberView du TUTO
-
+        Panel panel = new Panel().setLayoutManager(new GridLayout(4).setTopMarginSize(1).setVerticalSpacing(0))
+                .setLayoutData(Layouts.LINEAR_CENTER);
+        new Label("Operation           ").addTo(panel).addStyle(SGR.UNDERLINE);
+        new Label("      Amount").addTo(panel).addStyle(SGR.UNDERLINE);
+        new Label("Pay by    ").addTo(panel).addStyle(SGR.UNDERLINE);
+        new Label("Date").addTo(panel).addStyle(SGR.UNDERLINE);
+        //comparateur implemente comparable qu'on a vu en pro2 pour dire a la methode sort sur quoi comparer
+        //trie avec la date la plus recent en premier
+        list.sort(new Comparateur());
+//        ObjectTable<Operation> table = new ObjectTable<>(
+//                new ColumnSpec<>("Operation",
+//                        new ColumnSpec<>("Amount",
+//                                new ColumnSpec<>("Paid by",
+//                                        .setOverflowHandling(ColumnSpec.OverflowHandling.Wrap),
+//                                new ColumnSpec<>("Date")).addTo(panel);
+        for (Operation elem:list){
+            new Label(elem.getTitle()).addTo(panel);
+            new Label("    "+new DecimalFormat("#.0#").format(elem.getAmount())+"€").addTo(panel);
+            new Label(elem.getInitiator().getFullName()).addTo(panel);
+            //substrig garde entre les index 0 et 10 pour enlever l'heure
+            new Label(elem.getCreatedAt().asString().substring(0,10)).addTo(panel);
+        }
         return panel;
     }
 
@@ -103,16 +146,39 @@ public class ViewTricountView extends DialogWindow {
         return panel;
     }
     private void view_balance(){
-        //renverra vers la classe ViewBalanceController
+      //  Controller.navigateTo(new ViewBalanceController);
 
     }
     private void add_operation(){
-        //renverra vers la classe  AddOperationController
+       // Controller.navigateTo(new AddOperationController);
 
     }
     private void edit_tricount(){
-        //renverra vers la classe  EditTricountController
 
+       // Controller.navigateTo(new EditTricountController);
+
+    }
+
+    private String totalExpense(){
+        String res;
+        double resdouble=0;
+        for(Operation elem:list){
+            resdouble+= elem.getAmount();
+        }
+        res =new DecimalFormat("#.0#").format(resdouble);
+        return res;
+    }
+
+    private String myExpense(){
+        String res;
+        double resdouble=0;
+        for(Operation elem:list){
+          if(me.getId()==elem.getInitiatorId()){
+              resdouble+= elem.getAmount();
+          }
+        }
+        res =new DecimalFormat("#.0#").format(resdouble);
+        return res;
     }
 
 
