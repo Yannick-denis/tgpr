@@ -48,7 +48,7 @@ private ViewTricoutController controller;
 
 
         setHints(List.of(Hint.CENTERED));
-        //replit la list des operation
+        //remplit la list des operation
 
         setComponent(root);
 
@@ -70,35 +70,20 @@ private ViewTricoutController controller;
         new Label("My Expenses :").addTo(panel);
         new Label(myExpense()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
         new Label("My Balances:").addTo(panel);//algo a creer
+
+        /* addition des participants * leur propre poids = X
+        * total expenses /X = les parts égales Y
+        * Y * le poids du user connecté = Z
+        * Z - My epxenses = Si possitif argent a recevoir si negatif argent a payer 
+        *
+        *
+        *
+        * */
         panel.addEmpty();
-
-
-      //  errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
 
         return panel;
     }
-//    private Panel createOperationsPanel() {
-//
-//        Panel panel = Panel.gridPanel(2, Margin.of(1));
-//
-//        new Label("operations:").addTo(panel);
-//        panel.addEmpty();
-//
-//        // DOIT RECUPERER LA TABLE DES OPERATIONS DE CE TRICOUNT POUR L'AFFICHER
-//
-////        var panel  = new Panel().fill();
-////        Border border = panel.withBorder(Borders.singleLine(" Operation"));
-//
-//      //  operationsTable = new ObjectTable<>(
-////               new ColumnSpec<>("Operation",
-////                new ColumnSpec<>("Amount",
-////                new ColumnSpec<>("Paid by",
-////                       .setOverflowHandling(ColumnSpec.OverflowHandling.Wrap),
-////                new ColumnSpec<>("Date")).addTo(panel);
-//// code du DIsplayMemberView du TUTO
-//
-//        return panel;
-//    }
+
 
     private Panel tableaudesOperation() {
         //panel a 4 colone pour cree le tableau  avec les operation
@@ -137,9 +122,9 @@ private ViewTricoutController controller;
         var panel = Panel.horizontalPanel().center();
 
         //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
-        new Button("Balance", this::view_balance).addTo(panel);//renvoi vers view_balance
-        new Button("New expense", this::add_operation).addTo(panel); //renvoi vers add_operation
-        new Button("Edit tricount", this::edit_tricount).addTo(panel);// doit renvoyer vers edit_tricount
+        new Button("Balance", this::view_balance).addTo(panel);
+        new Button("New expense", this::add_operation).addTo(panel);
+        new Button("Edit tricount", this::edit_tricount).addTo(panel);
         new Button("Close", this::close).addTo(panel);
 
 
