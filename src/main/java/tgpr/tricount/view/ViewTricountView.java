@@ -74,7 +74,7 @@ private ViewTricoutController controller;
         /* addition des participants * leur propre poids = X
         * total expenses /X = les parts égales Y
         * Y * le poids du user connecté = Z
-        * Z - My epxenses = Si possitif argent a recevoir si negatif argent a payer 
+        * Z - My epxenses = Si possitif argent a payer si negatif argent  a recevoir
         *
         *
         *
