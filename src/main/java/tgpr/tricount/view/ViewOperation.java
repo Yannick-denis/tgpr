@@ -22,7 +22,7 @@ public class ViewOperation  extends BasicWindow {
     private  Button down;
     private  Button edit;
     private  Button close;
-    private Operation controller;
+    private OperationController controller;
     public ViewOperation(/*List<Expense> expenses, */ OperationController controller ) {
         super("View Expense Detail");
         //this.expenses = expenses;
@@ -33,23 +33,7 @@ public class ViewOperation  extends BasicWindow {
         Panel content = new Panel().addTo(root).setLayoutManager(new LinearLayout(Direction.VERTICAL));
         Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
 
-/*
-
-
-        if (index == 0){
-            up.setEnabled(false);
-        }
-
-        if(index == expenses.size() -1){
-            down.setEnabled(false);
-        }
-
-        window.setComponent(buttonPanel);
-
-         */
-
-
-        operation = Operation.getByKey(2);
+        operation = Operation.getByKey(1);
        // Panel contentPanel = new Panel(gridLayout);
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(operation.getTitle()).addTo(contentPanel));
@@ -60,44 +44,23 @@ public class ViewOperation  extends BasicWindow {
         contentPanel.addComponent(new Label("Paid by:"));
         contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel));
         new EmptySpace().addTo(contentPanel);
-     /*   BasicWindow window = new BasicWindow();
-        window.setComponent(contentPanel);
 
-      */
         Label nameTabel = new Label("From whom:");
-        Panel dbTable = new Panel();
-        root.addComponent(nameTabel,LinearLayout.createLayoutData(LinearLayout.Alignment.Beginning));
+        root.addComponent(nameTabel);
         table = new ObjectTable<>(
-               new ColumnSpec<>("Participant", Repartition::getUser),
-               new ColumnSpec<>("Weight", Repartition::getWeight),
+               new ColumnSpec<>("Participant", repartition -> repartition.getOperation().getInitiator().getFullName()),
+               new ColumnSpec<>("Weight",Repartition::getWeight),
                new ColumnSpec<>("Amout", repartition -> repartition.getOperation().getAmount())
-        );
-
-
-        root.addComponent(table);
+        ).addTo(contentPanel);
         table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 3));
+        root.addComponent(table);
 
-
-       // contentPanel.addComponent(new TextBox("Participant", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
-       // contentPanel.addComponent(new TextBox("Weight",repartition.getWeight()));
-        // contentPanel.addComponent(new TextBox("Amout", TextBox.Style.valueOf(operation.getInitiator().getFullName())));
-
-
-/*
-
-
-        MultiWindowTextGUI textGUI = null;
-        textGUI.addWindowAndWait(window);
-
- */
         new EmptySpace().addTo(content);
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
                 .setLayoutData(Layouts.LINEAR_END).addTo(root);
-        GridLayout gridLayout = new GridLayout(4);
-        //Panel buttonPanel = new Panel();
-         up = new Button("Up").addTo(buttons);
+         up = new Button("Up",this::moveUp).addTo(buttons);
          buttons.addComponent(up );
-         down = new Button("Down").addTo(buttons);
+         down = new Button("Down", this::moveDown).addTo(buttons);
          buttons.addComponent(down);
          edit = new Button("Edit", this::getEdit).addTo(buttons);
          buttons.addComponent(edit);
@@ -135,7 +98,12 @@ public class ViewOperation  extends BasicWindow {
     }
 
      */
-
+    private void moveUp() {
+       controller.moveUp();
+    }
+    public void moveDown() {
+        controller.moveDown();
+    }
 
     public Operation getOperation() {
         return operation;
@@ -147,11 +115,11 @@ public class ViewOperation  extends BasicWindow {
 
 
 
-    public Operation getController() {
+    public OperationController getController() {
         return controller;
     }
 
-    public void setController(Operation controller) {
+    public void setController(OperationController controller) {
         this.controller = controller;
     }
 

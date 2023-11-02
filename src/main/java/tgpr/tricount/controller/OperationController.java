@@ -26,23 +26,23 @@ public class OperationController extends Controller {
 
     }
 
-    private void moveUp() {
-        while (expenses.size() -1 < index) {
+    public void moveUp() {
+        while (expenses.size() < index) {
             index--;
             //showExpense(expenses.get(index));
             viewOperation.getDown().setEnabled(true);
         }
-        if (index == expenses.size() -1) {
+        if (index == expenses.size()){
             viewOperation.getUp().setEnabled(false);
         }
     }
-    private void moveDown() {
-        while (index < expenses.size() - 1) {
+    public void moveDown() {
+        while (index < expenses.size()) {
             index++;
             //showExpense(expenses.get(index));
             viewOperation.getUp().setEnabled(true);
         }
-        if (index == expenses.size() - 1) {
+        if (index == expenses.size()) {
             viewOperation.getDown().setEnabled(false);
             viewOperation.getUp();
         }
@@ -50,7 +50,7 @@ public class OperationController extends Controller {
 
     }
 
-    private void handleCloseButtonClick(Button button) {
+    public void handleCloseButtonClick(Button button) {
         // Logique à exécuter lorsque le bouton "Close" est cliqué
         // Par exemple, fermer la fenêtre ou effectuer d'autres actions
         if (button == viewOperation.getClose()){
@@ -58,7 +58,7 @@ public class OperationController extends Controller {
         }
     }
 
-    private void handleEditButtonClick(Button button) {
+    public void handleEditButtonClick(Button button) {
         // Logique à exécuter lorsque le bouton "Edit" est cliqué
         // Par exemple, ouvrir une vue d'édition
         if (button == viewOperation.getEdit()){
@@ -66,7 +66,7 @@ public class OperationController extends Controller {
         }
     }
 
-    private void handleUpButtonClick(Button button) {
+    public void handleUpButtonClick(Button button) {
         // Logique à exécuter lorsque le bouton "Up" est cliqué
         // Par exemple, passer à l'élément précédent de la liste d'expenses
         if (button == viewOperation.getUp()){
@@ -74,7 +74,7 @@ public class OperationController extends Controller {
         }
     }
 
-    private void handleDownButtonClick(Button button) {
+    public void handleDownButtonClick(Button button) {
         // Logique à exécuter lorsque le bouton "Down" est cliqué
         // Par exemple, passer à l'élément suivant de la liste d'expenses
         if (button == viewOperation.getDown()){
