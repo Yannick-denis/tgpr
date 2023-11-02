@@ -1,117 +1,108 @@
 package tgpr.tricount.view;
-
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.menu.Menu;
 import com.googlecode.lanterna.gui2.menu.MenuBar;
+import com.googlecode.lanterna.gui2.menu.MenuItem;
 import tgpr.framework.*;
 import tgpr.tricount.controller.TricountListController;
+import tgpr.tricount.model.Security;
 import tgpr.tricount.model.Tricount;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
-
-
 public class TricountListView extends BasicWindow {
-
-
     private final TricountListController controller;
     private final List<Tricount> tricountList = Tricount.getAll();
     private final Panel pnlBody;
     private final Panel pnlEnTete;
     private final Panel pnlBasDePage;
+    private final Panel pnlProfile;
     private final TextBox filter;
-    private  String search;
+    private final Paginator pagination;
+    private final Menu menuFile;
     private final Button createTricount;
-    //private final Paginator pagination;
-
-
-
-
     public TricountListView(TricountListController controller) {
         this.controller = controller;
-
-        setTitle("pas de titre");
+        setTitle(getTitleWithUser());
         setHints(List.of(Hint.EXPANDED));
-
-        Panel root = new Panel();
+        Panel root = new Panel().setLayoutManager(new BorderLayout());
         setComponent(root);
 
 
-        Component MenuBar = new MenuBar();
+
 
         pnlEnTete = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
-                .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
+                .setLayoutData(Layouts.LINEAR_BEGIN);
+        root.addComponent(pnlEnTete, BorderLayout.Location.TOP);
+
+        MenuBar menuBar = new MenuBar().addTo(pnlEnTete);
+        menuFile = new Menu("File");
+        menuBar.add(menuFile);
+        MenuItem menuprofile = new MenuItem("View Profile" , new profileView("djhdjd"));
+        menuFile.add(menuprofile);
+        new EmptySpace().addTo(pnlEnTete);
+        pnlProfile = Panel.verticalPanel();
+
+
+
         pnlEnTete.addComponent(new Label("filter:"));
-        filter = new TextBox().addTo(pnlEnTete).sizeTo(20).setTextChangeListener((txt, filter) -> filterRecherche(txt));
+        filter = new TextBox().addTo(pnlEnTete).sizeTo(20).setTextChangeListener((txt, filter) -> reloadData());
         filter.addTo(pnlEnTete);
-//        new Label("Filter:").addTo(pnlEnTete);
-//        filter.addTo(pnlEnTete).takeFocus().setTextChangeListener((txt, filter) -> reloadData());
+        pnlBody = Panel.gridPanel(3, Spacing.of(0) );
+        root.addComponent(pnlBody, BorderLayout.Location.CENTER);
 
-
-        pnlBody = Panel.gridPanel(3, Spacing.of(0) ).addTo(root);
-
-
-
-//        root.withBorder(pnlBody.withBorder(Borders.singleLine()));
-
-
-//        new EmptySpace().addTo(root);
-//        table = new ObjectTable<>(
-//                new ColumnSpec<>("titre",Tricount::getTitle),
-//                new ColumnSpec<>("descr",Tricount::getDescription)
-//        );
-//        root.addComponent(table);
-
-
-
-//        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(),15));
+        pnlBasDePage = new Panel().setLayoutManager(new BorderLayout());
+        root.addComponent(pnlBasDePage, BorderLayout.Location.BOTTOM);
+        createTricount = new Button("Create a new Tricount");
+        pnlBasDePage.addComponent(createTricount, BorderLayout.Location.LEFT);
+        pagination = new Paginator(this,12,this::pageChanged);
+        pnlBasDePage.addComponent(pagination, BorderLayout.Location.RIGHT);
         reloadData();
-        new EmptySpace().addTo(root);
-        pnlBasDePage = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
-                .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
-        new EmptySpace().addTo(root);
-        createTricount = new Button("Create a new Tricount").addTo(root);
-//        pagination = new Paginator(this,12,Tricount.getPaginated(1,)).addTo(root);
-//        int i = ;
-//        pagination.setCount(30);
+
     }
-    public void filterRecherche(String txt){
-        search = txt;
-        List<Tricount> list = new ArrayList<>();
-        if (!txt.isEmpty()){
-            for (int i = 0 ; i < tricountList.size() ; i++){
-                if (tricountList.get(i).tricountFilter(txt))
-                    list.add(tricountList.get(i));
-            }
+
+        public void pageChanged ( int page){
+            // Remarque: les pages sont indexées à partir de zéro
+            System.out.println("L'utilisateur a demandé la page " + (page + 1));
+            // aller en db pour récupérer les tricounts de la page courante (limit)
+            // appeler reloadData() pour afficher
+            reloadData();
         }
-        Tricount.getAll();
-    }
+        public void reloadData () {
+            var tricounts = controller.getTricounts(filter.getText());
+            pagination.setCount(tricounts.size());
+            pnlBody.removeAllComponents();
+            int start = pagination.getStart();
+            int end = Math.min(start + 12, tricounts.size());
+            for (int i = start; i < end; ++i) {
+                var tricount = tricounts.get(i);
+                Panel p = Panel.verticalPanel();
+                new Label(tricount.getTitle()).setForegroundColor(TextColor.ANSI.BLUE).center().addTo(p);
+                new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).setForegroundColor(TextColor.ANSI.BLACK_BRIGHT).center().addTo(p);
+                new Label("Created By " + tricount.getCreator().getFullName()).center().addTo(p);
+                int nbrParticipant = tricount.getParticipants().size();
+                if ((nbrParticipant - 1) == 0) {
+                    new Label("with no friends ").center().addTo(p);
+                } else {
+                    new Label("with " + (nbrParticipant - 1) + "friends ").center().addTo(p);
+                }
+                new Button("Open").center().addTo(p);
+                p.sizeTo(35, 5);
+                pnlBody.addComponent(p.withBorder(Borders.singleLine()));
+                }
 
-    public void reloadData() {
-//      table.clear();
-        var tricounts = controller.getTricounts(filter.getText());
-//        table.add(tricount);
 
-        for (int i=0; i<Math.min(12, tricounts.size()); ++i) {
-            var tricount = tricounts.get(i);
-            Panel p = Panel.verticalPanel();
-            new Label(tricount.getTitle()).setForegroundColor(TextColor.ANSI.BLUE).center().addTo(p);
-            new Label(tricount.getDescription() == null ? "No description" : tricount.getDescription()).setForegroundColor(TextColor.ANSI.BLACK_BRIGHT).center().addTo(p);
-            new Label("Created By "+tricount.getCreator().getFullName()).center().addTo(p);
-            int nbrParticipant = tricount.getParticipants().size();
-            if ((nbrParticipant-1) == 0){
-                new Label("with no friends ").center().addTo(p);
-            }else {
-
-                new Label("with "+ (nbrParticipant-1) + "friends ").center().addTo(p);
-            }
-            new Button("Open").center().addTo(p);
-            pnlBody.addComponent(p.withBorder(Borders.singleLine()));
+        }
+        private String getTitleWithUser() {
+            return "Tricount (" + Security.getLoggedUser().getMail() + " - User )";
+        }
+        public void profile(){
+            Panel pnlProfile = Panel.verticalPanel();
+            pnlProfile.withBorder(Borders.singleLine("View"));
+            new Label("Hey Boris!").addTo(pnlProfile);
+            setHints(List.of(Hint.CENTERED));
+            setCloseWindowWithEscape(true);
+            pnlBody.addComponent(pnlProfile.withBorder(Borders.singleLine("View Profile")));
         }
     }
-
-}

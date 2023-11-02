@@ -2,6 +2,7 @@ package tgpr.tricount.controller;
 
 import tgpr.framework.Error;
 import tgpr.framework.ErrorList;
+import tgpr.framework.Tools;
 import tgpr.tricount.model.User;
 
 import java.time.LocalDate;
@@ -40,7 +41,9 @@ public abstract class UserValidator {
     }
     public static Error isHerPassword(String mail ,String password) {
         var user = User.getByMail(mail);
-        if (!user.getHashedPassword().equals(password)){
+        var test = user.getHashedPassword();
+        var test2 = Tools.hash(password);
+        if (!user.getHashedPassword().equals(Tools.hash(password))){
             return new Error("invalid password",User.Fields.Password);
         }
         return Error.NOERROR;

@@ -233,7 +233,7 @@ public class User extends Model {
         if (user != null && UserValidator.isHerPassword(mail, password) == Error.NOERROR ){
             return user;
         }
-        return user;
+        return null;
     }
 
 
