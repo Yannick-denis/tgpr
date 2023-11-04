@@ -7,6 +7,6 @@ import tgpr.tricount.view.profileView;
 public class profileController extends Controller {
     @Override
     public Window getView() {
-        return new profileView(this , "zzz");
+        return new profileView(this , "View profile");
     }
 }
