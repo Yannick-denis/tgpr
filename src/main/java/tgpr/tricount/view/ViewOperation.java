@@ -1,7 +1,9 @@
 package tgpr.tricount.view;
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
+import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.ColumnSpec;
 import tgpr.framework.Layouts;
 import tgpr.framework.ObjectTable;
@@ -13,10 +15,9 @@ import tgpr.tricount.model.Repartition;
 import java.util.List;
 
 
-public class ViewOperation  extends BasicWindow {
+public class ViewOperation  extends DialogWindow {
     private Operation operation;
     private  Repartition repartition;
-    private List<Expense> expenses;
     private final ObjectTable<Repartition> table;
     private Button up;
     private  Button down;
@@ -25,79 +26,46 @@ public class ViewOperation  extends BasicWindow {
     private OperationController controller;
     public ViewOperation(/*List<Expense> expenses, */ OperationController controller ) {
         super("View Expense Detail");
-        //this.expenses = expenses;
-       // setTitle(operation.getTitle());
         setHints(List.of(Hint.EXPANDED));
         Panel root = new Panel();
         setComponent(root);
         Panel content = new Panel().addTo(root).setLayoutManager(new LinearLayout(Direction.VERTICAL));
         Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
 
-        operation = Operation.getByKey(1);
+        operation = Operation.getByKey(2);
        // Panel contentPanel = new Panel(gridLayout);
         contentPanel.addComponent(new Label("Title:"));
-        contentPanel.addComponent(new Label(operation.getTitle()).addTo(contentPanel));
+        contentPanel.addComponent(new Label(operation.getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Amount:"));
-        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount())).addTo(contentPanel));
+        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount())).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Date:"));
-        contentPanel.addComponent(new Label (String.valueOf(operation.getOperationDate())).addTo(contentPanel));
+        contentPanel.addComponent(new Label (String.valueOf(operation.getOperationDate())).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Paid by:"));
-        contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel));
+        contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel).addStyle(SGR.BOLD));
         new EmptySpace().addTo(contentPanel);
 
-        Label nameTabel = new Label("From whom:");
-        root.addComponent(nameTabel);
+        new Label("From whom:").addTo(root);
         table = new ObjectTable<>(
                new ColumnSpec<>("Participant", repartition -> repartition.getOperation().getInitiator().getFullName()),
                new ColumnSpec<>("Weight",Repartition::getWeight),
-               new ColumnSpec<>("Amout", repartition -> repartition.getOperation().getAmount())
-        ).addTo(contentPanel);
-        table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 3));
+                new ColumnSpec<>("Amout", Repartition::getAmount)
+
+        ).addTo(root);
+        table.add(operation.getRepartitions());
+        //table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 3));
         root.addComponent(table);
 
         new EmptySpace().addTo(content);
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
-                .setLayoutData(Layouts.LINEAR_END).addTo(root);
+                .setLayoutData(Layouts.LINEAR_FILL).addTo(root);
          up = new Button("Up",this::moveUp).addTo(buttons);
-         buttons.addComponent(up );
          down = new Button("Down", this::moveDown).addTo(buttons);
-         buttons.addComponent(down);
          edit = new Button("Edit", this::getEdit).addTo(buttons);
-         buttons.addComponent(edit);
          close = new Button("Close", this::getClose).addTo(buttons);
-         buttons.addComponent(up);
+         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
     }
 
 
-
-
-    private void showExpense(Expense expense) {
-        // Implement how to display the expense details on the UI
-
-    }
-
-
-
-  /*  public void addExpense(String paidBy, double amount) {
-        amount = operation.getAmount();
-        expenses.add(new Expense(paidBy,amount));
-    }
-
-   */
-
-    /*public double getBalance(Repartition  repartition) {
-        double balance = 0;
-        for (Expense expense : expenses) {
-            if (expense.paidBy.equals(repartition)) {
-                balance -= operation.getAmount();
-            } else {
-                balance += (operation.getAmount() / operation.getId());
-            }
-        }
-        return balance;
-    }
-
-     */
     private void moveUp() {
        controller.moveUp();
     }
@@ -155,6 +123,7 @@ public class ViewOperation  extends BasicWindow {
         this.up = up;
     }
 
+
     public Repartition getRepartition() {
         return repartition;
     }
@@ -163,12 +132,5 @@ public class ViewOperation  extends BasicWindow {
         this.repartition = repartition;
     }
 
-    public static class Expense {
-        private String paidBy;
-        public Expense(String paidBy, double amount) {
-            this.paidBy = paidBy;
-        }
-
-    }
 }
 

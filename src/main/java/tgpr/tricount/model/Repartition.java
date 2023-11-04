@@ -10,6 +10,44 @@ import java.util.List;
 import java.util.Objects;
 
 public class Repartition extends Model {
+
+    private Operation operations;
+
+    private User user;
+    private double sum_weights;
+    private double montant_op ;
+    private double amount ;
+    public double getSum_weights() {
+        if (operationId == operations.getId()) {
+            while (userId == user.getId()) {
+                    sum_weights += weight;
+            }
+        }
+        return sum_weights ;
+    }
+
+    public void setSum_weights(double sum_weights) {
+        this.sum_weights = sum_weights;
+    }
+
+    public double getMontant_op() {
+        return operations.getAmount();
+    }
+
+    public void setMontant_op(double montant_op) {
+        this.montant_op = montant_op;
+    }
+
+
+    public double getAmount() {
+        return  weight * montant_op / sum_weights;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+
     public enum Fields {
         Operation, User, Weight
     }
@@ -60,6 +98,10 @@ public class Repartition extends Model {
     public void setWeight(int weight) {
         this.weight = weight;
     }
+
+
+
+
 
     @Override
     public boolean equals(Object o) {
