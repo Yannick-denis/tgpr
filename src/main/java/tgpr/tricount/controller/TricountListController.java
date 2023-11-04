@@ -7,9 +7,10 @@ import tgpr.framework.SortOrder;
 import java.util.List;
 public class TricountListController extends Controller {
     private List<Tricount> tricounts;
+    private final profileController controller = new profileController();
     @Override
     public Window getView(){
-        return new TricountListView(this);
+        return new TricountListView(this , controller );
     }
     public List<Tricount> getTricounts(String filter){
         Tricount.getPaginated(1, 12);

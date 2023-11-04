@@ -7,6 +7,7 @@ import com.googlecode.lanterna.gui2.menu.MenuBar;
 import com.googlecode.lanterna.gui2.menu.MenuItem;
 import tgpr.framework.*;
 import tgpr.tricount.controller.TricountListController;
+import tgpr.tricount.controller.profileController;
 import tgpr.tricount.model.Security;
 import tgpr.tricount.model.Tricount;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class TricountListView extends BasicWindow {
     private final Paginator pagination;
     private final Menu menuFile;
     private final Button createTricount;
-    public TricountListView(TricountListController controller) {
+    public TricountListView(TricountListController controller , profileController controller1) {
         this.controller = controller;
         setTitle(getTitleWithUser());
         setHints(List.of(Hint.EXPANDED));
@@ -39,7 +40,7 @@ public class TricountListView extends BasicWindow {
         MenuBar menuBar = new MenuBar().addTo(pnlEnTete);
         menuFile = new Menu("File");
         menuBar.add(menuFile);
-        MenuItem menuprofile = new MenuItem("View Profile" , new profileView("djhdjd"));
+        MenuItem menuprofile = new MenuItem("View Profile" ,  () -> {Controller.navigateTo(controller1);});
         menuFile.add(menuprofile);
         new EmptySpace().addTo(pnlEnTete);
         pnlProfile = Panel.verticalPanel();

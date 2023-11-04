@@ -1,38 +1,30 @@
 package tgpr.tricount.view;
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import tgpr.tricount.controller.profileController;
+import java.awt.*;
 import java.util.List;
 public class profileView extends DialogWindow  {
-    public profileView(String title) {
+    private final profileController controller;
+    public profileView(profileController controller, String title) {
         super(title);
-
-        setHints(List.of(Hint.CENTERED, Hint.FIXED_SIZE));
-//      permet de fermer la fenêtre en pressant la touche Esc
+        this.controller = controller;
+        setHints(List.of(Hint.CENTERED));
         setCloseWindowWithEscape(true);
-        // définit une taille fixe pour la fenêtre de 15 lignes et 70 colonnes
-        setFixedSize(new TerminalSize(70, 15));
+
+        Panel root = Panel.verticalPanel();
+        setComponent(root);
+
+        Panel panel = new Panel().addTo(root);
+        Label label = new Label("zzz").addTo(panel);
+
+
     }
 }
 
 
-//
-//public class EditMemberView extends DialogWindow {
-//
-//    private final EditMemberController controller;
-//
-//    private final Member member;
-//
-//    public EditMemberView(EditMemberController controller, Member member) {
-//        // définit le titre de la fenêtre
-//        super((member == null ? "Add " : "Update ") + "Member");
-//
-//        this.member = member;
-//        this.controller = controller;
-//
-//        setHints(List.of(Hint.CENTERED, Hint.FIXED_SIZE));
-//        // permet de fermer la fenêtre en pressant la touche Esc
-//        setCloseWindowWithEscape(true);
-//        // définit une taille fixe pour la fenêtre de 15 lignes et 70 colonnes
-//        setFixedSize(new TerminalSize(70, 15));
-//    }
-//}
+
