@@ -1,7 +1,7 @@
 package tgpr.tricount;
-
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
+//<<<<<<< HEAD
 //<<<<<<< HEAD
 //<<<<<<< HEAD
 //<<<<<<< HEAD
@@ -49,6 +49,9 @@ import tgpr.tricount.view.AddTemplateView;
 
 import java.awt.*;
 //>>>>>>> add_template
+//=======
+import tgpr.tricount.controller.DeleteTricountController;
+//>>>>>>> delete_tricount
 
 public class TricountApp {
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";
@@ -60,12 +63,14 @@ public class TricountApp {
         else {
 //<<<<<<< HEAD
 //<<<<<<< HEAD
+//<<<<<<< HEAD
 
 //<<<<<<< HEAD
         //    Controller.navigateTo(new AddParticipantController(4,5)); //à changer dans edit (POUR MARGAUX)
           //  Controller.navigateTo(new DeleteParticipantController(2,1,true));
 //=======
-            Controller.navigateTo(new AddTricountControler(User.getByKey(1)));
+          //
+            //  Controller.navigateTo(new AddTricountControler(User.getByKey(1)));
 //>>>>>>> feat_add_tricount
 //=======
 
@@ -73,10 +78,12 @@ public class TricountApp {
 //            Controller.navigateTo(new DeleteParticipantController(2,1,true));
 
 
-            ticount=Tricount.getByKey(4);
+         /*   ticount=Tricount.getByKey(4);
             Operation ope=Operation.getByTitle("ccc");
             Controller.navigateTo(new  AddExpenseController(ticount));
 //            Controller.navigateTo(new DeleteParticipantController(4,3,true));
+
+          */
 
 //            Controller.navigateTo(new LoginController());
 // pour les test de edit operation et add operation
@@ -86,8 +93,11 @@ public class TricountApp {
 
 //>>>>>>> abdd79b1e57528a825f1675de0b797dc20d75570
 //=======
-            Controller.navigateTo(new AddTemplateController());
+           // Controller.navigateTo(new AddTemplateController());
 //>>>>>>> add_template
+//=======
+            Controller.navigateTo(new DeleteTricountController("Gers 2002", null, 1));
+//>>>>>>> delete_tricount
         }
     }
 }

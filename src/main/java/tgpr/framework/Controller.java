@@ -3,6 +3,7 @@ package tgpr.framework;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
+import tgpr.tricount.controller.DeleteTricountController;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public abstract class Controller {
      *
      * @param controller le contrôleur vers lequel on veut naviguer
      */
-    public static void navigateTo(Controller controller) {
+    public static void navigateTo(DeleteTricountController controller) {
         // on efface le cache des objets du modèle à chaque fois qu'on navigue vers un contrôleur
         Model.clearCache();
 
