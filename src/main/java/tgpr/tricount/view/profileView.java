@@ -22,7 +22,8 @@ public class profileView extends DialogWindow  {
         super(title);
         this.controller = controller;
         User user = Security.getLoggedUser();
-        var nom = user.getFullName();
+        Label nom = new Label(user.getFullName());
+
 
         setHints(List.of(Hint.CENTERED));
         setCloseWindowWithEscape(true);
@@ -43,7 +44,7 @@ public class profileView extends DialogWindow  {
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         Button btnEditProfile = new Button("Edit Profile").addTo(buttons);
         Button btnChangePassword = new Button("Change Password").addTo(buttons);
-        Button btnClose = new Button("Close").addTo(buttons);
+        Button btnClose = new Button("Close" , this::close).addTo(buttons);
 
     }
 }

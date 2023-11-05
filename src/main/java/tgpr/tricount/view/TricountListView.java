@@ -5,6 +5,7 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.menu.Menu;
 import com.googlecode.lanterna.gui2.menu.MenuBar;
 import com.googlecode.lanterna.gui2.menu.MenuItem;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.*;
 import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.controller.profileController;
@@ -17,40 +18,59 @@ public class TricountListView extends BasicWindow {
     private final List<Tricount> tricountList = Tricount.getAll();
     private final Panel pnlBody;
     private final Panel pnlEnTete;
+    private final Panel pnlFile;
     private final Panel pnlBasDePage;
-    private final Panel pnlProfile;
+    private final Panel pnlProfile = new Panel();
     private final TextBox filter;
     private final Paginator pagination;
-    private final Menu menuFile;
+
+    private final Menu menuFile = new Menu("File");
     private final Button createTricount;
-    public TricountListView(TricountListController controller , profileController controller1) {
+//    private final profileController controllerProfil;
+    public TricountListView(TricountListController controller , profileController controllerProfil) {
         this.controller = controller;
         setTitle(getTitleWithUser());
         setHints(List.of(Hint.EXPANDED));
         Panel root = new Panel().setLayoutManager(new BorderLayout());
         setComponent(root);
+//        createMenu(controllerProfil).sizeTo(2).addTo(root);
+//        root.setFillColorOverride(TextColor.ANSI.RED);
+////        pnlBody.setFillColorOverride(TextColor.ANSI.RED);
+//        root.addComponent(menuFile , BorderLayout.Location.TOP);
 
 
 
+//        pnlEnTete = Panel.gridPanel(2, Spacing.of(0) );
+//        pnlEnTete = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(0).setVerticalSpacing(0))
+//                .setLayoutData(Layouts.LINEAR_BEGIN);
+        pnlEnTete = Panel.gridPanel(3, Spacing.of(0) );
+//        pnlEnTete.setFillColorOverride(TextColor.ANSI.RED);
+        pnlFile = Panel.gridPanel(2);
+//        pnlFile.setFillColorOverride(TextColor.ANSI.RED);
 
-        pnlEnTete = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
-                .setLayoutData(Layouts.LINEAR_BEGIN);
+        pnlFile.addComponent(createMenu(controllerProfil));
+        pnlEnTete.addComponent(pnlFile,BorderLayout.Location.TOP);
+        root.addComponent(pnlEnTete);
         root.addComponent(pnlEnTete, BorderLayout.Location.TOP);
 
-        MenuBar menuBar = new MenuBar().addTo(pnlEnTete);
-        menuFile = new Menu("File");
-        menuBar.add(menuFile);
-        MenuItem menuprofile = new MenuItem("View Profile" ,  () -> {Controller.navigateTo(controller1);});
-        menuFile.add(menuprofile);
-        new EmptySpace().addTo(pnlEnTete);
-        pnlProfile = Panel.verticalPanel();
+//        createMenu(controllerProfil).addTo(root);
+//        MenuBar menuBar = new MenuBar().addTo(pnlProfile);
+        pnlEnTete.addComponent(pnlProfile);
+//        menuFile = new Menu("File");
+//        menuBar.add(menuFile);
+////        MenuItem menuprofile = new MenuItem("View Profile" ,  () -> {Controller.navigateTo(controllerProfil);});
+//        menuFile.add(menuprofile);
+//        new EmptySpace().addTo(pnlEnTete);
+//        pnlProfile = Panel.verticalPanel();
 
 
 
         pnlEnTete.addComponent(new Label("filter:"));
-        filter = new TextBox().addTo(pnlEnTete).sizeTo(20).setTextChangeListener((txt, filter) -> reloadData());
-        filter.addTo(pnlEnTete);
+        filter = new TextBox().addTo(pnlEnTete).sizeTo(30).setTextChangeListener((txt, filter) -> reloadData());
+//        filter.addTo(pnlEnTete);
+        pnlEnTete.addComponent(filter , BorderLayout.Location.BOTTOM);
         pnlBody = Panel.gridPanel(3, Spacing.of(0) );
+//        root.addComponent(pnlBody);
         root.addComponent(pnlBody, BorderLayout.Location.CENTER);
 
         pnlBasDePage = new Panel().setLayoutManager(new BorderLayout());
@@ -106,4 +126,21 @@ public class TricountListView extends BasicWindow {
             setCloseWindowWithEscape(true);
             pnlBody.addComponent(pnlProfile.withBorder(Borders.singleLine("View Profile")));
         }
+        private MenuBar createMenu(profileController controllerProfil){
+            MenuBar menuBar = new MenuBar();
+            menuBar.add(menuFile);
+            MenuItem menuprofile = new MenuItem("View Profile" ,  () -> {Controller.navigateTo(controllerProfil);});
+            menuFile.add(menuprofile);
+            return menuBar;
+        }
+//    private MenuBar createMenu() {
+//        MenuBar menuBar = new MenuBar();
+//        menuBar.add(menuFile);
+//        addShortcut(menuFile, KeyStroke.fromString("<A-f>"));
+//        MenuItem menuLogout = new MenuItem("Logout", controller::logout);
+//        menuFile.add(menuLogout);
+//        MenuItem menuExit = new MenuItem("Exit", controller::exit);
+//        menuFile.add(menuExit);
+//        return menuBar;
+//    }
     }

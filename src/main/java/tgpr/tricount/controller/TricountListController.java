@@ -1,5 +1,6 @@
 package tgpr.tricount.controller;
 import com.googlecode.lanterna.gui2.Window;
+import tgpr.tricount.model.Security;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.view.TricountListView;
 import tgpr.framework.Controller;
