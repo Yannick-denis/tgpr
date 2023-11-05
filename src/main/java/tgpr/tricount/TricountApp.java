@@ -5,6 +5,7 @@ import tgpr.framework.Model;
 //<<<<<<< HEAD
 //<<<<<<< HEAD
 //<<<<<<< HEAD
+//<<<<<<< HEAD
 import tgpr.tricount.controller.AddParticipantController;
 //=======
 import tgpr.tricount.controller.DeleteParticipantController;
@@ -41,6 +42,13 @@ import tgpr.tricount.controller.TestController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
 //>>>>>>> abdd79b1e57528a825f1675de0b797dc20d75570
+//=======
+import tgpr.tricount.controller.AddTemplateController;
+import tgpr.tricount.controller.TestController;
+import tgpr.tricount.view.AddTemplateView;
+
+import java.awt.*;
+//>>>>>>> add_template
 
 public class TricountApp {
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";
@@ -50,6 +58,7 @@ public class TricountApp {
         if (!Model.checkDb(DATABASE_SCRIPT_FILE))
             Controller.abort("Database is not available!");
         else {
+//<<<<<<< HEAD
 //<<<<<<< HEAD
 
 //<<<<<<< HEAD
@@ -76,6 +85,9 @@ public class TricountApp {
 
 
 //>>>>>>> abdd79b1e57528a825f1675de0b797dc20d75570
+//=======
+            Controller.navigateTo(new AddTemplateController());
+//>>>>>>> add_template
         }
     }
 }
