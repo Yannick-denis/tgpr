@@ -5,7 +5,7 @@ import tgpr.framework.Controller;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 import tgpr.tricount.view.ViewTemplatesView;
-import tgpr.tricount.view.ViewTricountView;
+
 
 public class ViewTemplatesController extends Controller {
 
@@ -21,7 +21,7 @@ public class ViewTemplatesController extends Controller {
        // view =new ViewTemplatesView(this);
 
     }
-    private ViewTricountView view ;
+    private ViewTemplatesView view ;
 
     public Tricount getTricount() {
         return tricount;
