@@ -10,11 +10,13 @@ import tgpr.tricount.model.Tricount;
 public class AddTemplateView extends BasicWindow {
     private AddTemplateController addTemplateController;
     // private ViewTemplate viewTemplate;
+    private Template template;
     private final TextBox txtTitle;
     Controller controller;
-   public  AddTemplateView(AddTemplateController addTemplateController){
-      super("Create a new Template");
+   public  AddTemplateView(AddTemplateController addTemplateController, Template template){
+      super(template == null ? "Create a new Template" : "Changes Template title");
       this.addTemplateController = addTemplateController;
+       this.template = template;
        Panel root = new Panel();
        setComponent(root);
 
@@ -24,15 +26,14 @@ public class AddTemplateView extends BasicWindow {
        txtTitle = new TextBox().addTo(panel);
 
        new EmptySpace().addTo(root);
+// si le buttons est Edit title alors
+           Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
+                   .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
+           Button btnCreate = new Button(template == null ?"Create" : "save", () -> {
+               String enteredTitle = txtTitle.getText();
+               controller.navigateTo(new AddTemplateController());
 
-       Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
-               .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
-       Button btnCreate = new Button("Create", () -> {
-           //String enteredTitle = txtTitle.getText();
-
-           controller.navigateTo(new AddTemplateController());
-
-       }).addTo(buttons);
+           }).addTo(buttons);
 
        //Devrais permettre d'aller à la page precedente à tester quand j'aurais les pages.
        Button btnCancel = new Button("Cancel", this::close).addTo(buttons);
