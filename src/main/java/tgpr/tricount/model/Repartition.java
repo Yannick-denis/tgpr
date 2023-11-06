@@ -18,20 +18,22 @@ public class Repartition extends Model {
     private double montant_op ;
     private double amount ;
     public double getSum_weights() {
-        if (operationId == operations.getId()) {
-            while (userId == user.getId()) {
-                    sum_weights += weight;
+        List<Repartition> allRepartition = getAll();
+        for (int i = 0; i < allRepartition.size() -1; i++ ){
+            if (allRepartition.get(i).operationId == 3){
+                sum_weights += allRepartition.get(i).weight;
             }
         }
         return sum_weights ;
     }
+
 
     public void setSum_weights(double sum_weights) {
         this.sum_weights = sum_weights;
     }
 
     public double getMontant_op() {
-        return operations.getAmount();
+        return getOperation().getAmount();
     }
 
     public void setMontant_op(double montant_op) {
@@ -40,7 +42,7 @@ public class Repartition extends Model {
 
 
     public double getAmount() {
-        return  weight * montant_op / sum_weights;
+        return  getWeight() * (getMontant_op() / getSum_weights());
     }
 
     public void setAmount(double amount) {
@@ -98,10 +100,6 @@ public class Repartition extends Model {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-
-
-
-
 
     @Override
     public boolean equals(Object o) {

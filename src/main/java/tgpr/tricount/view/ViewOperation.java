@@ -29,10 +29,10 @@ public class ViewOperation  extends DialogWindow {
         setHints(List.of(Hint.EXPANDED));
         Panel root = new Panel();
         setComponent(root);
-        Panel content = new Panel().addTo(root).setLayoutManager(new LinearLayout(Direction.VERTICAL));
+        Panel content = new Panel(new  GridLayout(2)).addTo(root);
         Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
 
-        operation = Operation.getByKey(2);
+        operation = Operation.getByKey(3);
        // Panel contentPanel = new Panel(gridLayout);
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(operation.getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
@@ -42,18 +42,17 @@ public class ViewOperation  extends DialogWindow {
         contentPanel.addComponent(new Label (String.valueOf(operation.getOperationDate())).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Paid by:"));
         contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel).addStyle(SGR.BOLD));
-        new EmptySpace().addTo(contentPanel);
 
-        new Label("From whom:").addTo(root);
+
+        new Label("From whom:").addTo(contentPanel);
         table = new ObjectTable<>(
-               new ColumnSpec<>("Participant", repartition -> repartition.getOperation().getInitiator().getFullName()),
+               new ColumnSpec<>("Participant", Repartition::getUser),
                new ColumnSpec<>("Weight",Repartition::getWeight),
-                new ColumnSpec<>("Amout", Repartition::getAmount)
+                new ColumnSpec<>("Amount", Repartition::getAmount)
 
-        ).addTo(root);
+        ).addTo(contentPanel);
         table.add(operation.getRepartitions());
         //table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 3));
-        root.addComponent(table);
 
         new EmptySpace().addTo(content);
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
