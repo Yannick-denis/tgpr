@@ -18,7 +18,7 @@ public class ViewTemplatesController extends Controller {
     public ViewTemplatesController(Tricount tricount, User userConected){
         this.tricount=tricount;
         this.me=userConected;
-       // view =new ViewTemplatesView(this);
+        view =new ViewTemplatesView(this);
 
     }
     private ViewTemplatesView view ;
