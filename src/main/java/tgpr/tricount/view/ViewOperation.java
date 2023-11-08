@@ -1,5 +1,6 @@
 package tgpr.tricount.view;
 import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.*;
@@ -28,10 +29,11 @@ public class ViewOperation  extends DialogWindow {
         this.operation = controller.getOperation();
         Panel root = new Panel();
         setComponent(root);
+        setHints(List.of(Hint.CENTERED, Hint.FIXED_SIZE));
+        setFixedSize(new TerminalSize(50, 15));
+
         Panel content = new Panel(new  GridLayout(2)).addTo(root);
         Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
-
-
 
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(getOperation().getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
@@ -52,14 +54,13 @@ public class ViewOperation  extends DialogWindow {
         ).addTo(contentPanel);
         table.add(operation.getRepartitions());
 
-
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
                 .setLayoutData(Layouts.LINEAR_FILL).addTo(root);
         up = new Button("Up").addTo(buttons);
         down = new Button("Down").addTo(buttons);
         edit = new Button("Edit", this::getEdit).addTo(buttons);
         close = new Button("Close", this::getClose).addTo(buttons);
-        root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
+        root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.End));
     }
 
 
