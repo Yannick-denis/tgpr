@@ -101,12 +101,8 @@ private ViewTricoutController controller;
         //comparateur implemente comparable qu'on a vu en pro2 pour dire a la methode sort sur quoi comparer
         //trie avec la date la plus recent en premier
         list.sort(new Comparateur());
-//        ObjectTable<Operation> table = new ObjectTable<>(
-//                new ColumnSpec<>("Operation",
-//                        new ColumnSpec<>("Amount",
-//                                new ColumnSpec<>("Paid by",
-//                                        .setOverflowHandling(ColumnSpec.OverflowHandling.Wrap),
-//                                new ColumnSpec<>("Date")).addTo(panel);
+
+ tave
         for (Operation elem:list){
             new Label(elem.getTitle()).addTo(panel);
             new Label("    "+new DecimalFormat("#.0#").format(elem.getAmount())+"€").addTo(panel);
