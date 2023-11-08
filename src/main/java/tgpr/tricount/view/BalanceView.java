@@ -7,6 +7,7 @@ import tgpr.framework.Margin;
 import tgpr.framework.Spacing;
 import tgpr.tricount.controller.BalanceController;
 import tgpr.tricount.controller.TestController;
+
 import java.util.List;
 
 public class BalanceView extends DialogWindow {
@@ -20,21 +21,29 @@ public class BalanceView extends DialogWindow {
         var root = new Panel().setLayoutManager(new LinearLayout(Direction.VERTICAL));
 
 
-        var balance = new Panel().setLayoutManager(
+        var Grid = new Panel().setLayoutManager(
                 new GridLayout(3).setHorizontalSpacing(0).setVerticalSpacing(0));
 
+        var balance = new Panel().setLayoutManager(
+                new LinearLayout(Direction.HORIZONTAL)
+        );
 
-//        createCell("|").addTo(balance)
-//                .setLayoutData(GridLayout.createLayoutData(
-//                        GridLayout.Alignment.FILL, GridLayout.Alignment.FILL, true,2, 1)
-//                );
+
+        createCell("test").addTo(balance);
+        createCell("|").addTo(balance)
+                .setLayoutData(GridLayout.createLayoutData(
+                        GridLayout.Alignment.FILL, GridLayout.Alignment.FILL)
+                );
+
+        setComponent(root.withBorder(Borders.singleLine()));
 
 
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         Button btnClose = new Button("Close", this::close).addTo(buttons);
-        setComponent(root.withBorder(Borders.singleLine()));
+
     }
+
     private Border createCell(String i) {
         return new Panel()
                 .addComponent(new Label(i))

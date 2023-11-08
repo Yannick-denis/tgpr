@@ -14,7 +14,7 @@ public class BalanceController extends Controller {
 
     @Override
     public Window getView() {
-        return view;
+        return new BalanceView(this);
     }
 
 
