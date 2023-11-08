@@ -10,10 +10,7 @@ import tgpr.tricount.view.TestView;
 
 public class BalanceController extends Controller {
     private final BalanceView view = new BalanceView(this);
-    Label labelrouge = new Label("Hello, world! This is a colored label.")
-            .setSize(new TerminalSize(10,1))
-            .setForegroundColor(TextColor.ANSI.BLACK) // Choisir une couleur pour le texte
-            .setBackgroundColor(TextColor.ANSI.RED); // Choisir une couleur pour l'arrière-plan
+
 
     @Override
     public Window getView() {
