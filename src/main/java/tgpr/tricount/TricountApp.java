@@ -2,25 +2,18 @@ package tgpr.tricount;
 
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
-import tgpr.framework.extensions.java.time.LocalDate.LocalDateExtension;
-import tgpr.tricount.controller.OperationController;
-import tgpr.tricount.controller.TestController;
 import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
-import tgpr.tricount.model.Repartition;
 import tgpr.tricount.view.ViewOperation;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class TricountApp {
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";
-
+    private ViewOperation viewOperation;
     public static void main(String[] args) {
         if (!Model.checkDb(DATABASE_SCRIPT_FILE))
             Controller.abort("Database is not available!");
         else {
-            Controller.navigateTo(new OperationController());
+            Controller.navigateTo(new OperationController(Operation.getByKey(3)));
         }
 
     }

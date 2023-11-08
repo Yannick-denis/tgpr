@@ -20,9 +20,11 @@ public class Repartition extends Model {
     public double getSum_weights() {
         List<Repartition> allRepartition = getAll();
         for (int i = 0; i < allRepartition.size() -1; i++ ){
-            if (allRepartition.get(i).operationId == 3){
+            if (getOperation().getId() == allRepartition.get(i).operationId){
                 sum_weights += allRepartition.get(i).weight;
             }
+
+
         }
         return sum_weights ;
     }

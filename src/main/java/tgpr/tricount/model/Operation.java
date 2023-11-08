@@ -8,9 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class Operation extends Model {
@@ -88,29 +86,11 @@ public class Operation extends Model {
 
         this.amount = amount;
     }
-
     private LocalDate operationDate;
-
-    public LocalDate getOperationDate() {
-        return operationDate;
-    }
-
-    public void setOperationDate(LocalDate operationDate) {
-        this.operationDate = operationDate;
-    }
-
     private int initiatorId;
 
     public int getInitiatorId() {
         return initiatorId;
-    }
-
-    public void setInitiatorId(int initiatorId) {
-        this.initiatorId = initiatorId;
-    }
-
-    public User getInitiator() {
-        return User.getByKey(initiatorId);
     }
 
     private LocalDateTime createdAt;
@@ -121,6 +101,20 @@ public class Operation extends Model {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    public void setInitiatorId(int initiatorId) {
+        this.initiatorId = initiatorId;
+    }
+
+    public User getInitiator() {
+        return User.getByKey(initiatorId);
+    }
+    public LocalDate getOperationDate() {
+        return operationDate;
+    }
+
+    public void setOperationDate(LocalDate operationDate) {
+        this.operationDate = operationDate;
     }
 
     @Override
@@ -165,6 +159,11 @@ public class Operation extends Model {
         reload("select * from operations where id=:id",
                 new Params("id", id));
     }
+
+    public void countOperationId(String s){
+        countOperationId("select count(id) from operation group by id ");
+    }
+
 
     public static Operation getByKey(int id) {
         return queryOne(Operation.class, "select * from operations where id=:id",

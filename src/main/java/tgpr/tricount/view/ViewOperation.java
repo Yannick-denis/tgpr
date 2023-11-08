@@ -1,13 +1,8 @@
 package tgpr.tricount.view;
 import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
-import tgpr.framework.ColumnSpec;
-import tgpr.framework.Layouts;
-import tgpr.framework.ObjectTable;
-import tgpr.framework.ViewManager;
+import tgpr.framework.*;
 import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
@@ -16,26 +11,30 @@ import java.util.List;
 
 
 public class ViewOperation  extends DialogWindow {
-    private Operation operation;
     private  Repartition repartition;
+    private List<Operation> list;
+    private Operation operation;
+    private OperationController controller;
     private final ObjectTable<Repartition> table;
     private Button up;
     private  Button down;
     private  Button edit;
     private  Button close;
-    private OperationController controller;
-    public ViewOperation(/*List<Expense> expenses, */ OperationController controller ) {
+
+    public ViewOperation(OperationController controller) {
         super("View Expense Detail");
         setHints(List.of(Hint.EXPANDED));
+        this.controller = controller;
+        this.operation = controller.getOperation();
         Panel root = new Panel();
         setComponent(root);
         Panel content = new Panel(new  GridLayout(2)).addTo(root);
         Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
 
-        operation = Operation.getByKey(3);
-       // Panel contentPanel = new Panel(gridLayout);
+
+
         contentPanel.addComponent(new Label("Title:"));
-        contentPanel.addComponent(new Label(operation.getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
+        contentPanel.addComponent(new Label(getOperation().getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Amount:"));
         contentPanel.addComponent(new Label(String.valueOf(operation.getAmount())).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Date:"));
@@ -52,25 +51,19 @@ public class ViewOperation  extends DialogWindow {
 
         ).addTo(contentPanel);
         table.add(operation.getRepartitions());
-        //table.setPreferredSize(new TerminalSize(ViewManager.getTerminalColumns(), 3));
 
-        new EmptySpace().addTo(content);
+
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
                 .setLayoutData(Layouts.LINEAR_FILL).addTo(root);
-         up = new Button("Up",this::moveUp).addTo(buttons);
-         down = new Button("Down", this::moveDown).addTo(buttons);
-         edit = new Button("Edit", this::getEdit).addTo(buttons);
-         close = new Button("Close", this::getClose).addTo(buttons);
-         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
+        up = new Button("Up").addTo(buttons);
+        down = new Button("Down").addTo(buttons);
+        edit = new Button("Edit", this::getEdit).addTo(buttons);
+        close = new Button("Close", this::getClose).addTo(buttons);
+        root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
     }
 
 
-    private void moveUp() {
-       controller.moveUp();
-    }
-    public void moveDown() {
-        controller.moveDown();
-    }
+
 
     public Operation getOperation() {
         return operation;
@@ -99,8 +92,10 @@ public class ViewOperation  extends DialogWindow {
     }
 
     public Button getEdit() {
-        return edit;
+        return  Controller.navigateTo(new OperationController(Operation.getByKey(2)));
     }
+
+
 
     public void setEdit(Button edit) {
         this.edit = edit;
@@ -130,6 +125,17 @@ public class ViewOperation  extends DialogWindow {
     public void setRepartition(Repartition repartition) {
         this.repartition = repartition;
     }
+
+
+  /* private void run() {
+        // requette sql qui permet de count le nombre id
+        if ( getViewTricountView().getList().size() > 0) {
+             getUp().setEnabled(false);
+        }
+    }
+
+   */
+
 
 }
 
