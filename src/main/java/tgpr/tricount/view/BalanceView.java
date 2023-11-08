@@ -21,7 +21,7 @@ public class BalanceView extends DialogWindow {
         var root = new Panel().setLayoutManager(new LinearLayout(Direction.VERTICAL));
 
 
-        var Grid = new Panel().setLayoutManager(
+        var grid = new Panel().setLayoutManager(
                 new GridLayout(3).setHorizontalSpacing(0).setVerticalSpacing(0));
 
         var balance = new Panel().setLayoutManager(
@@ -30,10 +30,10 @@ public class BalanceView extends DialogWindow {
 
 
         createCell("test").addTo(balance);
-        createCell("|").addTo(balance)
+        createCell("|").addTo(grid)
                 .setLayoutData(GridLayout.createLayoutData(
-                        GridLayout.Alignment.FILL, GridLayout.Alignment.FILL)
-                );
+                        GridLayout.Alignment.FILL, GridLayout.Alignment.FILL,
+                        true, true, 2, 1));
 
         setComponent(root.withBorder(Borders.singleLine()));
 
