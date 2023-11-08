@@ -22,6 +22,7 @@ public class ViewTemplatesView extends DialogWindow {
     private ObjectTable<Template> templateTable;
       private CheckBoxList<TemplateItem> templateItem;
     private Tricount triC;
+    private Template temp;
     private User me;
 
     public ViewTemplatesView(ViewTemplatesController controller) {
@@ -32,6 +33,7 @@ public class ViewTemplatesView extends DialogWindow {
         Panel root = Panel.verticalPanel();
         setComponent(root);
         createTemplatesList(triC).addTo(root);
+        createTemplatesItemList(temp).addTo(root);
         createButtons().addTo(root);
 
     }
@@ -47,7 +49,7 @@ public class ViewTemplatesView extends DialogWindow {
 
         return panel;
     }
-    private Panel createTemplatesItemList(Tricount tric) {
+    private Panel createTemplatesItemList(Template temp) {
 
 
         Panel panel = new Panel().setLayoutManager(new GridLayout(4).setTopMarginSize(1).setVerticalSpacing(0))
