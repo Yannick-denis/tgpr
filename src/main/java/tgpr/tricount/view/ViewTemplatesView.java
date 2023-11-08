@@ -56,7 +56,7 @@ public class ViewTemplatesView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER);
 
         new Label("Repartition : ").addTo(panel).addStyle(SGR.UNDERLINE);
-        new Label("Repartition :(modified) ").addTo(panel).addStyle(SGR.UNDERLINE);// afficher uniquement si la repartition a étée modifiée
+     /*IF (modifie)*/   new Label("Repartition :(modified) ").addTo(panel).addStyle(SGR.UNDERLINE);// afficher uniquement si la repartition a étée modifiée
         //list des repartition avec les user impliquer cocher
 /*La partie inférieure de la vue affiche la répartition associée au template couramment sélectionné (ici la répartition du template "Benoit ne paye rien").
 Cette répartition peut être modifiée en cochant / décochant des participants et/ou en modifiant les poids au moyen des flèches du clavier (même principe que pour l'édition des opérations).
