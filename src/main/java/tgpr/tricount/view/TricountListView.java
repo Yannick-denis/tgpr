@@ -8,6 +8,7 @@ import com.googlecode.lanterna.gui2.menu.MenuItem;
 import tgpr.framework.Controller;
 import tgpr.framework.Paginator;
 import tgpr.framework.Spacing;
+import tgpr.tricount.controller.AddTricountControler;
 import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.controller.profileController;
@@ -79,7 +80,7 @@ public class TricountListView extends BasicWindow {
 
         pnlBasDePage = new Panel().setLayoutManager(new BorderLayout());
         root.addComponent(pnlBasDePage, BorderLayout.Location.BOTTOM);
-        createTricount = new Button("Create a new Tricount");
+        createTricount = new Button("Create a new Tricount" , () -> Controller.navigateTo(new AddTricountControler(Security.getLoggedUser())));
         pnlBasDePage.addComponent(createTricount, BorderLayout.Location.LEFT);
         pagination = new Paginator(this,12,this::pageChanged);
         pnlBasDePage.addComponent(pagination, BorderLayout.Location.RIGHT);
