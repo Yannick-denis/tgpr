@@ -8,6 +8,8 @@ import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.framework.Margin;
 import tgpr.framework.ObjectTable;
+import tgpr.tricount.controller.AddExpenseController;
+import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.model.Comparateur;
 import tgpr.tricount.model.Operation;
@@ -140,12 +142,12 @@ private ViewTricoutController controller;
 
     }
     private void add_operation(){
-        Controller.navigateTo(new AddOperationController);
+        Controller.navigateTo(new AddExpenseController(triC));
 
     }
     private void edit_tricount(){
 
-        Controller.navigateTo(new EditTricountController);
+        Controller.navigateTo(new EditTricountController(triC));
 
     }
 
