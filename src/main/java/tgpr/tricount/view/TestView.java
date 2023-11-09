@@ -29,12 +29,7 @@ public class TestView extends BasicWindow {
     private final Menu menuFile;
 
     public TestView(TestController controller) {
-<<<<<<< HEAD
         super("Test");
-
-=======
-        super("Coucou");
->>>>>>> view_operation
         setHints(List.of(Hint.EXPANDED));
 
         Panel root = new Panel();

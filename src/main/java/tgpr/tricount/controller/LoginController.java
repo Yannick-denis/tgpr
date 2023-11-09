@@ -13,6 +13,8 @@ import tgpr.framework.Model;
 
 import java.util.List;
 
+
+
 public class LoginController extends Controller {
     public void exit() {
         System.exit(0);
@@ -27,7 +29,7 @@ public class LoginController extends Controller {
             var member = User.checkCredentials(mail, password);
             if (member != null) {
                 Security.login(member);
-                navigateTo(new TestController());
+                navigateTo(new TricountListController());
             } else
                 showError(new Error("invalid credentials"));
         } else

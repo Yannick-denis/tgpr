@@ -9,7 +9,7 @@ import tgpr.tricount.view.TestView;
 
 import static tgpr.framework.Controller.askConfirmation;
 
-public class DeleteTricountController {
+public class DeleteTricountController extends Controller {
     private Tricount tricount;
 
     private Button button;
