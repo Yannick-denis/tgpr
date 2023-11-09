@@ -69,12 +69,21 @@ private ViewTricoutController controller;
         new Label(totalExpense()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
         new Label("My Expenses :").addTo(panel);
         new Label(myExpense()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
-        new Label("My Balances:").addTo(panel);//algo a creer
+        new Label("My Balance:").addTo(panel);
 
-        /* addition des participants * leur propre poids = X
-        * total expenses /X = les parts égales Y
-        * Y * le poids du user connecté = Z
-        * Z - My epxenses = Si possitif argent a payer si negatif argent  a recevoir
+        /*
+        * dans la liste des opération :
+        * par opération if(userConnecté est dans l'ope){
+        * addition des poids =X
+        * total de l'ope Amount
+        * amout/x = part égale (Y)
+        * y * le poids du user connecté dans cette opération = prix a payer par ope (PAPPO)
+        * somme totale des PAPPO dans l'entièreté du tricount - Myexpense = Mybalances
+        *
+        *
+        *
+        * }
+        *
         *
         *
         *
@@ -102,7 +111,7 @@ private ViewTricoutController controller;
         //trie avec la date la plus recent en premier
         list.sort(new Comparateur());
 
- tave
+
         for (Operation elem:list){
             new Label(elem.getTitle()).addTo(panel);
             new Label("    "+new DecimalFormat("#.0#").format(elem.getAmount())+"€").addTo(panel);
@@ -158,6 +167,28 @@ private ViewTricoutController controller;
               resdouble+= elem.getAmount();
           }
         }
+        res =new DecimalFormat("#.0#").format(resdouble);
+        return res;
+    }
+
+    private String myBalance(List<Operation> list){
+        String res;
+        double resdouble=0;
+        /*
+         * dans la liste des opération :
+         * par opération if(userConnecté est dans l'ope){
+         * addition des poids =X
+         * total de l'ope Amount
+         * amout/x = part égale (Y)
+         * y * le poids du user connecté dans cette opération = prix a payer par ope (PAPPO)
+         * somme totale des PAPPO dans l'entièreté du tricount(RES) - Myexpense = Mybalances
+         *
+         * if (myExpense-RES >=0){
+         * vert}
+         * else{
+         * rouge}
+         *
+       */
         res =new DecimalFormat("#.0#").format(resdouble);
         return res;
     }
