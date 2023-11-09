@@ -40,7 +40,7 @@ public class AddTricountView extends DialogWindow {
             setComponent(root);
 
             createFields().addTo(root);
-            createButtons().addTo(root);
+            //createButtons().addTo(root);
 
         }
         private Panel createFields() {
@@ -63,7 +63,7 @@ public class AddTricountView extends DialogWindow {
             return panel;
         }
 
-        private Panel createButtons() {
+        private Panel createButtos() {
             var panel = Panel.horizontalPanel().center();
 
             //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());

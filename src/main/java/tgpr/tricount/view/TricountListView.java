@@ -8,6 +8,7 @@ import com.googlecode.lanterna.gui2.menu.MenuItem;
 import tgpr.framework.Controller;
 import tgpr.framework.Paginator;
 import tgpr.framework.Spacing;
+import tgpr.tricount.controller.AddTricountControler;
 import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.controller.profileController;
 import tgpr.tricount.model.Security;
