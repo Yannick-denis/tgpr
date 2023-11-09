@@ -28,7 +28,7 @@ public class ViewTemplatesView extends DialogWindow {
     private Tricount triC;
     private Template temp;
     private User me;
-    private ViewTemplatesController controler;
+
 
     public ViewTemplatesView(ViewTemplatesController controller) {
         super("Tricount Repartition Templates");
@@ -145,6 +145,7 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
 
     private void save(){
         //controler.save();faire un save dans le controller d'abord
+        temp.save();
        //showMessage("The template repartition has been updated!","Confirmation",new Button("ok", this::close));
 
     }
