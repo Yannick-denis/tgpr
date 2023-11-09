@@ -6,7 +6,6 @@ import tgpr.framework.Model;
 
 
 import tgpr.tricount.controller.AddParticipantController;
-
 import tgpr.tricount.controller.DeleteParticipantController;
 
 
@@ -25,6 +24,10 @@ import tgpr.tricount.controller.LoginController;
 
 import tgpr.tricount.controller.TestController;
 import tgpr.tricount.model.Operation;
+
+import tgpr.tricount.controller.EditTricountController;
+import tgpr.tricount.controller.TestController;
+
 import tgpr.tricount.model.Tricount;
 
 public class TricountApp {
@@ -35,6 +38,7 @@ public class TricountApp {
         if (!Model.checkDb(DATABASE_SCRIPT_FILE))
             Controller.abort("Database is not available!");
         else {
+
 
 
 //            Controller.navigateTo(new AddParticipantController(4,5)); //à changer dans edit (POUR MARGAUX)
@@ -51,6 +55,9 @@ public class TricountApp {
 // si vous voullez utuliser addoperation conctructeur avec tricount
 //pour edit operation conctructeur avec tricount + operation
 
+
+
+           // Controller.navigateTo(new EditTricountController(Tricount.getByKey(4))); //à changer dans edit (POUR MARGAUX)
 
         }
     }

@@ -127,4 +127,16 @@ public class Repartition extends Model {
                 new Params("operation", operationId).add("user", userId));
        // Assert.isTrue(c == 1, "Something went wrong");
     }
+    public static boolean isImplicate(User user, int id) {
+        int idUser = user.getId();
+
+        String sql = "SELECT id FROM users where id = :idUser AND id in( SELECT user from repartitions WHERE operation in(SELECT id from operations WHERE tricount = :tricount))";
+
+        var res = queryResultSet(sql, new Params("idUser", idUser).add("tricount", id));
+        try {
+            return res.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
