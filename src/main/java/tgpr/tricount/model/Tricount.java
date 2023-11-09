@@ -178,12 +178,18 @@ public class Tricount extends Model {
     public static List<Tricount> getFiltered(String filterText){
         Tricount.getAll();
         String filter = '%' + filterText + '%';
-        Params params = new Params("filter", filter);
+        Params params = new Params("filter", filter)
+                .add("user", Security.getLoggedUser().getId());
 //        String sql = "SELECT * FROM tricounts ";
-        String sql = "SELECT * \n" +
-                "FROM tricounts t , users u\n" +
-                "where t.creator = u.id\n" +
-                "and (t.title like :filter or t.description like :filter or u.full_name like :filter)";
+        String sql = """
+                SELECT *
+                FROM tricounts t , users u
+                where t.creator = u.id
+                and (t.title like :filter or t.description like :filter or u.full_name like :filter)
+                and t.id in (SELECT s.tricount
+                             from subscriptions s
+                             where s.user = :user)
+                """;
         return queryList(Tricount.class,sql, params);
     }
     //return Tricount.getAll();

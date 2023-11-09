@@ -32,6 +32,7 @@ public class profileView extends DialogWindow  {
         setComponent(root);
 
         Panel panel = new Panel().addTo(root);
+
         new EmptySpace().addTo(panel);
         new Label("Hey "+ user.getFullName() + "!").addTo(panel);
         new EmptySpace().addTo(panel);
