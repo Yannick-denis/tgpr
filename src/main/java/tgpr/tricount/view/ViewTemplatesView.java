@@ -4,6 +4,8 @@ import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import tgpr.framework.Layouts;
 import tgpr.framework.Margin;
 import tgpr.framework.ObjectTable;
@@ -12,6 +14,8 @@ import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.model.*;
 
 import java.util.List;
+
+import static tgpr.framework.ViewManager.gui;
 
 public class ViewTemplatesView extends DialogWindow {
     private final ViewTemplatesController controller;
@@ -88,12 +92,22 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
         new Button("New", this::close).addTo(panel);
         new Button("Edit Title", this::close).addTo(panel);
         new Button("Delete", this::close).addTo(panel);
-        new Button("Save", this::close).addTo(panel);
+        new Button("Save", this::save).addTo(panel);
         new Button("Close", this::close).addTo(panel);
-       // new Button("Ok", this::close).addTo(panel);//bouton du paneau de confirmation
+
 
 
         return panel;
     }
+    static MessageDialogButton showMessage(String message, String title, MessageDialogButton... buttons) {
+        return MessageDialog.showMessageDialog(gui, title, message, buttons);
+    }
+
+    private void save(){
+        //controller.save()
+       //showMessage("The template repartition has been updated!","Confirmation",new Button("ok",this::close));
+
+    }
+
 
 }
