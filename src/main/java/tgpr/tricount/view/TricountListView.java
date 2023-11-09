@@ -9,6 +9,7 @@ import tgpr.framework.Controller;
 import tgpr.framework.Paginator;
 import tgpr.framework.Spacing;
 import tgpr.tricount.controller.TricountListController;
+import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.controller.profileController;
 import tgpr.tricount.model.Security;
 import tgpr.tricount.model.Tricount;
@@ -111,7 +112,7 @@ public class TricountListView extends BasicWindow {
                 } else {
                     new Label("with " + (nbrParticipant - 1) + "friends ").center().addTo(p);
                 }
-                new Button("Open").center().addTo(p);
+                new Button("Open" , () -> Controller.navigateTo(new ViewTricoutController(tricount,Security.getLoggedUser()))).center().addTo(p);
                 p.sizeTo(35, 5);
                 pnlBody.addComponent(p.withBorder(Borders.singleLine()));
                 }
