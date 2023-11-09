@@ -27,6 +27,7 @@ public class AddTemplateController extends Controller {
         }
 
     }
+
     @Override
     public Window getView() {
         return new AddTemplateView(this, new Template("Benoit ne paye rien", 2 ));

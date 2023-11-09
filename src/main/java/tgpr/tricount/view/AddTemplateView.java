@@ -50,11 +50,6 @@ public class AddTemplateView extends BasicWindow {
        //Devrais permettre d'aller à la page precedente à tester quand j'aurais les pages.
        Button btnCancel = new Button("Cancel", this::close).addTo(buttons);
 
-
-
-
-
-
    }
 
 }
