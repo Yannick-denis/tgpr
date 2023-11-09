@@ -30,7 +30,12 @@ public class EditTricountController extends Controller {
 
     public void add(int idP, int idT){ //idP = id du participant, idT = id du Tricount
         Subscription subscription = new Subscription(idT, idP);
-        subscription.addNew();
+        try {
+            subscription.addNew();
+        }
+        catch (Exception exception){
+
+        }
     }
 
     public ErrorList validateForEdit(String title, String descriptions){

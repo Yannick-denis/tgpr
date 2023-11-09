@@ -96,7 +96,12 @@ public class EditTricountView extends DialogWindow {
     }
 
     private void add(String nomUser){
-        controller.add(User.getByFullName(nomUser).getId(), tricount.getId());
+        try {
+            controller.add(User.getByFullName(nomUser).getId(), tricount.getId());
+        }
+        catch(Exception e){
+
+        }
     }
 
     private void validateForEdit() {
