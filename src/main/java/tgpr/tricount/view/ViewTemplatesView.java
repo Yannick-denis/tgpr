@@ -14,6 +14,7 @@ import tgpr.tricount.controller.ViewTemplatesController;
 import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.model.*;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import static tgpr.framework.ViewManager.gui;
@@ -25,10 +26,12 @@ public class ViewTemplatesView extends DialogWindow {
     private final Label errBody = new Label("");
     private final CheckBox chkPrivate = new CheckBox();
     private ObjectTable<Template> templateTable;
-      private CheckBoxList<TemplateItem> templateItem;
+    private List<Template> list;
+      private CheckBoxList<User> userCheckBoxList;
     private Tricount triC;
     private Template temp;
     private User me;
+    private ViewTemplatesController controler;
 
     public ViewTemplatesView(ViewTemplatesController controller) {
         super("Tricount Repartition Templates");
@@ -36,6 +39,7 @@ public class ViewTemplatesView extends DialogWindow {
         setHints(List.of(Hint.CENTERED, Hint.MODAL));
         setCloseWindowWithEscape(true);
         Panel root = Panel.verticalPanel();
+      //  list=temp.getTitle();
         setComponent(root);
         createTemplatesList(triC).addTo(root);
         createTemplatesItemList(temp).addTo(root);
@@ -54,6 +58,11 @@ public class ViewTemplatesView extends DialogWindow {
         // le click doit changer aussi l'affichage de la repartition et répartir selon le template ou est placé le curseur
 
 
+//        for(Template elem:list){
+//            new Label(elem.getTitle()).addTo(panel);
+//
+//        }
+
         return panel;
     }
     private Panel createTemplatesItemList(Template temp) {
@@ -69,6 +78,14 @@ public class ViewTemplatesView extends DialogWindow {
 Cette répartition peut être modifiée en cochant / décochant des participants et/ou en modifiant les poids au moyen des flèches du clavier (même principe que pour l'édition des opérations).
 Une fois que la répartition a été modifiée, une indication "(modified)" est affichée.
 Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indication "(modified)" disparaît (voir ci-dessous).*/
+
+        //besoin d'une liste de user qui font parti de ce tricount
+//        for ( Repartition elme : rep) {
+//            check.addItem(elme,true);
+//        }
+//        check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
+
+
         /* visuel
          * Repartition :
          * [] user1
@@ -122,7 +139,7 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
     }
 
     private void save(){
-        //controller.save()
+        //controler.save();faire un save dans le controller d'abord
        //showMessage("The template repartition has been updated!","Confirmation",new Button("ok",this::close));
 
     }
