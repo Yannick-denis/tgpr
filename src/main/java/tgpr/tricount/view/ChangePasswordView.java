@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ChangePasswordView extends DialogWindow {
     private final ChangePasswordController controller;
+    private final Label errOldPassword = new Label("");
     private final Label errPassword = new Label("");
     private final Label errPasswordConfirm = new Label("");
     private TextBox oldpassword;
@@ -27,12 +28,15 @@ public class ChangePasswordView extends DialogWindow {
         setComponent(root);
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(0))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
+        new Label("Old Password :").addTo(panel);
         oldpassword = new TextBox()
                 .setPreferredSize(new TerminalSize(20, 1))
                 .setTextChangeListener((txt, byUser) -> validate())
                 .setMask('*')
                 .addTo(panel);
         panel.addEmpty();
+        errOldPassword.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
+        new Label("New Password :").addTo(panel);
         newpassword = new TextBox()
                 .setPreferredSize(new TerminalSize(20, 1))
                 .setTextChangeListener((txt, byUser) -> validate())
