@@ -100,6 +100,12 @@ public class ViewOperation  extends DialogWindow {
         this.close = close;
     }
 
+   /* public Button getEdit() {
+       return  Controller.navigateTo(new OperationController(Operation.getByKey(2)));
+    }
+    */
+
+
 
 
 

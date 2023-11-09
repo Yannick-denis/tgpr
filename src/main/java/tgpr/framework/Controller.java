@@ -42,6 +42,7 @@ public abstract class Controller {
 
         // on efface également le cache des objets du modèle quand on a fini d'afficher une fenêtre
         Model.clearCache();
+
     }
 
     /**

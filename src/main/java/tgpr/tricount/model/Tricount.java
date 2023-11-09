@@ -16,6 +16,12 @@ public class Tricount extends Model {
     public Tricount() {
 
     }
+
+    /*public Tricount(int idTricount, String title, String destription, Template templates, int creator) {
+    }
+
+     */
+
     public Tricount(String title, int creatorId) {
         this.title = title;
         this.createdAt = LocalDateTime.now();
