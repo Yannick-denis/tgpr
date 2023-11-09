@@ -3,7 +3,6 @@ package tgpr.tricount;
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
 import tgpr.tricount.controller.ViewTemplatesController;
-import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 

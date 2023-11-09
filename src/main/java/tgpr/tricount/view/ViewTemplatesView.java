@@ -1,20 +1,15 @@
 package tgpr.tricount.view;
 
 import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
-import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
-import tgpr.framework.Margin;
 import tgpr.framework.ObjectTable;
 import tgpr.tricount.controller.ViewTemplatesController;
-import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.model.*;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import static tgpr.framework.ViewManager.gui;
@@ -39,7 +34,7 @@ public class ViewTemplatesView extends DialogWindow {
         setHints(List.of(Hint.CENTERED, Hint.MODAL));
         setCloseWindowWithEscape(true);
         Panel root = Panel.verticalPanel();
-      //  list=temp.getTitle();
+        //list=temp.getTitle();
         setComponent(root);
         createTemplatesList(triC).addTo(root);
         createTemplatesItemList(temp).addTo(root);
@@ -58,8 +53,8 @@ public class ViewTemplatesView extends DialogWindow {
         // le click doit changer aussi l'affichage de la repartition et répartir selon le template ou est placé le curseur
 
 
-//        for(Template elem:list){
-//            new Label(elem.getTitle()).addTo(panel);
+//        for(Template elem:list.getUSERname){
+//            new Label(temp.getTitle()).addTo(panel);
 //
 //        }
 
@@ -80,10 +75,14 @@ Une fois que la répartition a été modifiée, une indication "(modified)" est 
 Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indication "(modified)" disparaît (voir ci-dessous).*/
 
         //besoin d'une liste de user qui font parti de ce tricount
+//        panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
+//        check = new CheckBoxList<Repartition>();
+//
 //        for ( Repartition elme : rep) {
 //            check.addItem(elme,true);
 //        }
 //        check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
+
 
 
         /* visuel
@@ -95,7 +94,7 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
          * if on modifie le titre change a Repartition(modified)
          * Repartition (modified) :
          * [] user1
-         * [x] user2 on peut cocher et modifier le poids avec les flèches haut-bas [2]
+         * [x] user2 (2) on peut cocher et modifier le poids avec les flèches haut-bas,le poids s'affiche entre parenthèses
          * [x] user3
          *
          *
