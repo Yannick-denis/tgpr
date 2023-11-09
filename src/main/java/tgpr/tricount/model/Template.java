@@ -135,6 +135,12 @@ public class Template extends Model {
         }
         return this;
     }
+    public void add(){
+        Template obj = getByKey(id);
+        String sql;
+        var params = new Params()
+                .add("title",getTitle());
+    }
 
     public void delete() {
         int c = execute("delete from templates where id=:id",
