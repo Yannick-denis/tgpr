@@ -7,6 +7,7 @@ import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import tgpr.framework.Layouts;
 import tgpr.framework.ObjectTable;
+import tgpr.framework.ViewManager;
 import tgpr.tricount.controller.ViewTemplatesController;
 import tgpr.tricount.model.*;
 
@@ -22,7 +23,8 @@ public class ViewTemplatesView extends DialogWindow {
     private final CheckBox chkPrivate = new CheckBox();
     private ObjectTable<Template> templateTable;
     private List<Template> list;
-      private CheckBoxList<User> userCheckBoxList;
+      private CheckBoxList<TemplateItem>  templateItemCheckBoxList;
+
     private Tricount triC;
     private Template temp;
     private User me;
@@ -49,6 +51,7 @@ public class ViewTemplatesView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER);
 
         new Label("Templates : ").addTo(panel).addStyle(SGR.UNDERLINE);
+        //ObjectTable<Template> templatetable
        //list des templates avec ">" comme curseur  et clickable pour changer de templates
         // le click doit changer aussi l'affichage de la repartition et répartir selon le template ou est placé le curseur
 
@@ -75,6 +78,9 @@ Une fois que la répartition a été modifiée, une indication "(modified)" est 
 Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indication "(modified)" disparaît (voir ci-dessous).*/
 
         //besoin d'une liste de user qui font parti de ce tricount
+        //CheckBoxList<TemplateItem> templateItemCheckBoxList;
+
+
 //        panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
 //        check = new CheckBoxList<Repartition>();
 //
@@ -139,7 +145,7 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
 
     private void save(){
         //controler.save();faire un save dans le controller d'abord
-       //showMessage("The template repartition has been updated!","Confirmation",new Button("ok",this::close));
+       //showMessage("The template repartition has been updated!","Confirmation",new Button("ok", this::close));
 
     }
 
