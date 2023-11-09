@@ -39,6 +39,6 @@ public class ChangePasswordView extends DialogWindow {
         return panel;
     }
     private void save() {
-        controller.save(newpassword.getText(),comfirmPassword.getText());
+        controller.save(oldpassword.getText(), newpassword.getText(), confirmPassword.getText());
     }
 }

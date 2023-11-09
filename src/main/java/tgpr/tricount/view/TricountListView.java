@@ -45,6 +45,8 @@ public class TricountListView extends BasicWindow {
         menuFile.add(menuLogout);
         MenuItem balance = new MenuItem("Balance", controller::balance);
         menuFile.add(balance);
+        MenuItem ChPsw = new MenuItem("Change Password", controller::chpsw); // à bouger dans profileview
+        menuFile.add(balance);                                                    // à bouger dans profileview
 
     }
 

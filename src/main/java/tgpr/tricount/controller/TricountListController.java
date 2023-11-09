@@ -25,5 +25,8 @@ public class TricountListController extends Controller {
     public void balance() {
         navigateTo( new BalanceController());
     }
+    public void chpsw() {                             //à bouger dans profileController
+        navigateTo( new ChangePasswordController());  // à bouger dans profileController
+    }                                                 //à bouger dans profileController
 
 }
