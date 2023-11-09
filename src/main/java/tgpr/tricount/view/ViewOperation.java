@@ -33,7 +33,7 @@ public class ViewOperation  extends DialogWindow {
         setFixedSize(new TerminalSize(50, 15));
 
         Panel content = new Panel(new  GridLayout(2)).addTo(root);
-        Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1)).addTo(root);
+        Panel contentPanel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing((int) 0.5)).addTo(root);
 
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(getOperation().getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
@@ -44,7 +44,8 @@ public class ViewOperation  extends DialogWindow {
         contentPanel.addComponent(new Label("Paid by:"));
         contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel).addStyle(SGR.BOLD));
 
-
+        new EmptySpace().addTo(contentPanel);
+        new EmptySpace().addTo(contentPanel);
         new Label("From whom:").addTo(contentPanel);
         table = new ObjectTable<>(
                new ColumnSpec<>("Participant", Repartition::getUser),
@@ -54,8 +55,15 @@ public class ViewOperation  extends DialogWindow {
         ).addTo(contentPanel);
         table.add(operation.getRepartitions());
 
+
+
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
                 .setLayoutData(Layouts.LINEAR_FILL).addTo(root);
+        new EmptySpace().addTo(buttons);
+        new EmptySpace().addTo(buttons);
+        new EmptySpace().addTo(buttons);
+        new EmptySpace().addTo(buttons);
+
         up = new Button("Up").addTo(buttons);
         down = new Button("Down").addTo(buttons);
         edit = new Button("Edit", this::getEdit).addTo(buttons);
