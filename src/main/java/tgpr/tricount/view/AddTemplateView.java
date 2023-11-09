@@ -42,7 +42,7 @@ public class AddTemplateView extends BasicWindow {
            if (template == null){
                addTemplateController.add(enteredTitle);
            }else {
-             template.save();
+             addTemplateController.add(enteredTitle);
            }
           // controller.navigateTo(new AddTemplateController());
        }).addTo(buttons);

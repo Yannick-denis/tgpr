@@ -7,15 +7,20 @@ import tgpr.tricount.model.Tricount;
 import tgpr.tricount.view.AddTemplateView;
 
 public class AddTemplateController extends Controller {
-    private AddTemplateView addTemplateView= new AddTemplateView(this, new Template("Benoit ne paye rien", 2));
-    private Template template;
-    public AddTemplateController() {
+    private AddTemplateView addTemplateView;
+    private Template template ;
+    private Tricount tricount;
+    public AddTemplateController(Tricount tricount) {
+        this.tricount=tricount;
+        this.template= new Template(null, tricount.getId());
+        addTemplateView= new AddTemplateView(this,template);
     }
 
 
     public void add(String title) {
-        Template template1 =new Template(title, 0);
-        template.save().setTitle(title);
+        template.setTitle(title);
+        template.save();
+        addTemplateView.close();
     }
 
     public void update(String title, int id){
@@ -30,6 +35,6 @@ public class AddTemplateController extends Controller {
 
     @Override
     public Window getView() {
-        return new AddTemplateView(this, new Template("Benoit ne paye rien", 2 ));
+        return addTemplateView;
     }
 }

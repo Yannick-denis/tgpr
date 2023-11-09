@@ -62,7 +62,7 @@ private ViewTricoutController controller;
         new Label("Titre :").addTo(panel);
         new Label(triC.getTitle()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
         new Label ("Description :").addTo(panel);
-        new Label(triC.getDescription()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
+        new Label(triC.getDescription()==null?"no description":triC.getDescription()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
         new Label("Create by :").addTo(panel);
         new Label(triC.getCreator().getFullName()).addTo(panel).setForegroundColor(new TextColor.RGB(128,128,128));
         new Label("Date :").addTo(panel);
