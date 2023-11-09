@@ -140,12 +140,12 @@ private ViewTricoutController controller;
 
     }
     private void add_operation(){
-       // Controller.navigateTo(new AddOperationController);
+        Controller.navigateTo(new AddOperationController);
 
     }
     private void edit_tricount(){
 
-       // Controller.navigateTo(new EditTricountController);
+        Controller.navigateTo(new EditTricountController);
 
     }
 
