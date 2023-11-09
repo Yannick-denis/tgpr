@@ -6,6 +6,7 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
+import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.framework.Margin;
 import tgpr.framework.ObjectTable;
@@ -49,7 +50,9 @@ public class ViewTemplatesView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER);
 
         new Label("Templates : ").addTo(panel).addStyle(SGR.UNDERLINE);
-       //list des templates avec ">" comme curseur
+       //list des templates avec ">" comme curseur  et clickable pour changer de templates
+        // le click doit changer aussi l'affichage de la repartition et répartir selon le template ou est placé le curseur
+
 
         return panel;
     }
@@ -66,38 +69,53 @@ public class ViewTemplatesView extends DialogWindow {
 Cette répartition peut être modifiée en cochant / décochant des participants et/ou en modifiant les poids au moyen des flèches du clavier (même principe que pour l'édition des opérations).
 Une fois que la répartition a été modifiée, une indication "(modified)" est affichée.
 Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indication "(modified)" disparaît (voir ci-dessous).*/
+        /* visuel
+         * Repartition :
+         * [] user1
+         * [x] user2 on peut cocher et modifier le poids avec les flèches haut-bas [2]
+         * [x] user3
+         *
+         * if on modifie le titre change a Repartition(modified)
+         * Repartition (modified) :
+         * [] user1
+         * [x] user2 on peut cocher et modifier le poids avec les flèches haut-bas [2]
+         * [x] user3
+         *
+         *
+         *
+         */
+
+
+
+
+
         return panel;
     }
-
-    private Panel createConfirmation(Tricount tric) {
-        Panel panel = new Panel().setLayoutManager(new GridLayout(4).setTopMarginSize(1).setVerticalSpacing(0))
-                .setLayoutData(Layouts.LINEAR_CENTER);
-        new Label("The template repartition has been updated ").addTo(panel);
-
-
-
-        return panel;
-
-    }
-
-
-
-
 
 
     private Panel createButtons() {
         var panel = Panel.horizontalPanel().center();
 
         //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
-        new Button("New", this::close).addTo(panel);
-        new Button("Edit Title", this::close).addTo(panel);
-        new Button("Delete", this::close).addTo(panel);
-        new Button("Save", this::save).addTo(panel);
+        new Button("New", this::addTemplate).addTo(panel);
+        new Button("Edit Title", this::editTemplate).addTo(panel);
+        new Button("Delete", this::deleteTemplate).addTo(panel);
+        new Button("Save", this::save).addTo(panel);// qui renverra vers le MessageDialogButton avec le message de confirmation et "modified" disparait dans le titre "Repartition:"
         new Button("Close", this::close).addTo(panel);
 
 
 
         return panel;
+    }
+
+    private void addTemplate(){
+       // Controller.navigateTo(new AddTemplateController);
+    }
+    private void editTemplate(){
+        // Controller.navigateTo(new EditTemplateController);
+    }
+    private void deleteTemplate(){
+        // Controller.navigateTo(new DeleteTemplateController);
     }
     static MessageDialogButton showMessage(String message, String title, MessageDialogButton... buttons) {
         return MessageDialog.showMessageDialog(gui, title, message, buttons);
