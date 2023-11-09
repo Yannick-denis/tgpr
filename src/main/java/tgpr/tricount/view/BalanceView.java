@@ -7,6 +7,9 @@ import tgpr.framework.Margin;
 import tgpr.framework.Spacing;
 import tgpr.tricount.controller.BalanceController;
 import tgpr.tricount.controller.TestController;
+import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Tricount;
+import tgpr.tricount.model.User;
 
 import java.util.List;
 
@@ -29,7 +32,14 @@ public class BalanceView extends DialogWindow {
         );
 
 
-        createCell("test").addTo(balance);
+        Tricount tricountcur = Tricount.getByKey(1);
+        List lop = tricountcur.getOperations();
+        for(Operation ope: lop){
+            
+        }
+
+        Operation.getByKey(1).getRepartitions().
+        User.getByKey(1).getFullName();
         createCell("|").addTo(grid)
                 .setLayoutData(GridLayout.createLayoutData(
                         GridLayout.Alignment.FILL, GridLayout.Alignment.FILL,
