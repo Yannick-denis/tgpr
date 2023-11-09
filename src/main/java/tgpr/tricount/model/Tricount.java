@@ -15,8 +15,10 @@ public class Tricount extends Model {
         Id, Title, Description, CreatedAt, Templates, Creator
     }
 
-    public Tricount(int idTricount, String title, String destription, Template templates, int creator) {
+    /*public Tricount(int idTricount, String title, String destription, Template templates, int creator) {
     }
+
+     */
 
     public Tricount(String title, int creatorId) {
         this.title = title;

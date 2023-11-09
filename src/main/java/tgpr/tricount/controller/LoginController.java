@@ -27,7 +27,7 @@ public class LoginController extends Controller {
             var member = User.checkCredentials(mail, password);
             if (member != null) {
                 Security.login(member);
-                navigateTo(new TestController());
+               // navigateTo(new TestController());
             } else
                 showError(new Error("invalid credentials"));
         } else

@@ -66,7 +66,7 @@ public class ViewOperation  extends DialogWindow {
 
         up = new Button("Up").addTo(buttons);
         down = new Button("Down").addTo(buttons);
-        edit = new Button("Edit", this::getEdit).addTo(buttons);
+        //edit = new Button("Edit", this::getEdit).addTo(buttons);
         close = new Button("Close", this::getClose).addTo(buttons);
         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.End));
     }
@@ -100,9 +100,13 @@ public class ViewOperation  extends DialogWindow {
         this.close = close;
     }
 
-    public Button getEdit() {
-        return  Controller.navigateTo(new OperationController(Operation.getByKey(2)));
+   /* public Button getEdit() {
+       return  Controller.navigateTo(new OperationController(Operation.getByKey(2)));
     }
+
+    */
+
+
 
 
 
