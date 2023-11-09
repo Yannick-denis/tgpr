@@ -55,12 +55,13 @@ public class TricountListView extends BasicWindow {
 
 //        createMenu(controllerProfil).addTo(root);
 //        MenuBar menuBar = new MenuBar().addTo(pnlProfile);
-        pnlEnTete.addComponent(pnlProfile);
+//        pnlEnTete.addComponent(pnlProfile);
 //        menuFile = new Menu("File");
 //        menuBar.add(menuFile);
 ////        MenuItem menuprofile = new MenuItem("View Profile" ,  () -> {Controller.navigateTo(controllerProfil);});
 //        menuFile.add(menuprofile);
-//        new EmptySpace().addTo(pnlEnTete);
+        new EmptySpace().addTo(pnlEnTete);
+        new EmptySpace().addTo(pnlEnTete);
 //        pnlProfile = Panel.verticalPanel();
 
 
