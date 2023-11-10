@@ -24,7 +24,6 @@ public class Repartition extends Model {
                 sum_weights += allRepartition.get(i).weight;
             }
 
-
         }
         return sum_weights ;
     }

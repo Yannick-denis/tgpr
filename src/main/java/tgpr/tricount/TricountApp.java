@@ -3,14 +3,9 @@ package tgpr.tricount;
 import tgpr.framework.Controller;
 import tgpr.framework.Model;
 
-import tgpr.tricount.controller.ViewTricoutController;
+import tgpr.tricount.controller.*;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
-
-
-import tgpr.tricount.controller.LoginController;
-import tgpr.tricount.controller.TestController;
-import tgpr.tricount.controller.TricountListController;
 
 public class TricountApp {
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";
@@ -19,7 +14,7 @@ public class TricountApp {
             Controller.abort("Database is not available!");
 
         } else {
-            Controller.navigateTo(new LoginController());
+            Controller.navigateTo(new AddTemplateController());
 
 
         }
