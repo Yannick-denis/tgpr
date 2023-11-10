@@ -7,6 +7,7 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddTemplateController;
+import tgpr.tricount.model.Template;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -16,14 +17,29 @@ public class AddTemplateView extends DialogWindow {
     private final AddTemplateController addTemplateController;
     private final TextBox txtTitle;
 
-    public AddTemplateView(AddTemplateController addTemplateController) {
+    public AddTemplateView(AddTemplateController addTemplateController, Template template) {
         super((addTemplateController.getTemplate() == null) ? "Create a new Template" : "Change Template title");
         this.addTemplateController = addTemplateController;
         setHints(List.of( Hint.CENTERED, Hint.FIXED_SIZE));
         setFixedSize(new TerminalSize(17, 5));
 
+
         Panel root = new Panel();
         setComponent(root);
+
+      new EmptySpace().addTo(root);
+// si le buttons est Edit title alors
+       Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
+               .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
+       Button btnCreate = new Button(template == null ?"Create" : "save", () -> {
+           String enteredTitle = getTxtTitle().getText();
+           if (template == null){
+               addTemplateController.add(enteredTitle);
+           }else {
+             addTemplateController.add(enteredTitle);
+           }
+          // controller.navigateTo(new AddTemplateController());
+       }).addTo(buttons);
 
         Panel inputPanel = new Panel()
                 .setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))

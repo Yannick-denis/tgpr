@@ -19,20 +19,24 @@ public class AddTemplateController extends Controller {
 
     public AddTemplateController(Template template, Tricount tricount) {
 
-        this.template = template;
+
         this.tricount = tricount;
-        addTemplateView = new AddTemplateView(this);
+        this.template = new Template(null, tricount.getId());
+        addTemplateView = new AddTemplateView(this, template);
+
+
     }
-
-
     public void add(String title) {
+
         Template template1 = new Template(title, 0);
         template.setTitle(title);
         template.save();
     }
     public Template getTemplate() {
-        return template;
-    }
+            return template;
+        }
+
+
 
     public void onSave() {
         if(template == null) {

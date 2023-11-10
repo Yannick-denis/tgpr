@@ -3,27 +3,20 @@ package tgpr.tricount.view;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
-import com.googlecode.lanterna.gui2.Button;
-import com.googlecode.lanterna.gui2.GridLayout;
-import com.googlecode.lanterna.gui2.Label;
-import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
-import tgpr.tricount.model.*;
+import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Repartition;
+import tgpr.tricount.model.Template;
+import tgpr.tricount.model.User;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -280,7 +273,7 @@ public class AddExpenseView extends DialogWindow {
          btnSave.setEnabled(false);
 
         Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
-            // save repartition comme template
+            //Controller.navigateTo(new AddTemplateController(controler.getTricount()));
         }).addTo(panel);
         Button btnCancel = new Button("Cancel", () -> {
             close();
