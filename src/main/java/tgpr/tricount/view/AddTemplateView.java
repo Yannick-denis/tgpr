@@ -1,55 +1,58 @@
+
+// AddTemplateView.java
 package tgpr.tricount.view;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
-import tgpr.framework.Controller;
+import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddTemplateController;
-import tgpr.tricount.model.Template;
-import tgpr.tricount.model.Tricount;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class AddTemplateView extends BasicWindow {
-    private  Tricount tricount;
-    private AddTemplateController addTemplateController;
-    // private ViewTemplate viewTemplate;
-    private Template template;
+public class AddTemplateView extends DialogWindow {
 
+    private final AddTemplateController addTemplateController;
     private final TextBox txtTitle;
-    Controller controller;
-   public  AddTemplateView(AddTemplateController addTemplateController, Template template){
-      super(template == null ? "Create a new Template" : "Changes Template title");
-       setHints(List.of(Hint.EXPANDED));
-      this.addTemplateController = addTemplateController;
-       setHints(List.of(Hint.CENTERED, Hint.FIXED_SIZE));
-       setFixedSize(new TerminalSize(17, 5));
-      Panel root = new Panel();
-      setComponent(root);
 
-      Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
-               .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
-      panel.addComponent(new Label("Title"));
-      txtTitle = new TextBox().addTo(panel).setValidationPattern(Pattern.compile("[a-z][a-z\\d]{0,7}"));
+    public AddTemplateView(AddTemplateController addTemplateController) {
+        super((addTemplateController.getTemplate() == null) ? "Create a new Template" : "Change Template title");
+        this.addTemplateController = addTemplateController;
+        setHints(List.of( Hint.CENTERED, Hint.FIXED_SIZE));
+        setFixedSize(new TerminalSize(17, 5));
 
-      new EmptySpace().addTo(root);
-// si le buttons est Edit title alors
-       Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
-               .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
-       Button btnCreate = new Button(template == null ?"Create" : "save", () -> {
-           String enteredTitle = txtTitle.getText();
-           if (template == null){
-               addTemplateController.add(enteredTitle);
-           }else {
-             template.save();
-           }
-          // controller.navigateTo(new AddTemplateController());
-       }).addTo(buttons);
+        Panel root = new Panel();
+        setComponent(root);
 
-       //Devrais permettre d'aller à la page precedente à tester quand j'aurais les pages.
-       Button btnCancel = new Button("Cancel", this::close).addTo(buttons);
+        Panel inputPanel = new Panel()
+                .setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
+                .setLayoutData(Layouts.LINEAR_CENTER)
+                .addTo(root);
 
-   }
 
+        inputPanel.addComponent(new Label("Title"));
+        txtTitle = new TextBox().addTo(inputPanel).setValidationPattern(Pattern.compile(".*"));
+        txtTitle.setText(addTemplateController.getTemplate() == null ? "" : addTemplateController.getTemplate().getTitle());
+
+        new EmptySpace().addTo(root);
+
+        Panel buttonPanel = new Panel()
+                .setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
+                .setLayoutData(Layouts.LINEAR_CENTER)
+                .addTo(root);
+
+        Button btnSave = new Button((addTemplateController.getTemplate() == null ) ? "Create" : "Save", addTemplateController::onSave).addTo(buttonPanel);
+        Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
+    }
+
+    public void refresh() {
+        txtTitle.setText(addTemplateController.getTemplate().getTitle());
+        setTitle((addTemplateController.getTemplate().getId() == 0 ) ? "Create a new Template" : "Change Template title");
+    }
+
+    public TextBox getTxtTitle() {
+        return txtTitle;
+    }
 }
+
