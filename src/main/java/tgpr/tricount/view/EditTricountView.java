@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static tgpr.framework.Controller.showError;
+
 public class EditTricountView extends DialogWindow {
 
     private EditTricountController controller;
@@ -28,21 +30,25 @@ public class EditTricountView extends DialogWindow {
     private final Label errDescription = new Label("");
 
     private Button btnAdd;
-    private ArrayList listPourCombo = (ArrayList) User.getAll();
+    private List<User> listPourCombo = User.getAll();
+
+    private Button btnDelete;
+
 
     public EditTricountView(EditTricountController controller, Tricount tricount){
         super("Edit Tricount");
         this.controller = controller;
         this.tricount = tricount;
 
-        setHints(List.of(Hint.CENTERED, Hint.FIXED_SIZE));
+        setHints(List.of(Hint.CENTERED));
         setCloseWindowWithEscape(true);
-        setFixedSize(new TerminalSize(70, 15));
 
         Panel root = Panel.verticalPanel();
         setComponent(root);
 
         createFieldsGrid().addTo(root);
+
+        //btn().addTo(root);
     }
 
     private Panel createFieldsGrid() {
@@ -56,7 +62,7 @@ public class EditTricountView extends DialogWindow {
                 .setForegroundColor(TextColor.ANSI.RED);
 
         new Label("Description:").addTo(panel);
-        txtDescription = new TextBox().sizeTo(30).addTo(panel)
+        txtDescription = new TextBox().setPreferredSize(new TerminalSize(30, 4)).addTo(panel)
                 .setTextChangeListener((txt, byUser) -> validateForEdit());
         panel.addEmpty();
         errDescription.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
@@ -70,6 +76,10 @@ public class EditTricountView extends DialogWindow {
         panel.addEmpty();
 
         comboBoxAndButton().addTo(panel);
+
+
+
+
 
         return panel;
     }
@@ -87,12 +97,20 @@ public class EditTricountView extends DialogWindow {
         return panel;
     }
 
+//    private Panel btn(){
+//        var panel = Panel.gridPanel(4, Margin.of(1));
+//
+//        btnDelete = new Button("Delete", () -> {
+//            delete();
+//        })
+//    }
+
     private void add(String nomUser){
         try {
             controller.add(User.getByFullName(nomUser).getId(), tricount.getId());
         }
         catch(Exception e){
-
+            showError(e.toString());
         }
     }
 
@@ -108,28 +126,45 @@ public class EditTricountView extends DialogWindow {
     }
 
     private void refresh(){
-        listPourCombo = (ArrayList) User.getAll();
-
-        selectUser = new ComboBox<>();
-        selectUser.clearItems();
-
-        selectUser.addItem("--- Select a User ---").isReadOnly();
+        listPourCombo = User.getAll();
 
         listeBox.clearItems();
-        for (var participant : tricount.getParticipants()) {
+        for (User participant : tricount.getParticipants()) {
             listPourCombo.remove(participant);
             var libelle = participant.toString();
             if (controller.isImplicate(participant.getId(), tricount.getId()))
                 libelle += " (*)";
             listeBox.addItem(libelle, () -> {
-                System.out.println(participant);
+                delete(participant);
             });
         }
 
-        for (var participant: listPourCombo) {
+        selectUser = new ComboBox<>();
+        selectUser.addItem("--- Select a User ---").isReadOnly();
+        for (User participant: listPourCombo) {
             selectUser.addItem(participant.toString());
         }
 
         // arrive pas à supprimer l'item de la combobox
+    }
+
+    //this.close
+
+
+    private void delete(User particpant){
+        Subscription sub = new Subscription(tricount.getId(), particpant.getId());
+        if (!controller.isImplicate(particpant.getId(),tricount.getId())){
+            try{
+            sub.delete();
+            listPourCombo.add(particpant);
+            }
+            catch(Exception e){
+                showError(e.toString());
+            }
+        }
+        else {
+            showError("this user be not deledeted because il est dans une depense");
+        }
+        refresh();
     }
 }
