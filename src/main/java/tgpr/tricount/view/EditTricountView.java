@@ -190,7 +190,7 @@ public class EditTricountView extends DialogWindow {
 
     private void delete(User particpant){
         Subscription sub = new Subscription(tricount.getId(), particpant.getId());
-        if (!controller.isImplicate(particpant.getId(),tricount.getId())){
+        if (!controller.isImplicate(particpant.getId(),tricount.getId())&&!tricount.getCreator().equals(particpant)){
             try{
             sub.delete();
             listPourCombo.add(particpant);
@@ -200,7 +200,7 @@ public class EditTricountView extends DialogWindow {
             }
         }
         else {
-            showError("This user is involved in an expense");
+            showError("This user is involved in an expense or craator");
         }
         refresh();
     }
