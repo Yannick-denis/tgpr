@@ -4,6 +4,7 @@ import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
 import tgpr.framework.ErrorList;
 import tgpr.framework.Tools;
+import tgpr.tricount.model.Security;
 import tgpr.tricount.model.User;
 import tgpr.tricount.view.SinupView;
 
@@ -26,6 +27,8 @@ public class SinupControler extends Controller {
             user.save();
             //  Controller.navigateTo();
             view.close();
+            Security.login(user);
+            navigateTo(new TricountListController());
         }else {
             showErrors(error);
         }

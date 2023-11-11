@@ -2,10 +2,12 @@ package tgpr.tricount.view;
 
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.input.KeyStroke;
+import tgpr.framework.Controller;
 import tgpr.tricount.controller.LoginController;
 import tgpr.framework.Configuration;
 import tgpr.framework.Layouts;
 import tgpr.framework.ViewManager;
+import tgpr.tricount.controller.SinupControler;
 import tgpr.tricount.model.User;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class LoginView extends BasicWindow {
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         btnLogin = new Button("Login", this::login).addTo(buttons);
-        Button btnSignUp = new Button("Signup").addTo(buttons);
+        Button btnSignUp = new Button("Signup",()-> Controller.navigateTo(new SinupControler())).addTo(buttons);
         Button btnExit = new Button("Exit", this::exit).addTo(buttons);
 
         new EmptySpace().addTo(root);
