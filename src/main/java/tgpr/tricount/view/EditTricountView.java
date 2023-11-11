@@ -10,6 +10,7 @@ import tgpr.framework.Model;
 import tgpr.framework.Tools;
 import tgpr.tricount.controller.DeleteTricountController;
 import tgpr.tricount.controller.EditTricountController;
+import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
@@ -18,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static tgpr.framework.Controller.navigateTo;
-import static tgpr.framework.Controller.showError;
+import static tgpr.framework.Controller.*;
+
 public class EditTricountView extends DialogWindow {
 
     private EditTricountController controller;
@@ -123,7 +124,8 @@ public class EditTricountView extends DialogWindow {
         var panel = Panel.gridPanel(4, Margin.of(1));
 
         btnDelete = new Button("Delete", () -> {
-            Controller.navigateTo(new DeleteTricountController(tricount)); // Pour Alison
+            deleteT();
+            Controller.navigateTo(new TricountListController());
         }
         ).addTo(panel);
 
@@ -209,5 +211,11 @@ public class EditTricountView extends DialogWindow {
         tricount.setTitle(txtTitle.getText());
         tricount.setDescription(txtDescription.getText());
         tricount.save();
+    }
+
+    private void deleteT (){
+        if (askConfirmation("You're about to delete this tricount. Do you confirm!", "Delete Tricount")) {
+            tricount.delete();
+        }
     }
 }
