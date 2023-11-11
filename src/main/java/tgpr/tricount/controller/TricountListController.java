@@ -27,9 +27,6 @@ public class TricountListController extends Controller {
             return Tricount.getFiltered(filter);
         }
 
-    public void balance() {
-        navigateTo( new BalanceController());
-    }
 
 }
 
