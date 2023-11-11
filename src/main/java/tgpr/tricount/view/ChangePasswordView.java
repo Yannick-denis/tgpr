@@ -80,6 +80,7 @@ public class ChangePasswordView extends DialogWindow {
         );
         errPassword.setText(error.getFirstErrorMessage(User.Fields.Password));
         errPasswordConfirm.setText(error.getFirstErrorMessage(User.Fields.ConfirmPassword));
+        errOldPassword.setText(error.getFirstErrorMessage(User.Fields.OldPassword));
 
 
         btnSave.setEnabled(error.isEmpty());

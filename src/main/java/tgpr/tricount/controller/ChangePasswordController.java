@@ -31,11 +31,24 @@ public class ChangePasswordController extends Controller {
     public ErrorList validate(String oldpassword, String newpassword, String confirmPassword) {
         var eror = new ErrorList();
         var user = Security.getLoggedUser();
-        if (!oldpassword.equals(user.getHashedPassword())){
-            eror.add("wrong password ", User.Fields.ConfirmPassword);
+        if (!Tools.hash(oldpassword).equals(user.getHashedPassword())){
+            eror.add("password invalid", User.Fields.OldPassword);
         }
+
         if (!newpassword.equals(confirmPassword)){
             eror.add("password must be the same", User.Fields.ConfirmPassword);
+        }
+        if (Tools.hash(newpassword).equals(user.getHashedPassword())){
+            eror.add("New passoword must different old password ",User.Fields.Password);
+        }
+        if(newpassword.length()<8){
+            eror.add("minimun 8 char",User.Fields.Password);
+        }
+        if (!newpassword.matches(".*\\d.*")){
+            eror.add("Missing a digital",User.Fields.Password);
+        }
+        if (!newpassword.matches(".*[A-Z].*")){
+            eror.add("Missing an uppercase char",User.Fields.Password);
         }
         if (newpassword== null ||newpassword.isEmpty()){
             eror.add(" new password required ",User.Fields.Password);
