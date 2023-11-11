@@ -52,10 +52,11 @@ public class AddTemplateView extends DialogWindow {
         Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
     }
 
-    public void refresh() {
+   /* public void refresh() {
         txtTitle.setText(addTemplateController.getTemplate().getTitle());
         setTitle((addTemplateController.getTemplate().getId() == 0 ) ? "Create a new Template" : "Change Template title");
     }
+    */
 
     public TextBox getTxtTitle() {
         return txtTitle;

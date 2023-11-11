@@ -6,13 +6,6 @@ import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 import tgpr.tricount.view.ViewTricountView;
 
-
-import com.googlecode.lanterna.gui2.Window;
-import tgpr.framework.Controller;
-import tgpr.tricount.model.Tricount;
-import tgpr.tricount.model.User;
-import tgpr.tricount.view.ViewTricountView;
-
     public class ViewTricoutController extends Controller {
 
         public User getMe() {
@@ -26,6 +19,7 @@ import tgpr.tricount.view.ViewTricountView;
             view =new ViewTricountView(this);
 
         }
+
         private ViewTricountView view ;
 
         public Tricount getTricount() {

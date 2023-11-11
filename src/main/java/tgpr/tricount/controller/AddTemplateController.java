@@ -18,13 +18,9 @@ public class AddTemplateController extends Controller {
     private Tricount tricount;
 
     public AddTemplateController(Template template, Tricount tricount) {
-
-
         this.tricount = tricount;
         this.template = new Template(null, tricount.getId());
         addTemplateView = new AddTemplateView(this, template);
-
-
     }
     public void add(String title) {
 
@@ -35,7 +31,6 @@ public class AddTemplateController extends Controller {
     public Template getTemplate() {
             return template;
         }
-
 
 
     public void onSave() {

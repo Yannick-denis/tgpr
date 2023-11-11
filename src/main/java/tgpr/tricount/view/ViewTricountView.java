@@ -1,17 +1,12 @@
 package tgpr.tricount.view;
 
-import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
-import tgpr.framework.Controller;
-import tgpr.framework.Layouts;
-import tgpr.framework.Margin;
-import tgpr.framework.ObjectTable;
+import tgpr.framework.*;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.ViewTricoutController;
-import tgpr.tricount.model.Comparateur;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
@@ -25,9 +20,10 @@ public class ViewTricountView extends DialogWindow {
     private final CheckBox chkPrivate = new CheckBox();
     private ObjectTable<Operation> operationsTable;
     private Tricount triC;
+    private  Operation operation;
     private List<Operation >list;
     private User me;
-private ViewTricoutController controller;
+   private ViewTricoutController controller;
 
 
 
@@ -96,7 +92,8 @@ private ViewTricoutController controller;
     }
 
 
-    private Panel tableaudesOperation() {
+
+    public Panel tableaudesOperation() {
         //panel a 4 colone pour cree le tableau  avec les operation
         /*
         il faut s'arrange pour que le 4 label ajoute dans la foreach objet table
@@ -105,7 +102,7 @@ private ViewTricoutController controller;
 
         Panel panel = new Panel().setLayoutManager(new GridLayout(4).setTopMarginSize(1).setVerticalSpacing(0))
                 .setLayoutData(Layouts.LINEAR_CENTER);
-        new Label("Operation           ").addTo(panel).addStyle(SGR.UNDERLINE);
+       /* new Label("Operation           ").addTo(panel).addStyle(SGR.UNDERLINE);
         new Label("      Amount").addTo(panel).addStyle(SGR.UNDERLINE);
         new Label("Pay by    ").addTo(panel).addStyle(SGR.UNDERLINE);
         new Label("Date").addTo(panel).addStyle(SGR.UNDERLINE);
@@ -113,14 +110,27 @@ private ViewTricoutController controller;
         //trie avec la date la plus recent en premier
         list.sort(new Comparateur());
 
+        */
 
-        for (Operation elem:list){
+/*       for (Operation elem:list){
             new Label(elem.getTitle()).addTo(panel);
             new Label("    "+new DecimalFormat("#.0#").format(elem.getAmount())+"€").addTo(panel);
             new Label(elem.getInitiator().getFullName()).addTo(panel);
             //substrig garde entre les index 0 et 10 pour enlever l'heure
             new Label(elem.getCreatedAt().asString().substring(0,10)).addTo(panel);
         }
+
+ */
+
+       operationsTable = new ObjectTable<>(
+               new ColumnSpec<>("Operation           ", Operation::getTitle),
+               new ColumnSpec<>("      Amount", Operation::getAmount),
+               new ColumnSpec<>("Pay by    ", Operation::getInitiator),
+               new ColumnSpec<>("Date", Operation::getOperationDate)
+
+       ).addTo(panel);
+        operationsTable.add(triC.getOperations());
+
         return panel;
     }
 

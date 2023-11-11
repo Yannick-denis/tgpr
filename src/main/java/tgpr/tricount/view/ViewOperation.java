@@ -4,9 +4,11 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.*;
+import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
+import tgpr.tricount.model.Tricount;
 
 import java.util.List;
 
@@ -21,12 +23,15 @@ public class ViewOperation  extends DialogWindow {
     private  Button down;
     private  Button edit;
     private  Button close;
+    private  ViewTricountView viewTricountView;
 
-    public ViewOperation(OperationController controller) {
+
+    public ViewOperation(OperationController controllerView) {
         super("View Expense Detail");
         setHints(List.of(Hint.EXPANDED));
         this.controller = controller;
         this.operation = controller.getOperation();
+        this.viewTricountView = viewTricountView;
         Panel root = new Panel();
         setComponent(root);
         setHints(List.of(Hint.CENTERED, Hint.FIXED_SIZE));
@@ -64,9 +69,19 @@ public class ViewOperation  extends DialogWindow {
         new EmptySpace().addTo(buttons);
         new EmptySpace().addTo(buttons);
 
-        up = new Button("Up").addTo(buttons);
+        /*up = new Button("Up", () -> {
+            if (index > 0) {
+                list.get(index - 1);
+            } else {
+                up.setEnabled(false);
+            }
+        }).addTo(buttons);
+
+         */
         down = new Button("Down").addTo(buttons);
-//        edit = new Button("Edit", this::getEdit).addTo(buttons);
+        edit = new Button("Edit", () ->{
+            Controller.navigateTo(new EditTricountController(Tricount.getByKey(2)));
+        }).addTo(buttons);
         close = new Button("Close", this::getClose).addTo(buttons);
         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.End));
     }
