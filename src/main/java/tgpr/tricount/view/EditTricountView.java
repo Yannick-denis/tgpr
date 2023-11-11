@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Margin;
+import tgpr.framework.Tools;
 import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.Tricount;
@@ -27,7 +28,7 @@ public class EditTricountView extends DialogWindow {
     private final Label errDescription = new Label("");
 
     private Button btnAdd;
-    private ArrayList list = (ArrayList) User.getAll();
+    private ArrayList listPourCombo = (ArrayList) User.getAll();
 
     public EditTricountView(EditTricountController controller, Tricount tricount){
         super("Edit Tricount");
@@ -63,15 +64,9 @@ public class EditTricountView extends DialogWindow {
 
         new Label("Subscribers:").addTo(panel);
         listeBox = new ActionListBox().addTo(panel);
-        for (var participant : tricount.getParticipants()) {
-            list.remove(participant);
-            var libelle = participant.toString();
-            if (controller.isImplicate(participant.getId(), tricount.getId()))
-                libelle += " (*)";
-            listeBox.addItem(libelle, () -> {
-                System.out.println(participant);
-            });
-        }
+
+        refresh();
+
         panel.addEmpty();
 
         comboBoxAndButton().addTo(panel);
@@ -81,15 +76,12 @@ public class EditTricountView extends DialogWindow {
 
     private Panel comboBoxAndButton() {
         var panel = Panel.gridPanel(3, Margin.of(1));
-        selectUser = new ComboBox<>();
-        selectUser.addItem("--- Select a User ---").isReadOnly();
-        for (var partcipant: list) {
-            selectUser.addItem(partcipant.toString());
-        }
+
         selectUser.addTo(panel);
 
         btnAdd = new Button("Add", () -> {
             add(selectUser.getSelectedItem());
+            refresh();
         }).addTo(panel);
 
         return panel;
@@ -115,4 +107,29 @@ public class EditTricountView extends DialogWindow {
         btnAdd.setEnabled(errors.isEmpty());
     }
 
+    private void refresh(){
+        listPourCombo = (ArrayList) User.getAll();
+
+        selectUser = new ComboBox<>();
+        selectUser.clearItems();
+
+        selectUser.addItem("--- Select a User ---").isReadOnly();
+
+        listeBox.clearItems();
+        for (var participant : tricount.getParticipants()) {
+            listPourCombo.remove(participant);
+            var libelle = participant.toString();
+            if (controller.isImplicate(participant.getId(), tricount.getId()))
+                libelle += " (*)";
+            listeBox.addItem(libelle, () -> {
+                System.out.println(participant);
+            });
+        }
+
+        for (var participant: listPourCombo) {
+            selectUser.addItem(participant.toString());
+        }
+
+        // arrive pas à supprimer l'item de la combobox
+    }
 }
