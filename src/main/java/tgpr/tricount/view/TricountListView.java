@@ -1,7 +1,17 @@
 package tgpr.tricount.view;
 
+
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
+
+import com.googlecode.lanterna.gui2.BasicWindow;
+import com.googlecode.lanterna.gui2.EmptySpace;
+import com.googlecode.lanterna.gui2.Panel;
+
+import tgpr.tricount.controller.TricountListController;
+import tgpr.tricount.model.Tricount;
+
+
 import com.googlecode.lanterna.gui2.menu.Menu;
 import com.googlecode.lanterna.gui2.menu.MenuBar;
 import com.googlecode.lanterna.gui2.menu.MenuItem;
@@ -9,11 +19,10 @@ import tgpr.framework.Controller;
 import tgpr.framework.Paginator;
 import tgpr.framework.Spacing;
 import tgpr.tricount.controller.AddTricountControler;
-import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.controller.profileController;
 import tgpr.tricount.model.Security;
-import tgpr.tricount.model.Tricount;
+
 
 import java.util.List;
 
@@ -28,15 +37,21 @@ public class TricountListView extends BasicWindow {
     private final TextBox filter;
     private final Paginator pagination;
 
+
     private final Menu menuFile = new Menu("File");
     private final Button createTricount;
 //    private final profileController controllerProfil;
     public TricountListView(TricountListController controller , profileController controllerProfil) {
+
+
+
+
         this.controller = controller;
         setTitle(getTitleWithUser());
         setHints(List.of(Hint.EXPANDED));
         Panel root = new Panel().setLayoutManager(new BorderLayout());
         setComponent(root);
+
 //        createMenu(controllerProfil).sizeTo(2).addTo(root);
 //        root.setFillColorOverride(TextColor.ANSI.RED);
 ////        pnlBody.setFillColorOverride(TextColor.ANSI.RED);
@@ -85,6 +100,7 @@ public class TricountListView extends BasicWindow {
         pagination = new Paginator(this,12,this::pageChanged);
         pnlBasDePage.addComponent(pagination, BorderLayout.Location.RIGHT);
         reloadData();
+
 
     }
 
