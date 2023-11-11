@@ -14,8 +14,8 @@ public class DeleteTricountController extends Controller {
 
     private Button button;
 
-    public DeleteTricountController(String title, String destription, int creator) {
-        this.tricount = new Tricount(title, destription, creator);
+    public DeleteTricountController(Tricount tricount) {
+        this.tricount = tricount;
 
     }
 

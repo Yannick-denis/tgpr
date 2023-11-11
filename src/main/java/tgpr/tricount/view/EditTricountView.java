@@ -4,9 +4,11 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import tgpr.framework.Controller;
 import tgpr.framework.Margin;
 import tgpr.framework.Model;
 import tgpr.framework.Tools;
+import tgpr.tricount.controller.DeleteTricountController;
 import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.Tricount;
@@ -16,11 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static tgpr.framework.Controller.navigateTo;
 import static tgpr.framework.Controller.showError;
-
 public class EditTricountView extends DialogWindow {
 
     private EditTricountController controller;
+    private DeleteTricountController controllerDelete;
     private Tricount tricount;
     private TextBox txtTitle = new TextBox(); //min 3 char
     private TextBox txtDescription = new TextBox(); //min 3 char
@@ -115,13 +118,13 @@ public class EditTricountView extends DialogWindow {
         return panel;
     }
 
+
     private Panel btn(){
         var panel = Panel.gridPanel(4, Margin.of(1));
 
-        btnDelete = new Button("Delete"
-//                , () -> {
-//            //controller delete controller.navigeTo(deletecontroller);
-//        }
+        btnDelete = new Button("Delete", () -> {
+            Controller.navigateTo(new DeleteTricountController(tricount)); // Pour Alison
+        }
         ).addTo(panel);
 
         btnSave = new Button("Save", () -> {
