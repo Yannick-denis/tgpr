@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Margin;
+import tgpr.framework.Model;
 import tgpr.framework.Tools;
 import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.model.Subscription;
@@ -21,18 +22,21 @@ public class EditTricountView extends DialogWindow {
 
     private EditTricountController controller;
     private Tricount tricount;
-    private TextBox txtTitle; //min 3 char
-    private TextBox txtDescription; //min 3 char
+    private TextBox txtTitle = new TextBox(); //min 3 char
+    private TextBox txtDescription = new TextBox(); //min 3 char
     private ActionListBox listeBox;
-    private ComboBox<String> selectUser;
+    private ComboBox<String> selectUser = new ComboBox<>();
 
     private final Label errTitle = new Label("");
     private final Label errDescription = new Label("");
 
     private Button btnAdd;
     private List<User> listPourCombo = User.getAll();
-
+    private List<User> listPourAction = new ArrayList<>();
     private Button btnDelete;
+    private Button btnCancel;
+    private Button btnSave;
+    private Button btnTemplates;
 
 
     public EditTricountView(EditTricountController controller, Tricount tricount){
@@ -48,7 +52,6 @@ public class EditTricountView extends DialogWindow {
 
         createFieldsGrid().addTo(root);
 
-        //btn().addTo(root);
     }
 
     private Panel createFieldsGrid() {
@@ -56,14 +59,27 @@ public class EditTricountView extends DialogWindow {
 
         new Label("Title:").addTo(panel);
         txtTitle = new TextBox().sizeTo(15).addTo(panel)
-                .setTextChangeListener((txt, byUser) -> validateForEdit());
+                .setTextChangeListener((txt, byUser) -> {
+                    if(byUser)
+                        validateForEdit();
+                }).setText(tricount.getTitle());
         panel.addEmpty();
         errTitle.addTo(panel)
                 .setForegroundColor(TextColor.ANSI.RED);
 
         new Label("Description:").addTo(panel);
-        txtDescription = new TextBox().setPreferredSize(new TerminalSize(30, 4)).addTo(panel)
-                .setTextChangeListener((txt, byUser) -> validateForEdit());
+        if(tricount.getDescription() == null) {
+            txtDescription = new TextBox().setPreferredSize(new TerminalSize(30, 4)).addTo(panel)
+                    .setTextChangeListener((txt, byUser) -> validateForEdit());
+        }
+        else {
+            txtDescription = new TextBox().setPreferredSize(new TerminalSize(30, 4)).addTo(panel)
+                    .setTextChangeListener((txt, byUser) -> {
+                        if(byUser)
+                            validateForEdit();
+                    }).setText(tricount.getDescription());
+        }
+
         panel.addEmpty();
         errDescription.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
 
@@ -77,9 +93,9 @@ public class EditTricountView extends DialogWindow {
 
         comboBoxAndButton().addTo(panel);
 
+        panel.addEmpty();
 
-
-
+        btn().addTo(panel);
 
         return panel;
     }
@@ -87,7 +103,9 @@ public class EditTricountView extends DialogWindow {
     private Panel comboBoxAndButton() {
         var panel = Panel.gridPanel(3, Margin.of(1));
 
+
         selectUser.addTo(panel);
+
 
         btnAdd = new Button("Add", () -> {
             add(selectUser.getSelectedItem());
@@ -97,20 +115,37 @@ public class EditTricountView extends DialogWindow {
         return panel;
     }
 
-//    private Panel btn(){
-//        var panel = Panel.gridPanel(4, Margin.of(1));
-//
-//        btnDelete = new Button("Delete", () -> {
-//            delete();
-//        })
-//    }
+    private Panel btn(){
+        var panel = Panel.gridPanel(4, Margin.of(1));
+
+        btnDelete = new Button("Delete"
+//                , () -> {
+//            //controller delete controller.navigeTo(deletecontroller);
+//        }
+        ).addTo(panel);
+
+        btnSave = new Button("Save", () -> {
+            this.save();
+            this.close();
+        }).addTo(panel);
+
+        btnTemplates = new Button("Templates"
+//                , () -> {
+//            //controller template
+//        }
+        ).addTo(panel);
+
+        btnCancel = new Button("Cancel", ()->this.close()).addTo(panel);
+
+        return panel;
+    }
 
     private void add(String nomUser){
         try {
             controller.add(User.getByFullName(nomUser).getId(), tricount.getId());
         }
         catch(Exception e){
-            showError(e.toString());
+
         }
     }
 
@@ -129,8 +164,12 @@ public class EditTricountView extends DialogWindow {
         listPourCombo = User.getAll();
 
         listeBox.clearItems();
+
+        Model.clearCache();
+
         for (User participant : tricount.getParticipants()) {
             listPourCombo.remove(participant);
+            //listPourAction.add(participant); a completer plus tard si le temps
             var libelle = participant.toString();
             if (controller.isImplicate(participant.getId(), tricount.getId()))
                 libelle += " (*)";
@@ -139,17 +178,12 @@ public class EditTricountView extends DialogWindow {
             });
         }
 
-        selectUser = new ComboBox<>();
+        selectUser.clearItems();
         selectUser.addItem("--- Select a User ---").isReadOnly();
         for (User participant: listPourCombo) {
             selectUser.addItem(participant.toString());
         }
-
-        // arrive pas à supprimer l'item de la combobox
     }
-
-    //this.close
-
 
     private void delete(User particpant){
         Subscription sub = new Subscription(tricount.getId(), particpant.getId());
@@ -159,12 +193,18 @@ public class EditTricountView extends DialogWindow {
             listPourCombo.add(particpant);
             }
             catch(Exception e){
-                showError(e.toString());
+                showError("Ne peut pas etre supp");
             }
         }
         else {
-            showError("this user be not deledeted because il est dans une depense");
+            showError("This user is involved in an expense");
         }
         refresh();
+    }
+
+    private void save (){
+        tricount.setTitle(txtTitle.getText());
+        tricount.setDescription(txtDescription.getText());
+        tricount.save();
     }
 }
