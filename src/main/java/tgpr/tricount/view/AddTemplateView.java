@@ -31,15 +31,6 @@ public class AddTemplateView extends DialogWindow {
 // si le buttons est Edit title alors
        Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
-       Button btnCreate = new Button(template == null ?"Create" : "save", () -> {
-           String enteredTitle = getTxtTitle().getText();
-           if (template == null){
-               addTemplateController.add(enteredTitle);
-           }else {
-             addTemplateController.add(enteredTitle);
-           }
-          // controller.navigateTo(new AddTemplateController());
-       }).addTo(buttons);
 
         Panel inputPanel = new Panel()
                 .setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
@@ -49,8 +40,7 @@ public class AddTemplateView extends DialogWindow {
 
         inputPanel.addComponent(new Label("Title"));
         txtTitle = new TextBox().addTo(inputPanel).setValidationPattern(Pattern.compile(".*"));
-        txtTitle.setText(addTemplateController.getTemplate() == null ? "" : addTemplateController.getTemplate().getTitle());
-
+        txtTitle.setText(template == null || template.getTitle() == null ? "" : template.getTitle());
         new EmptySpace().addTo(root);
 
         Panel buttonPanel = new Panel()
@@ -58,7 +48,7 @@ public class AddTemplateView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER)
                 .addTo(root);
 
-        Button btnSave = new Button((addTemplateController.getTemplate() == null ) ? "Create" : "Save", addTemplateController::onSave).addTo(buttonPanel);
+        Button btnSave = new Button((template == null || template.getTitle() == null ) ? "Create" : "Save", addTemplateController::onSave).addTo(buttonPanel);
         Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
     }
 
