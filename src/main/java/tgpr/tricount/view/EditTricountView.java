@@ -7,8 +7,6 @@ import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Controller;
 import tgpr.framework.Margin;
 import tgpr.framework.Model;
-import tgpr.framework.Tools;
-import tgpr.tricount.controller.DeleteTricountController;
 import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.model.Subscription;
@@ -17,14 +15,13 @@ import tgpr.tricount.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static tgpr.framework.Controller.*;
 
 public class EditTricountView extends DialogWindow {
 
     private EditTricountController controller;
-    private DeleteTricountController controllerDelete;
+
     private Tricount tricount;
     private TextBox txtTitle = new TextBox(); //min 3 char
     private TextBox txtDescription = new TextBox(); //min 3 char
