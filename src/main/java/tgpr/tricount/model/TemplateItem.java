@@ -108,6 +108,10 @@ public class TemplateItem extends Model {
         return queryOne(TemplateItem.class, "select * from template_items where template=:template and user=:user",
                 new Params("template", templateId).add("user", userId));
     }
+    public static List<TemplateItem> getByTemplate(int templateId) {
+        return queryList(TemplateItem.class, "select * from template_items where template=:template ",
+                new Params("template", templateId));
+    }
 
     public static List<TemplateItem> getAll() {
         return queryList(TemplateItem.class, "select * from template_items");
