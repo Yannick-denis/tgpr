@@ -5,8 +5,10 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.input.KeyType;
+import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
+import tgpr.tricount.controller.AddTemplateController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Template;
@@ -273,7 +275,7 @@ public class AddExpenseView extends DialogWindow {
          btnSave.setEnabled(false);
 
         Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
-            //Controller.navigateTo(new AddTemplateController(controler.getTricount()));
+            Controller.navigateTo(new AddTemplateController(new Template("",controler.getTricount().getId()),controler.getTricount()));
         }).addTo(panel);
         Button btnCancel = new Button("Cancel", () -> {
             close();

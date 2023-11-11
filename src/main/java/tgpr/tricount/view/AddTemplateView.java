@@ -18,7 +18,7 @@ public class AddTemplateView extends DialogWindow {
     private final TextBox txtTitle;
 
     public AddTemplateView(AddTemplateController addTemplateController, Template template) {
-        super((addTemplateController.getTemplate() == null) ? "Create a new Template" : "Change Template title");
+        super((addTemplateController.getTemplate() == null) ? "Change Template title": "Create a new Template" );
         this.addTemplateController = addTemplateController;
         setHints(List.of( Hint.CENTERED, Hint.FIXED_SIZE));
         setFixedSize(new TerminalSize(17, 5));
@@ -48,7 +48,7 @@ public class AddTemplateView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER)
                 .addTo(root);
 
-        Button btnSave = new Button((template == null || template.getTitle() == null ) ? "Create" : "Save", addTemplateController::onSave).addTo(buttonPanel);
+        Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Save":"Create" , addTemplateController::onSave).addTo(buttonPanel);
         Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
     }
 
@@ -56,7 +56,11 @@ public class AddTemplateView extends DialogWindow {
         txtTitle.setText(addTemplateController.getTemplate().getTitle());
         setTitle((addTemplateController.getTemplate().getId() == 0 ) ? "Create a new Template" : "Change Template title");
     }
-    */
+*/
+//    public void refresh() {
+//        txtTitle.setText(addTemplateController.getTemplate().getTitle());
+//        setTitle((addTemplateController.getTemplate().getId() == 0 ) ? "Create a new Template" : "Change Template title");
+//    }
 
     public TextBox getTxtTitle() {
         return txtTitle;
