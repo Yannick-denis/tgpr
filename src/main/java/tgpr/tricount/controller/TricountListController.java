@@ -27,5 +27,6 @@ public class TricountListController extends Controller {
             return Tricount.getFiltered(filter);
         }
 
+
 }
 

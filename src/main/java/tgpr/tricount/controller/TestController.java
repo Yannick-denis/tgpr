@@ -2,6 +2,7 @@ package tgpr.tricount.controller;
 
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.tricount.model.User;
+import tgpr.tricount.view.BalanceView;
 import tgpr.tricount.view.TestView;
 import tgpr.framework.Controller;
 
@@ -20,6 +21,7 @@ public class TestController extends Controller {
         Security.logout();
         navigateTo(new LoginController());
     }
+
 
 
     public List<User> getUsers() {

@@ -1,10 +1,8 @@
 package tgpr.framework;
 
-import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
-import tgpr.tricount.controller.DeleteTricountController;
 
 import java.util.List;
 
