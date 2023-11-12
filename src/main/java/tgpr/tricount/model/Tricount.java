@@ -1,8 +1,9 @@
 package tgpr.tricount.model;
+
 import org.springframework.util.Assert;
 import tgpr.framework.Model;
 import tgpr.framework.Params;
-import tgpr.framework.SortOrder;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -41,7 +42,7 @@ public class Tricount extends Model {
         this.id =id;
     }
     public List<Operation> getOperations() {
-        return queryList(Operation.class, "select * from operations where tricount=:id",
+        return queryList(Operation.class, "select * from operations where tricount=:id order by operation_date desc",
                 new Params("id", id));
     }
     public List<Subscription> getSubscriptions() {

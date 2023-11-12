@@ -6,6 +6,7 @@ import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.*;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.EditTricountController;
+import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.controller.ViewTricoutController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
@@ -130,6 +131,7 @@ public class ViewTricountView extends DialogWindow {
 
        ).addTo(panel);
         operationsTable.add(triC.getOperations());
+        operationsTable.setSelectAction(()->Controller.navigateTo(new OperationController(operationsTable.getSelected(),triC.getOperations())));
 
         return panel;
     }

@@ -86,6 +86,7 @@ public class Operation extends Model {
 
         this.amount = amount;
     }
+
     private LocalDate operationDate;
     private int initiatorId;
 
@@ -102,6 +103,7 @@ public class Operation extends Model {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
     public void setInitiatorId(int initiatorId) {
         this.initiatorId = initiatorId;
     }
@@ -109,6 +111,7 @@ public class Operation extends Model {
     public User getInitiator() {
         return User.getByKey(initiatorId);
     }
+
     public LocalDate getOperationDate() {
         return operationDate;
     }
@@ -116,6 +119,7 @@ public class Operation extends Model {
     public void setOperationDate(LocalDate operationDate) {
         this.operationDate = operationDate;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -160,10 +164,6 @@ public class Operation extends Model {
                 new Params("id", id));
     }
 
-    public void countOperationId(String s){
-        countOperationId("select count(id) from operation group by id ");
-    }
-
 
     public static Operation getByKey(int id) {
         return queryOne(Operation.class, "select * from operations where id=:id",
@@ -174,6 +174,7 @@ public class Operation extends Model {
         return queryOne(Operation.class, "select * from operations where title =:title",
                 new Params("title", title));
     }
+
     public static List<Operation> getAll() {
         return queryList(Operation.class, "select * from operations");
     }
@@ -215,5 +216,7 @@ public class Operation extends Model {
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
     }
+
+
 
 }

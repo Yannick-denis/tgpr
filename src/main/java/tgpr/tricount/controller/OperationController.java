@@ -1,5 +1,5 @@
 package tgpr.tricount.controller;
-import com.googlecode.lanterna.gui2.Button;
+
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
 import tgpr.tricount.model.Operation;
@@ -10,44 +10,17 @@ import java.util.List;
 public class OperationController extends Controller {
     private ViewOperation viewOperation;
     private Operation operation;
-
-    public OperationController(Operation operation) {
+    private List<Operation> operationList;
+    public OperationController(Operation operation, List<Operation> operations) {
         this.operation = operation;
-        this.viewOperation = new ViewOperation(this);
-
-
-        // Vous pouvez ajouter d'autres initialisations si nécessaire
-        //viewOperation.getClose().addListener(this::handleCloseButtonClick);
-        //viewOperation.getEdit().addListener(this::handleEditButtonClick);
-       // viewOperation.getUp().addListener(this::handleUpButtonClick);
-       // viewOperation.getDown().addListener(this::handleDownButtonClick);
-
+        viewOperation = new ViewOperation(this);
 
     }
-
-
-    public void handleCloseButtonClick(Button button) {
-        if (button == viewOperation.getClose()){
-            viewOperation.close();
-        }
-    }
-
-  /*  public void handleEditButtonClick(Button button) {
-        if (button == viewOperation.getEdit()){
-            viewOperation.getEdit();
-        }
-    }
-
-   */
-
-
-
 
     @Override
     public Window getView() {
         return getViewOperation();
     }
-
     public ViewOperation getViewOperation() {
         return viewOperation;
     }
@@ -55,6 +28,10 @@ public class OperationController extends Controller {
     public Operation getOperation() {
         return operation;
     }
-
-
+    public List<Operation> getOperationList() {
+        return operationList;
+    }
+    public void setOperationList(List<Operation> operationList) {
+        this.operationList = operationList;
+    }
 }
