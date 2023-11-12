@@ -9,6 +9,7 @@ import tgpr.framework.Margin;
 import tgpr.framework.Spacing;
 import tgpr.tricount.controller.BalanceController;
 import tgpr.tricount.controller.TestController;
+import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Security;
 import tgpr.tricount.model.User;
@@ -26,20 +27,12 @@ en faisant je croit setSiz(nex TerminalSize(taille de sa balance ex 80 pour 80 e
  */
 public class BalanceView extends DialogWindow {
     private final BalanceController controller;
-    private User me = /*Security.getLoggedUser()*/User.getByKey(1);
-    List <Repartition> rep;
-    List<User> perticipant;
 
 
     public BalanceView(BalanceController controller) {
         super("Balance");
         this.controller = controller;
         setHints(List.of(Hint.CENTERED));
-        //initialisation de la liste de toutes les repertition du tricount
-        rep= Repartition.getAllByTricount(this.controller.getTricount().getId());
-        //initialisation de la liste des participant du tricount
-        perticipant=controller.getTricount().getParticipants();
-
         var root = new Panel().setLayoutManager(new LinearLayout(Direction.VERTICAL));
 
         compasantCentral().addTo(root);
@@ -58,11 +51,25 @@ public class BalanceView extends DialogWindow {
                 .addComponent(new Label(i))
                 .withBorder(Borders.singleLine());
     }
+
+    private  double balance(){
+        //il faut encore regarde au calcul aritmetique de la balance mais le gros du travaille est fait
+       return controller.balance();
+    }
     private Panel compasantCentral(){
-        Panel panel=new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
-        new Label("labalance negative").setBackgroundColor(TextColor.ANSI.RED).addTo(panel);
-        new Label("|").addTo(panel);
-        new Label(perticipant.get(0).getFullName()).addTo(panel);
+        //il faut reproduire tout ca dans une boucle pour tout les participant mais la logique est poser
+        double balance =balance();
+        Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
+        if (balance<0) {
+
+            new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.RED).addTo(panel);
+            new Label("|").addTo(panel);
+            new Label("cc").addTo(panel);
+        }else{
+            new Label("cc").addTo(panel);
+            new Label("|").addTo(panel);
+            new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.GREEN).addTo(panel);
+        }
         return panel;
     }
 
