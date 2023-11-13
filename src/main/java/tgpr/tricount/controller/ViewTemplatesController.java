@@ -3,9 +3,12 @@ package tgpr.tricount.controller;
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
 import tgpr.tricount.model.Security;
+import tgpr.tricount.model.TemplateItem;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 import tgpr.tricount.view.ViewTemplatesView;
+
+import java.util.List;
 
 
 public class ViewTemplatesController extends Controller {
@@ -37,6 +40,16 @@ public class ViewTemplatesController extends Controller {
     @Override
     public Window getView() {
         return view;
+    }
+
+    public void save(List<TemplateItem> rep) {
+        for (TemplateItem elem :rep){
+            if (elem.getWeight()==0){
+                rep.remove(elem);
+            }
+            elem.save();
+        }
+
     }
 }
 

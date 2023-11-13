@@ -60,6 +60,11 @@ public class ViewTemplatesView extends DialogWindow {
          si ce n'est pas le cas il faut ajoute dans rep les user avec
          une nouvelle templateitems avec un piod a 0;
           */
+        for (User elem :participant){
+            if (!isIn(elem)){
+               rep.add(new TemplateItem(elem.getId(),template.getId(),0));
+            }
+        }
         new Label("Repartition : ")
                 .addTo(root).addStyle(SGR.UNDERLINE)
                 .setForegroundColor(new TextColor.RGB(128,128,128));
@@ -97,11 +102,23 @@ public class ViewTemplatesView extends DialogWindow {
         createButtons().addTo(root);
 
     }
+    private boolean isIn(User user){
+        for (TemplateItem elem :rep){
+            if (elem.getUser().equals(user)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void refrech() {
         boxitem.clearItems();
         rep=TemplateItem.getByTemplate(template.getId());
-
+        for (User elem :participant){
+            if (!isIn(elem)){
+                rep.add(new TemplateItem(elem.getId(),template.getId(),0));
+            }
+        }
         for (TemplateItem elem:rep){
             boxitem.addItem(elem,elem.getWeight()==0?false:true);
         }
@@ -209,10 +226,7 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
     }
 
     private void save() {
-        //controler.save();faire un save dans le controller d'abord
-        //temp.save();
-        //showMessage("The template repartition has been updated!","Confirmation",new Button("ok", this::close));
-
+       controller.save(rep);
     }
 
 
