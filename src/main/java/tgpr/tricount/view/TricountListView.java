@@ -52,6 +52,13 @@ public class TricountListView extends BasicWindow {
         Panel root = new Panel().setLayoutManager(new BorderLayout());
         setComponent(root);
 
+        MenuBar menuBar = new MenuBar().addTo(root);
+        menuFile = new Menu("File");
+        menuBar.add(menuFile);
+        MenuItem menuLogout = new MenuItem("Logout!", controller::logout);
+        menuFile.add(menuLogout);
+
+
 
 //        createMenu(controllerProfil).sizeTo(2).addTo(root);
 //        root.setFillColorOverride(TextColor.ANSI.RED);
@@ -101,6 +108,7 @@ public class TricountListView extends BasicWindow {
         pagination = new Paginator(this,12,this::pageChanged);
         pnlBasDePage.addComponent(pagination, BorderLayout.Location.RIGHT);
         reloadData();
+
 
 
 
