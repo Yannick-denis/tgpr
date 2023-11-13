@@ -9,15 +9,22 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
+import tgpr.tricount.controller.EditProfileController;
+import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.controller.profileController;
 import tgpr.tricount.model.Security;
 import tgpr.tricount.model.User;
 
 import java.awt.*;
 import java.util.List;
+
+import static tgpr.framework.Controller.navigateTo;
+
 public class profileView extends DialogWindow  {
     private final profileController controller;
+    private final EditProfileController controllerEditProfile;
     public profileView(profileController controller, String title) {
         super(title);
         this.controller = controller;
@@ -43,7 +50,8 @@ public class profileView extends DialogWindow  {
 
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
-        Button btnEditProfile = new Button("Edit Profile").addTo(buttons);
+        Button btnEditProfile = new Button("Edit Profile" , () -> {
+            Controller.navigateTo(controllerEditProfile);} ).addTo(buttons);
         Button btnChangePassword = new Button("Change Password").addTo(buttons);
         Button btnClose = new Button("Close" , this::close).addTo(buttons);
 
