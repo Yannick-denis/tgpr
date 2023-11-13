@@ -18,7 +18,7 @@
   * add participant :      Margaux
   * delete participant:    Yannick
   * delete Tricount   :    Alison
-  * view balance      :    Axel
+  * view balance      :    Axel / Yannick
   * view operation    :    Alison
   * add operation     :   Yannick
   * edit operation    :    Yannick
