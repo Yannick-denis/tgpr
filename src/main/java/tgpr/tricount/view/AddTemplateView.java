@@ -7,7 +7,10 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddTemplateController;
+import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Template;
+import tgpr.tricount.model.TemplateItem;
+import tgpr.tricount.model.User;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -16,10 +19,16 @@ public class AddTemplateView extends DialogWindow {
 
     private final AddTemplateController addTemplateController;
     private final TextBox txtTitle;
+    private  AddExpenseView addExpenseView;
+    private Template template;
+    private TemplateItem item;
+    private User user;
+
 
     public AddTemplateView(AddTemplateController addTemplateController, Template template) {
         super((addTemplateController.getTemplate() == null) ? "Change Template title": "Create a new Template" );
         this.addTemplateController = addTemplateController;
+        this.addExpenseView = addExpenseView;
         setHints(List.of( Hint.CENTERED, Hint.FIXED_SIZE));
         setFixedSize(new TerminalSize(17, 5));
 
@@ -39,7 +48,7 @@ public class AddTemplateView extends DialogWindow {
 
 
         inputPanel.addComponent(new Label("Title"));
-        txtTitle = new TextBox().addTo(inputPanel).setValidationPattern(Pattern.compile(".*"));
+        txtTitle = new TextBox().addTo(inputPanel).setValidationPattern(Pattern.compile(".*")).sizeTo(15);
         txtTitle.setText(template == null || template.getTitle() == null ? "" : template.getTitle());
         new EmptySpace().addTo(root);
 
@@ -47,12 +56,17 @@ public class AddTemplateView extends DialogWindow {
                 .setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER)
                 .addTo(root);
-
-        Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Save":"Create" , addTemplateController::onSave).addTo(buttonPanel);
+        Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Save":"Create", addTemplateController::onSave).addTo(buttonPanel);
         Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
+
     }
 
-   /* public void refresh() {
+    @Override
+    public Interactable getFocusedInteractable() {
+        return super.getFocusedInteractable();
+    }
+
+    /* public void refresh() {
         txtTitle.setText(addTemplateController.getTemplate().getTitle());
         setTitle((addTemplateController.getTemplate().getId() == 0 ) ? "Create a new Template" : "Change Template title");
     }
@@ -64,6 +78,10 @@ public class AddTemplateView extends DialogWindow {
 
     public TextBox getTxtTitle() {
         return txtTitle;
+    }
+    public void saveTemplateItem() {
+        List<Repartition> repartitions = addExpenseView.getRep();
+        addTemplateController.saveTempleItem(repartitions, item);
     }
 }
 

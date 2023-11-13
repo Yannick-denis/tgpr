@@ -2,7 +2,6 @@ package tgpr.tricount.controller;
 
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
-import tgpr.framework.Error;
 import tgpr.framework.ErrorList;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
@@ -17,6 +16,7 @@ import java.util.List;
 
 public class AddExpenseController extends Controller {
     private final AddExpenseView view;
+    private AddTemplateController addTemplateController;
 
 
     public Tricount getTricount() {

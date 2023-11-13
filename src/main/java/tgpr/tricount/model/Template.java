@@ -107,7 +107,6 @@ public class Template extends Model {
         return queryOne(Template.class, "select * from templates where tricount=:id and title=:title",
                 new Params("id", id).add("title", title));
     }
-
     public static List<Template> getAll() {
         return queryList(Template.class, "select * from templates");
     }

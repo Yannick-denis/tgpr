@@ -9,10 +9,7 @@ import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.AddTemplateController;
-import tgpr.tricount.model.Operation;
-import tgpr.tricount.model.Repartition;
-import tgpr.tricount.model.Template;
-import tgpr.tricount.model.User;
+import tgpr.tricount.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +33,18 @@ public class AddExpenseView extends DialogWindow {
     private ComboBox<String> payBy;
     private CheckBoxList<Repartition> check ;
     private List<User> participant;
+    private  User user;
+    private transient Template template;
+    private AddTemplateController addTemplateController;
+
+    public List<Repartition> getRep() {
+        return rep;
+    }
+
+    public void setRep(List<Repartition> rep) {
+        this.rep = rep;
+    }
+
     private  List<Repartition> rep =new ArrayList<>();
     private Label errDate =new Label("");
     private Label  errcheched =new Label("");
@@ -265,12 +274,18 @@ public class AddExpenseView extends DialogWindow {
 
         return panel;
     }
+
+    public Button getBtnSave() {
+        return btnSave;
+    }
+
     private Panel butons(){
         Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(0).setVerticalSpacing(1).setLeftMarginSize(0))
                 .setLayoutData(Layouts.LINEAR_CENTER);
 
          btnSave = new Button("Save", () -> {
             save();
+
         }).addTo(panel);
          btnSave.setEnabled(false);
 
