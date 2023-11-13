@@ -19,6 +19,7 @@ import tgpr.tricount.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /*
 axel je tai mis en forme la vue jai ajoute une list pour tout les operation de lu ticount
 la requete est faite tkt pas je l'ai ajoute dans le modele jai egalement ajouter une liste de participant
@@ -39,7 +40,6 @@ public class BalanceView extends DialogWindow {
         var root = new Panel().setLayoutManager(new LinearLayout(Direction.VERTICAL));
 
 
-
         var grid = new Panel().setLayoutManager(
                 new GridLayout(3).setHorizontalSpacing(0).setVerticalSpacing(0));
 
@@ -47,19 +47,6 @@ public class BalanceView extends DialogWindow {
                 new LinearLayout(Direction.HORIZONTAL)
         );
 
-
-        Tricount tricountcur = Tricount.getByKey(1);
-        List lop = tricountcur.getOperations();
-        for(Operation ope: lop){
-            
-        }
-
-        Operation.getByKey(1).getRepartitions().
-        User.getByKey(1).getFullName();
-        createCell("|").addTo(grid)
-                .setLayoutData(GridLayout.createLayoutData(
-                        GridLayout.Alignment.FILL, GridLayout.Alignment.FILL,
-                        true, true, 2, 1));
 
         compasantCentral().addTo(root);
 
@@ -79,24 +66,27 @@ public class BalanceView extends DialogWindow {
                 .withBorder(Borders.singleLine());
     }
 
-    private  double balance(int iduser){
-        //retourne la balance d'un seule user
-       return Tricount.getBalance(iduser,controller.getTricount().getId());
-    }
-    private Panel compasantCentral(){
+//    private double balance(int iduser) {
+//        //retourne la balance d'un seule user
+//        return Tricount.getBalance(iduser, controller.getTricount().getId());
+//    }
+
+    private Panel compasantCentral() {
         //il faut reproduire tout ca dans une boucle pour tout les participant mais la logique est poser
         //il foudra recupere lid du user pour le quel tu veux la balance
-        double balance = 0;//balance();
         Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
-        if (balance<0) {
-
-            new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.RED).addTo(panel);
-            new Label("|").addTo(panel);
-            new Label("cc").addTo(panel);
-        }else{
-            new Label("cc").addTo(panel);
-            new Label("|").addTo(panel);
-            new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.GREEN).addTo(panel);
+        List<User> listparticipant = controller.getTricount().getParticipants();
+        for (User user : listparticipant) {
+            double balance = controller.balance(user.getId());//balance();
+            if (balance < 0) {
+                new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.RED).addTo(panel);
+                new Label("|").addTo(panel);
+                new Label(user.getFullName()).addTo(panel);
+            } else {
+                new Label(user.getFullName()).addTo(panel);
+                new Label("|").addTo(panel);
+                new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.GREEN).addTo(panel);
+            }
         }
         return panel;
     }

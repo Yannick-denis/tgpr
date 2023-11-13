@@ -45,20 +45,20 @@ public class Tricount extends Model {
         return queryList(Operation.class, "select * from operations where tricount=:id",
                 new Params("id", id));
     }
-    private static List<Double> getAmoutForBalance(int iduser,int idTricount){
-        List<Double> list=new ArrayList<>();
-        return queryList(Class<Double>," SELECT SUM(weight)  FROM repartitions WHERE operation IN(SELECT id FROM operations o where  o.tricount=:id_tricount)\n" +
-                "    SELECT SUM(amount) FROM operations WHERE tricount = :id_tricount\n" +
-                "    SELECT SUM(weight)  FROM repartitions WHERE user = id_user and operation IN(SELECT id FROM operations o where o.tricount= :id_tricount)",
-                new Params("id_user",iduser).add("id_tricount",idTricount));
-    }
-    public  static double getBalance(int iduser,int idTricount){
-        double res=0;
-        List<Double> listRes = getAmoutForBalance(iduser,idTricount);
-        res=(listRes.get(1)/listRes.get(0))*listRes.get(2);
-
-        return res;
-    }
+//    private static List<Double> getAmoutForBalance(int iduser,int idTricount){
+//        List<Double> list=new ArrayList<>();
+//        return queryList(Class<Double>," SELECT SUM(weight)  FROM repartitions WHERE operation IN(SELECT id FROM operations o where  o.tricount=:id_tricount)\n" +
+//                "    SELECT SUM(amount) FROM operations WHERE tricount = :id_tricount\n" +
+//                "    SELECT SUM(weight)  FROM repartitions WHERE user = id_user and operation IN(SELECT id FROM operations o where o.tricount= :id_tricount)",
+//                new Params("id_user",iduser).add("id_tricount",idTricount));
+//    }
+//    public  static double getBalance(int iduser,int idTricount){
+//        double res=0;
+//        List<Double> listRes = getAmoutForBalance(iduser,idTricount);
+//        res=(listRes.get(1)/listRes.get(0))*listRes.get(2);
+//
+//        return res;
+//    }
 
     public List<Subscription> getSubscriptions() {
         return queryList(Subscription.class, "select * from subscriptions s where tricount=:id",

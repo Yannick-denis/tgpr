@@ -46,24 +46,29 @@ public class BalanceController extends Controller {
     }
 
 
-//    public double balance() {
-//        double res =0;
-//        int poids=0;
-//        int monpids=0;
-//        double amountTotal=0;
-//        for (Repartition elem :reps){
-//            poids+= elem.getWeight();
-//            if (me.getId()==elem.getUserId()){
-//                monpids+=elem.getWeight();
-//            }
-//        }
-//        for (Operation elem :opes){
-//            amountTotal=+elem.getAmount();
-//        }
-//        System.out.println(amountTotal);
-//        System.out.println(poids);
-//        System.out.println(monpids);
-//        res=(amountTotal/poids)*monpids;
-//        return res;
-//    }
+    public double balance(int iduser) {
+        double res =0;
+        int poids=0;
+        int monpids=0;
+        double amountuser= 0;
+
+        double amountTotal=0;
+        for (Repartition elem :reps){
+            poids+= elem.getWeight();
+            if (iduser==elem.getUserId()){
+                monpids+=elem.getWeight();
+            }
+        }
+        for (Operation elem :opes){
+            amountTotal+=elem.getAmount();
+            if(iduser == elem.getInitiatorId()){
+                amountuser+=elem.getAmount();
+            }
+        }
+        System.out.println(amountTotal);
+        System.out.println(poids);
+        System.out.println(monpids);
+        res=((amountTotal/poids)*monpids)-amountuser;
+        return res;
+    }
 }
