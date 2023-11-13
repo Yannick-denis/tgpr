@@ -9,10 +9,7 @@ import tgpr.framework.Margin;
 import tgpr.framework.Spacing;
 import tgpr.tricount.controller.BalanceController;
 import tgpr.tricount.controller.TestController;
-import tgpr.tricount.model.Operation;
-import tgpr.tricount.model.Repartition;
-import tgpr.tricount.model.Security;
-import tgpr.tricount.model.User;
+import tgpr.tricount.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +49,14 @@ public class BalanceView extends DialogWindow {
                 .withBorder(Borders.singleLine());
     }
 
-    private  double balance(){
-        //il faut encore regarde au calcul aritmetique de la balance mais le gros du travaille est fait
-       return controller.balance();
+    private  double balance(int iduser){
+        //retourne la balance d'un seule user
+       return Tricount.getBalance(iduser,controller.getTricount().getId());
     }
     private Panel compasantCentral(){
         //il faut reproduire tout ca dans une boucle pour tout les participant mais la logique est poser
-        double balance =balance();
+        //il foudra recupere lid du user pour le quel tu veux la balance
+        double balance = 0;//balance();
         Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
         if (balance<0) {
 
