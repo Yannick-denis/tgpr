@@ -30,7 +30,6 @@ public class TestView extends BasicWindow {
 
     public TestView(TestController controller) {
         super("Test");
-
         setHints(List.of(Hint.EXPANDED));
 
         Panel root = new Panel();

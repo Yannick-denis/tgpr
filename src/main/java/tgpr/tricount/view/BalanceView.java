@@ -41,11 +41,12 @@ public class BalanceView extends DialogWindow {
 
 
         var grid = new Panel().setLayoutManager(
-                new GridLayout(3).setHorizontalSpacing(0).setVerticalSpacing(0));
+                new GridLayout(3).setHorizontalSpacing(0).setVerticalSpacing(0)).addTo(root);
+
 
         var balance = new Panel().setLayoutManager(
                 new LinearLayout(Direction.HORIZONTAL)
-        );
+        ).addTo(grid);
 
 
         compasantCentral().addTo(root);

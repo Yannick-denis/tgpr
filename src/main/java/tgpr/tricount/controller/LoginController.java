@@ -13,6 +13,8 @@ import tgpr.framework.Model;
 
 import java.util.List;
 
+
+
 public class LoginController extends Controller {
     public void exit() {
         System.exit(0);

@@ -2,10 +2,12 @@ package tgpr.tricount.view;
 
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.input.KeyStroke;
+import tgpr.framework.Controller;
 import tgpr.tricount.controller.LoginController;
 import tgpr.framework.Configuration;
 import tgpr.framework.Layouts;
 import tgpr.framework.ViewManager;
+import tgpr.tricount.controller.SinupControler;
 import tgpr.tricount.model.User;
 
 import java.util.List;
@@ -29,16 +31,18 @@ public class LoginView extends BasicWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
         panel.addComponent(new Label("Mail:"));
-        txtPseudo = new TextBox().addTo(panel);
+        txtPseudo = new TextBox().addTo(panel).sizeTo(20);
         panel.addComponent(new Label("Password:"));
-        txtPassword = new TextBox().setMask('*').addTo(panel);
+        txtPassword = new TextBox().setMask('*').addTo(panel).sizeTo(20);
 
         new EmptySpace().addTo(root);
 
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         btnLogin = new Button("Login", this::login).addTo(buttons);
-        Button btnSignUp = new Button("Signup").addTo(buttons);
+
+        Button btnSignUp = new Button("Signup",()-> Controller.navigateTo(new SinupControler())).addTo(buttons);
+
         Button btnExit = new Button("Exit", this::exit).addTo(buttons);
 
         new EmptySpace().addTo(root);

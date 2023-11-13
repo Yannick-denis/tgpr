@@ -24,6 +24,7 @@ public abstract class Controller {
      * qui sera affichée.
      *
      * @param controller le contrôleur vers lequel on veut naviguer
+     * @return
      */
     public static void navigateTo(Controller controller) {
         // on efface le cache des objets du modèle à chaque fois qu'on navigue vers un contrôleur
@@ -39,6 +40,7 @@ public abstract class Controller {
 
         // on efface également le cache des objets du modèle quand on a fini d'afficher une fenêtre
         Model.clearCache();
+
     }
 
     /**
