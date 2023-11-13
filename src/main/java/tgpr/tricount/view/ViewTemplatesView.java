@@ -49,15 +49,16 @@ public class ViewTemplatesView extends DialogWindow {
         temp.addSelectionChangeListener((oldRow, newRow, byUser) -> {
             //reconstruire le text box pour metre a jour
             template = temp.getSelected();
+            refrech();
             System.out.println(template.toString());
         });
         template = temp.getSelected();
-        rep = TemplateItem.getByTemplate(triC.getId());
+        rep = TemplateItem.getByTemplate(template.getId());
         new Label("Repartition : ")
                 .addTo(root).addStyle(SGR.UNDERLINE)
                 .setForegroundColor(new TextColor.RGB(128,128,128));
         boxitem=new CheckBoxList<>();
-        boxitem.addItem(new TemplateItem(2,1,1));
+        System.out.println(rep.size());
          for (TemplateItem elem:rep){
              boxitem.addItem(elem);
          }
@@ -69,6 +70,15 @@ public class ViewTemplatesView extends DialogWindow {
 
         //createTemplatesItemList(temp).addTo(root);
         createButtons().addTo(root);
+
+    }
+
+    private void refrech() {
+        boxitem.clearItems();
+        rep=TemplateItem.getByTemplate(template.getId());
+        for (TemplateItem elem:rep){
+            boxitem.addItem(elem);
+        }
 
     }
 
