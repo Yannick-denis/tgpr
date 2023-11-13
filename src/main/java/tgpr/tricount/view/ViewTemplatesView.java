@@ -6,6 +6,7 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
+import com.googlecode.lanterna.input.KeyType;
 import tgpr.framework.*;
 import tgpr.tricount.controller.ViewTemplatesController;
 import tgpr.tricount.model.*;
@@ -21,7 +22,7 @@ public class ViewTemplatesView extends DialogWindow {
     private final Label errBody = new Label("");
     private final CheckBox chkPrivate = new CheckBox();
     private ObjectTable<Template> templateTable;
-    private List<Template> list;
+    private List<User> participant;
     private CheckBoxList<TemplateItem> boxitem;
     private ObjectTable<Template> temp;
     private CheckBox repartition;
@@ -47,22 +48,46 @@ public class ViewTemplatesView extends DialogWindow {
         ).addTo(root);
         temp.add(triC.getTemplates());
         temp.addSelectionChangeListener((oldRow, newRow, byUser) -> {
-            //reconstruire le text box pour metre a jour
             template = temp.getSelected();
             refrech();
             System.out.println(template.toString());
         });
         template = temp.getSelected();
         rep = TemplateItem.getByTemplate(template.getId());
+        participant=triC.getParticipants();
+         /*
+         faut verifier que tout les participant se trouve dans rep
+         si ce n'est pas le cas il faut ajoute dans rep les user avec
+         une nouvelle templateitems avec un piod a 0;
+          */
         new Label("Repartition : ")
                 .addTo(root).addStyle(SGR.UNDERLINE)
                 .setForegroundColor(new TextColor.RGB(128,128,128));
         boxitem=new CheckBoxList<>();
-        System.out.println(rep.size());
          for (TemplateItem elem:rep){
-             boxitem.addItem(elem);
+             boxitem.addItem(elem,elem.getWeight()==0?false:true);
          }
-         boxitem.addTo(root);
+        boxitem.addListener((index,checked)-> boxitem.getSelectedItem().setWeight(checked?1:0) );
+
+        this.addKeyboardListener(boxitem,keyStroke -> {
+            var character = keyStroke.getCharacter();
+            var type = keyStroke.getKeyType();
+            if (type== KeyType.ArrowRight||character!=null&& character=='+'){
+                boxitem.getSelectedItem().setWeight(boxitem.getSelectedItem().getWeight()+1);
+                if (boxitem.getSelectedItem().getWeight()==1){
+                    boxitem.setChecked(boxitem.getSelectedItem(),true);
+                }
+            }else if ((type== KeyType.ArrowLeft||character!=null &&character=='-')&&boxitem.getSelectedItem().getWeight()>0){
+                boxitem.getSelectedItem().setWeight(boxitem.getSelectedItem().getWeight()-1);
+                if (boxitem.getSelectedItem().getWeight()==0){
+                    boxitem.setChecked(boxitem.getSelectedItem(),false);
+                }
+            }
+            return  true;
+        });
+
+
+        boxitem.addTo(root);
 
 
 
@@ -76,8 +101,9 @@ public class ViewTemplatesView extends DialogWindow {
     private void refrech() {
         boxitem.clearItems();
         rep=TemplateItem.getByTemplate(template.getId());
+
         for (TemplateItem elem:rep){
-            boxitem.addItem(elem);
+            boxitem.addItem(elem,elem.getWeight()==0?false:true);
         }
 
     }
