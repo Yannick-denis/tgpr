@@ -43,8 +43,6 @@ public class TricountListView extends BasicWindow {
         menuBar.add(menuFile);
         MenuItem menuLogout = new MenuItem("Logout!", controller::logout);
         menuFile.add(menuLogout);
-        MenuItem balance = new MenuItem("Balance", controller::balance);
-        menuFile.add(balance);
 
     }
 
