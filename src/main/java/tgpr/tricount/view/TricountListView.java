@@ -9,6 +9,7 @@ import tgpr.framework.ColumnSpec;
 import tgpr.framework.ObjectTable;
 import tgpr.framework.Tools;
 import tgpr.framework.ViewManager;
+import tgpr.tricount.controller.BalanceController;
 import tgpr.tricount.controller.TricountListController;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
@@ -27,6 +28,8 @@ public class TricountListView extends BasicWindow {
     private final TricountListController controller;
     private final Menu menuFile;
 
+
+
     public TricountListView(TricountListController controller) {
         this.controller = controller;
 
@@ -38,7 +41,7 @@ public class TricountListView extends BasicWindow {
         MenuBar menuBar = new MenuBar().addTo(root);
         menuFile = new Menu("File");
         menuBar.add(menuFile);
-        MenuItem menuLogout = new MenuItem("Logout", controller::logout);
+        MenuItem menuLogout = new MenuItem("Logout!", controller::logout);
         menuFile.add(menuLogout);
 
     }

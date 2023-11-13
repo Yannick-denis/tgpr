@@ -40,6 +40,8 @@ public class TestView extends BasicWindow {
         menuBar.add(menuFile);
         MenuItem menuLogout = new MenuItem("Logout", controller::logout);
         menuFile.add(menuLogout);
+//        MenuItem menuVBalance = new MenuItem("BalanceView", BalanceView ::);
+//        menuFile.add(menuVBalance);
 
 
         this.controller = controller;
