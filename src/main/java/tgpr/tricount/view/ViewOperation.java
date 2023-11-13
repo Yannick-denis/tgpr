@@ -27,7 +27,7 @@ public class ViewOperation  extends DialogWindow {
     private Button edit;
     private Button close;
     private List<Operation> operationList;
-  
+    private int index;
   
 
     public ViewOperation(OperationController controllerView) {
@@ -61,8 +61,11 @@ public class ViewOperation  extends DialogWindow {
             new ColumnSpec<>("Weight", Repartition::getWeight),
             new ColumnSpec<>("Amount", Repartition::getAmount)
         ).addTo(contentPanel);
+        //updateTableData();
         table.addTo(contentPanel);
         table.add(operation.getRepartitions());
+
+
 
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
                 .setLayoutData(Layouts.LINEAR_FILL).addTo(root);
@@ -70,15 +73,30 @@ public class ViewOperation  extends DialogWindow {
         new EmptySpace().addTo(buttons);
         new EmptySpace().addTo(buttons);
         new EmptySpace().addTo(buttons);
+        int currentId = getOperation().getTricount().getOperations().indexOf(operation);
+        int maxIndex = getOperation().getTricount().getOperations().size();
+        up = new Button("Up", () ->{
+            if(currentId == 0){
+                up.setEnabled(false);
 
-        up = new Button("Up", this::updateUpDownButtons).addTo(buttons);
-        down = new Button("Down", this::updateUpDownButtons).addTo(buttons);
+            }else {
+                Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId  - 1 ), operationList));
+            }
+            }).addTo(buttons);
+        down = new Button("Down", () ->{
+            if(currentId == maxIndex - 1){
+                down.setEnabled(false);
+
+            }else {
+                Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId + 1 ), operationList));
+            }
+        }).addTo(buttons);
         edit = new Button("Edit", () -> {
             Controller.navigateTo(new EditTricountController(Tricount.getByKey(2)));
         }).addTo(buttons);
         close = new Button("Close", this::close).addTo(buttons);
         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.End));
-         updateUpDownButtons();
+
 
     }
     public ObjectTable<Repartition> table1(){
@@ -104,26 +122,6 @@ public class ViewOperation  extends DialogWindow {
     public void setUp(Button up) {
         this.up = up;
     }
-
-
-    private void updateUpDownButtons() {
-         int currentId = getOperation().getTricount().getOperations().indexOf(operation);
-         int maxIndex = getOperation().getTricount().getOperations().size();
-
-         up.setEnabled(currentId > 0);
-         down.setEnabled(currentId < maxIndex - 1);
-
-        // updateTableData();
-     }
-
-    /*private void updateTableData() {
-        table.clear();
-        table.add();
-
-    }
-
-     */
-
 }
 
 

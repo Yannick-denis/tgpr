@@ -275,7 +275,7 @@ public class AddExpenseView extends DialogWindow {
          btnSave.setEnabled(false);
 
         Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
-            Controller.navigateTo(new AddTemplateController(new Template("",controler.getTricount().getId()),controler.getTricount()));
+            Controller.navigateTo(new AddTemplateController(new Template("",controler.getTricount().getId()),controler.getTricount(), rep));
         }).addTo(panel);
         Button btnCancel = new Button("Cancel", () -> {
             close();

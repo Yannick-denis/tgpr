@@ -4,14 +4,6 @@ import tgpr.framework.Controller;
 import tgpr.framework.Model;
 import tgpr.tricount.controller.LoginController;
 
-
-import tgpr.tricount.controller.LoginController;
-
-import tgpr.tricount.controller.AddTemplateController;
-import tgpr.tricount.controller.LoginController;
-import tgpr.tricount.model.Template;
-import tgpr.tricount.model.Tricount;
-
 public class TricountApp {
 
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";

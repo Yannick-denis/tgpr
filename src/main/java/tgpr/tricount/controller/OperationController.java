@@ -14,7 +14,6 @@ public class OperationController extends Controller {
     public OperationController(Operation operation, List<Operation> operations) {
         this.operation = operation;
         viewOperation = new ViewOperation(this);
-
     }
 
     @Override
@@ -25,6 +24,8 @@ public class OperationController extends Controller {
         return viewOperation;
     }
 
+
+
     public Operation getOperation() {
         return operation;
     }
@@ -33,5 +34,8 @@ public class OperationController extends Controller {
     }
     public void setOperationList(List<Operation> operationList) {
         this.operationList = operationList;
+    }
+    public void setOperation(Operation newOperation) {
+        this.operation = newOperation;
     }
 }
