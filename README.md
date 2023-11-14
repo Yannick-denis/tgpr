@@ -24,7 +24,7 @@
   * edit operation    :    Yannick
   * delete operation  :    Yannick
   * apply template    :    Margaux
-  * view template     :    Lucas
+  * view template     :    Lucas/Yannick/Margaux
   * add template      :    Alison
   * edit template     :    Alison
   * delete template   :   Margaux
