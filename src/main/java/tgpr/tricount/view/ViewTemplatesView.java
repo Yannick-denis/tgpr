@@ -13,6 +13,7 @@ import tgpr.tricount.model.*;
 
 import java.util.List;
 
+import static tgpr.framework.Controller.askConfirmation;
 import static tgpr.framework.ViewManager.gui;
 
 public class ViewTemplatesView extends DialogWindow {
@@ -123,6 +124,13 @@ public class ViewTemplatesView extends DialogWindow {
             boxitem.addItem(elem,elem.getWeight()==0?false:true);
         }
 
+        temp.clear();
+        temp.add(triC.getTemplates());
+        temp.addSelectionChangeListener((oldRow, newRow, byUser) -> {
+            template = temp.getSelected();
+            refrech();
+            System.out.println(template.toString());
+        });
     }
 
     private Panel createTemplatesList(Tricount tric) {
@@ -218,7 +226,10 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
     }
 
     private void deleteTemplate() {
-        // Controller.navigateTo(new DeleteTemplateController);
+        if (askConfirmation("You're about to delete this the template: "+template.getTitle()+" Do you confirm!", "Delete Template")) {
+            template.delete();
+        }
+        refrech();
     }
 
     static MessageDialogButton showMessage(String message, String title, MessageDialogButton... buttons) {
