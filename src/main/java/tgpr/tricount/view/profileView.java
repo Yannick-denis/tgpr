@@ -9,6 +9,7 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.ChangePasswordController;
@@ -49,6 +50,7 @@ public class profileView extends DialogWindow  {
         Button btnEditProfile = new Button("Edit Profile").addTo(buttons);
         Button btnChangePassword = new Button("Change Password",()-> Controller.navigateTo(new ChangePasswordController())).addTo(buttons);
         Button btnClose = new Button("Close" , this::close).addTo(buttons);
+        addShortcut(btnClose, KeyStroke.fromString("<A-c>"));
 
     }
 }

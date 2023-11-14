@@ -4,6 +4,7 @@ import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.ColumnSpec;
 import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
@@ -97,6 +98,7 @@ public class ViewOperation  extends DialogWindow {
         }).addTo(buttons);
         close = new Button("Close", this::close).addTo(buttons);
         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.End));
+        addShortcut(close, KeyStroke.fromString("<A-c>"));
 
 
     }

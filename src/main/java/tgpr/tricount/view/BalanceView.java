@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
 import tgpr.framework.Margin;
 import tgpr.framework.Spacing;
@@ -49,6 +50,7 @@ public class BalanceView extends DialogWindow {
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         Button btnClose = new Button("Close", this::close).addTo(buttons);
+        addShortcut(btnClose, KeyStroke.fromString("<A-c>"));
 
     }
 
@@ -58,14 +60,9 @@ public class BalanceView extends DialogWindow {
                 .withBorder(Borders.singleLine());
     }
 
-//    private double balance(int iduser) {
-//        //retourne la balance d'un seule user
-//        return Tricount.getBalance(iduser, controller.getTricount().getId());
-//    }
+
 
     private Panel compasantCentral() {
-        //il faut reproduire tout ca dans une boucle pour tout les participant mais la logique est poser
-        //il foudra recupere lid du user pour le quel tu veux la balance
         Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
         List<User> listparticipant = controller.getTricount().getParticipants();
         for (User user : listparticipant) {

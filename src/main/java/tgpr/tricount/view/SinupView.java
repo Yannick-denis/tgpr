@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.SinupControler;
 import tgpr.tricount.model.User;
@@ -79,10 +80,12 @@ public class SinupView extends DialogWindow {
         btnSignup = new Button("signup",()->{
             save();
         }).setEnabled(false).addTo(panel);
+        addShortcut(btnSignup, KeyStroke.fromString("<A-s>"));
         Button btnClose = new Button("close",()->{
             close();
 
         }).addTo(panel);
+        addShortcut(btnClose, KeyStroke.fromString("<A-s>"));
         return panel;
     }
 

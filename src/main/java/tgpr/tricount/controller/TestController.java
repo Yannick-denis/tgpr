@@ -2,8 +2,6 @@ package tgpr.tricount.controller;
 
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.tricount.model.User;
-import tgpr.tricount.view.BalanceView;
-import tgpr.tricount.view.TestView;
 import tgpr.framework.Controller;
 
 import tgpr.tricount.model.Security;

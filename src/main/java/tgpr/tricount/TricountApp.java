@@ -14,6 +14,7 @@ public class TricountApp {
                     alt+s => save
                     alt +s =>sinup
                     alt +f =>menufile
+                    alt +d => delete sur certain
      */
     public final static String DATABASE_SCRIPT_FILE = "/database/tgpr-2324-c01.sql";
 

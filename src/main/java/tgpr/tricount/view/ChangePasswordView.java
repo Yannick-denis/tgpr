@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.ChangePasswordController;
 import tgpr.tricount.model.User;
@@ -61,10 +62,12 @@ public class ChangePasswordView extends DialogWindow {
         btnSave = new Button("SAVE", () -> {
             save();
         }).setEnabled(false).addTo(panel);
+        addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
         Button btnClose = new Button("close", () -> {
             close();
 
         }).addTo(panel);
+        addShortcut(btnClose, KeyStroke.fromString("<A-c>"));
         return panel;
     }
 

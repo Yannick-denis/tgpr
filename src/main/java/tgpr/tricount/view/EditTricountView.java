@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Controller;
 import tgpr.framework.Margin;
 import tgpr.framework.Model;
@@ -130,7 +131,7 @@ public class EditTricountView extends DialogWindow {
             this.save();
             this.close();
         }).addTo(panel);
-
+        addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
 
         btnTemplates = new Button("Templates", () -> {
 
@@ -139,6 +140,7 @@ public class EditTricountView extends DialogWindow {
         ).addTo(panel);
 
         btnCancel = new Button("Cancel", ()->this.close()).addTo(panel);
+        addShortcut(btnCancel, KeyStroke.fromString("<A-c>"));
 
         return panel;
     }
