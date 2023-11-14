@@ -8,7 +8,8 @@ import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.Panel;
 
-import tgpr.tricount.controller.TricountListController;
+import com.googlecode.lanterna.input.KeyStroke;
+import tgpr.tricount.controller.*;
 import tgpr.tricount.model.Tricount;
 
 
@@ -18,9 +19,6 @@ import com.googlecode.lanterna.gui2.menu.MenuItem;
 import tgpr.framework.Controller;
 import tgpr.framework.Paginator;
 import tgpr.framework.Spacing;
-import tgpr.tricount.controller.AddTricountControler;
-import tgpr.tricount.controller.ViewTricoutController;
-import tgpr.tricount.controller.profileController;
 import tgpr.tricount.model.Security;
 
 
@@ -36,8 +34,6 @@ public class TricountListView extends BasicWindow {
     private final Panel pnlProfile = new Panel();
     private final TextBox filter;
     private final Paginator pagination;
-
-
     private  Menu menuFile = new Menu("File");
     private final Button createTricount;
 //    private final profileController controllerProfil;
@@ -54,6 +50,7 @@ public class TricountListView extends BasicWindow {
 
         MenuBar menuBar = new MenuBar().addTo(root);
         menuFile = new Menu("File");
+        addShortcut(menuFile, KeyStroke.fromString("<A-f>"));
         menuBar.add(menuFile);
         MenuItem menuLogout = new MenuItem("Logout!", controller::logout);
         menuFile.add(menuLogout);
@@ -163,6 +160,7 @@ public class TricountListView extends BasicWindow {
             MenuItem menuprofile = new MenuItem("View Profile" ,  () -> {Controller.navigateTo(controllerProfil);});
             menuFile.add(menuprofile);
             MenuItem menuLogout = new MenuItem("Logout", controller::logout);
+            addShortcut(menuLogout, KeyStroke.fromString("<A-c>"));
             menuFile.add(menuLogout);
             return menuBar;
 

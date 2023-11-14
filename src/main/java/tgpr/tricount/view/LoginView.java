@@ -40,10 +40,13 @@ public class LoginView extends BasicWindow {
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         btnLogin = new Button("Login", this::login).addTo(buttons);
+        addShortcut(btnLogin, KeyStroke.fromString("<A-l>"));
 
         Button btnSignUp = new Button("Signup",()-> Controller.navigateTo(new SinupControler())).addTo(buttons);
+        addShortcut(btnSignUp, KeyStroke.fromString("<A-s>"));
 
         Button btnExit = new Button("Exit", this::exit).addTo(buttons);
+        addShortcut(btnExit, KeyStroke.fromString("<A-c>"));
 
         new EmptySpace().addTo(root);
 

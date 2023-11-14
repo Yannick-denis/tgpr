@@ -7,6 +7,7 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 
 import com.googlecode.lanterna.gui2.*;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Margin;
 import tgpr.tricount.controller.AddTricountControler;
 
@@ -70,7 +71,9 @@ public class AddTricountView extends DialogWindow {
             btncreate= new Button ("Create", () ->{
                 save();
             }).setEnabled(false).addTo(panel);
-            new Button("Cancel", this::close).addTo(panel);
+            addShortcut(btncreate, KeyStroke.fromString("<A-s>"));
+            Button btnclose=new Button ("Cancel", this::close).addTo(panel);
+            addShortcut(btnclose, KeyStroke.fromString("<A-c>"));
 
 
             return panel;
