@@ -1,24 +1,15 @@
 package tgpr.tricount.view;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
-import tgpr.framework.Margin;
-import tgpr.framework.Spacing;
 import tgpr.tricount.controller.BalanceController;
-import tgpr.tricount.controller.TestController;
 
-import tgpr.tricount.model.Operation;
-import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 
-import tgpr.tricount.model.*;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class BalanceView extends DialogWindow {
