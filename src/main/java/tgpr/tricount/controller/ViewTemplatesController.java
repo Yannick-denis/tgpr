@@ -19,35 +19,40 @@ public class ViewTemplatesController extends Controller {
     }
 
     private User me = Security.getLoggedUser();
-    public ViewTemplatesController(Tricount tricount, User userConected){
-        this.tricount=tricount;
-        this.me=userConected;
-        view =new ViewTemplatesView(this);
+
+    public ViewTemplatesController(Tricount tricount, User userConected) {
+        this.tricount = tricount;
+        this.me = userConected;
+        view = new ViewTemplatesView(this);
 
     }
-    public ViewTemplatesController(Tricount tricount){
-        this.tricount=tricount;
-        view =new ViewTemplatesView(this);
+
+    public ViewTemplatesController(Tricount tricount) {
+        this.tricount = tricount;
+        view = new ViewTemplatesView(this);
 
     }
-    private ViewTemplatesView view ;
+
+    private ViewTemplatesView view;
 
     public Tricount getTricount() {
         return tricount;
     }
 
-    private Tricount tricount ;
+    private Tricount tricount;
+
     @Override
     public Window getView() {
         return view;
     }
 
     public void save(List<TemplateItem> rep) {
-        for (TemplateItem elem :rep){
-            if (elem.getWeight()==0){
-                rep.remove(elem);
+        for (TemplateItem elem : rep) {
+            if (elem.getWeight() == 0) {
+
+            } else {
+                elem.save();
             }
-            elem.save();
         }
 
     }
