@@ -12,6 +12,7 @@ public class EditProfileView extends DialogWindow {
     private final TextBox txtMail;
     private final TextBox txtFullName;
     private final TextBox txtIban;
+    private Label lblMail = new Label("");
     public EditProfileView(EditProfileController controller, String title) {
         super(title);
         this.controller = controller;
@@ -25,7 +26,8 @@ public class EditProfileView extends DialogWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
         panel.addComponent(new Label("Mail:"));
-        txtMail = new TextBox().addTo(panel).sizeTo(20);
+        txtMail = new TextBox() .setTextChangeListener((txt, byUser)-> validate())
+                .addTo(panel).sizeTo(20);
         panel.addComponent(new Label("Full Name:"));
         txtFullName = new TextBox().addTo(panel).sizeTo(35);
         panel.addComponent(new Label("IBAN:"));
@@ -37,6 +39,9 @@ public class EditProfileView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         Button save = new Button("Save").addTo(buttons);
         Button btnSignUp = new Button("Cancel" , this::close).addTo(buttons);
+
+    }
+    private void validate(){
 
     }
 }
