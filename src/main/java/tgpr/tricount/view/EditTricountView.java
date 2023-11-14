@@ -9,6 +9,7 @@ import tgpr.framework.Margin;
 import tgpr.framework.Model;
 import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.TricountListController;
+import tgpr.tricount.controller.ViewTemplatesController;
 import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
@@ -131,10 +132,9 @@ public class EditTricountView extends DialogWindow {
             this.close();
         }).addTo(panel);
 
-        btnTemplates = new Button("Templates"
-//                , () -> {
-//            //controller template
-//        }
+        btnTemplates = new Button("Templates", () -> {
+            Controller.navigateTo(new ViewTemplatesController(tricount));
+        }
         ).addTo(panel);
 
         btnCancel = new Button("Cancel", ()->this.close()).addTo(panel);
