@@ -5,6 +5,7 @@ package tgpr.tricount.view;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddTemplateController;
 import tgpr.tricount.model.Repartition;
@@ -57,7 +58,9 @@ public class AddTemplateView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER)
                 .addTo(root);
         Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Save":"Create", addTemplateController::onSave).addTo(buttonPanel);
+        addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
         Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
+        addShortcut(btnCancel ,KeyStroke.fromString("<A-c>"));
 
     }
 

@@ -23,10 +23,6 @@ public class Tricount extends Model {
 
     }
 
-    /*public Tricount(int idTricount, String title, String destription, Template templates, int creator) {
-    }
-
-     */
 
     public Tricount(String title, int creatorId) {
         this.title = title;
@@ -164,7 +160,7 @@ public class Tricount extends Model {
                         "FROM tricounts t  \n" +
                         "WHERE t.id in (SELECT s.tricount\n" +
                         "              from subscriptions s \n" +
-                        "              where s.user = :user)",
+                        "              where s.user = :user) order by created_at desc",
                 new Params("user", Security.getLoggedUser().getId()));
     }
     public static List<Tricount> getPaginated(int start, int count) {

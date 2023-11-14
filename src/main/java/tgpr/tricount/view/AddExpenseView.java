@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
@@ -287,6 +288,7 @@ public class AddExpenseView extends DialogWindow {
             save();
 
         }).addTo(panel);
+        addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
          btnSave.setEnabled(false);
 
         Button btnSaveTemp = new Button("Save a repartition as a template", () -> {
@@ -295,7 +297,7 @@ public class AddExpenseView extends DialogWindow {
         Button btnCancel = new Button("Cancel", () -> {
             close();
         }).addTo(panel);
-
+        addShortcut(btnCancel, KeyStroke.fromString("<A-c>"));
 
         return panel;
     }
