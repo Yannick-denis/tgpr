@@ -1,5 +1,7 @@
 package tgpr.tricount.view;
 
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import tgpr.framework.Layouts;
@@ -31,12 +33,15 @@ public class EditProfileView extends DialogWindow {
         panel.addComponent(new Label("Mail:"));
         txtMail = new TextBox().setTextChangeListener((txt, byUser)-> validate())
                 .addTo(panel).sizeTo(20);
+//        lblMail.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         panel.addComponent(new Label("Full Name:"));
         txtFullName = new TextBox().setTextChangeListener((txt, byUser)-> validate())
                 .addTo(panel).sizeTo(35);
+//        lblFullName.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         panel.addComponent(new Label("IBAN:"));
         txtIban = new TextBox().setTextChangeListener((txt, byUser)-> validate())
                 .addTo(panel).sizeTo(20);
+//        lblIban.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
 
         new EmptySpace().addTo(root);
 
@@ -44,6 +49,7 @@ public class EditProfileView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         Button save = new Button("Save").addTo(buttons);
         Button Cancel = new Button("Cancel" , this::close).addTo(buttons);
+
 
     }
     private void validate(){
