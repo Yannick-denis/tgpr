@@ -27,9 +27,9 @@ public class EditProfileView extends DialogWindow {
         panel.addComponent(new Label("Mail:"));
         txtMail = new TextBox().addTo(panel).sizeTo(20);
         panel.addComponent(new Label("Full Name:"));
-        txtFullName = new TextBox().setMask('*').addTo(panel).sizeTo(35);
+        txtFullName = new TextBox().addTo(panel).sizeTo(35);
         panel.addComponent(new Label("IBAN:"));
-        txtIban = new TextBox().setMask('*').addTo(panel).sizeTo(20);
+        txtIban = new TextBox().addTo(panel).sizeTo(20);
 
         new EmptySpace().addTo(root);
 
