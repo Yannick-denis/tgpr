@@ -68,8 +68,6 @@ public class AddTemplateController extends Controller {
         saveTempleItem(template.getId(), repartitions);
         addTemplateView.close();
     }
-
-
     public void onCancel() {
         addTemplateView.close();
     }

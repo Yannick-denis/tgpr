@@ -28,14 +28,12 @@ public class AddTemplateView extends DialogWindow {
 
 
     public AddTemplateView(AddTemplateController addTemplateController, AddExpenseController addExpenseController) {
-        super((addTemplateController.getTemplate() == null) ? "Change Template title": "Create a new Template" );
+        super((addTemplateController.getTemplate() == null || addTemplateController.getTemplate().getTitle() == null) ? "Create a new Template Change ": "Template title" );
         this.addTemplateController = addTemplateController;
         //this.addExpenseView = addExpenseView;
         this.addExpenseController = addExpenseController;
         setHints(List.of( Hint.CENTERED, Hint.FIXED_SIZE));
-        setFixedSize(new TerminalSize(17, 5));
-
-
+        setFixedSize(new TerminalSize(25, 5));
         Panel root = new Panel();
         setComponent(root);
 
@@ -51,7 +49,7 @@ public class AddTemplateView extends DialogWindow {
 
 
         inputPanel.addComponent(new Label("Title"));
-        txtTitle = new TextBox().addTo(inputPanel).setValidationPattern(Pattern.compile(".*")).sizeTo(15);
+        txtTitle = new TextBox().addTo(inputPanel).setValidationPattern(Pattern.compile(".*")).sizeTo(10);
         txtTitle.setText(template == null || template.getTitle() == null ? "" : template.getTitle());
         new EmptySpace().addTo(root);
 
@@ -60,7 +58,7 @@ public class AddTemplateView extends DialogWindow {
                 .setLayoutData(Layouts.LINEAR_CENTER)
                 .addTo(root);
 
-        Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Save":"Create", () ->{
+        Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Create":"Save", () ->{
             addTemplateController.onSave(template,addTemplateController.getRepartitions());
         }).addTo(buttonPanel);
         addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
@@ -74,24 +72,10 @@ public class AddTemplateView extends DialogWindow {
         return super.getFocusedInteractable();
     }
 
-    /* public void refresh() {
-        txtTitle.setText(addTemplateController.getTemplate().getTitle());
-        setTitle((addTemplateController.getTemplate().getId() == 0 ) ? "Create a new Template" : "Change Template title");
-    }
-*/
-//    public void refresh() {
-//        txtTitle.setText(addTemplateController.getTemplate().getTitle());
-//        setTitle((addTemplateController.getTemplate().getId() == 0 ) ? "Create a new Template" : "Change Template title");
-//    }
 
     public TextBox getTxtTitle() {
         return txtTitle;
     }
-    /*public void saveTemplateItem() {
-        List<Repartition> repartitions = addExpenseView.getRep();
-        addTemplateController.saveTempleItem(repartitions, item);
-    }
 
-     */
 }
 
