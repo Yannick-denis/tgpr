@@ -13,6 +13,7 @@ import tgpr.tricount.model.*;
 
 import java.util.List;
 
+import static tgpr.framework.Controller.askConfirmation;
 import static tgpr.framework.ViewManager.gui;
 
 public class ViewTemplatesView extends DialogWindow {
@@ -31,6 +32,7 @@ public class ViewTemplatesView extends DialogWindow {
     private Tricount triC;
     private Template template;
     private User me;
+    private Panel root;
 
 
     public ViewTemplatesView(ViewTemplatesController controller) {
@@ -40,19 +42,25 @@ public class ViewTemplatesView extends DialogWindow {
         triC = controller.getTricount();
         setHints(List.of(Hint.CENTERED));
         setCloseWindowWithEscape(true);
-        Panel root = Panel.verticalPanel();
+        root = Panel.verticalPanel();
         //list=temp.getTitle();
         setComponent(root);
         temp = new ObjectTable<>(
                 new ColumnSpec<>("templates      ", Template::getTitle)
         ).addTo(root);
         temp.add(triC.getTemplates());
+
+        if(triC.getTemplates() == null){
+            new Label("No template yet").setForegroundColor(TextColor.ANSI.RED).addTo(root);
+        }
+
         temp.addSelectionChangeListener((oldRow, newRow, byUser) -> {
             template = temp.getSelected();
             refrech();
             System.out.println(template.toString());
         });
         template = temp.getSelected();
+        //securite
         rep = TemplateItem.getByTemplate(template.getId());
         participant=triC.getParticipants();
 
@@ -214,7 +222,16 @@ Lorsqu'on sauve (bouton "Save"), on reçoit un message de confirmation et l'indi
     }
 
     private void deleteTemplate() {
-        // Controller.navigateTo(new DeleteTemplateController);
+        if (askConfirmation("You're about to delete this the template: "+template.getTitle()+" Do you confirm!", "Delete Template")) {
+            try{
+                template.delete();
+                this.close();
+                Controller.navigateTo(new ViewTemplatesController(triC));
+            }
+            catch (Exception e){
+
+            }
+        }
     }
 
     static MessageDialogButton showMessage(String message, String title, MessageDialogButton... buttons) {

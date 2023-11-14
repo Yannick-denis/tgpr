@@ -24,7 +24,6 @@ public class TricountApp {
 
         } else {
             Controller.navigateTo(new LoginController());
-
         }
 
     }

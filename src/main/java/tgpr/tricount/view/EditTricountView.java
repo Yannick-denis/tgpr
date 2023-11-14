@@ -132,8 +132,9 @@ public class EditTricountView extends DialogWindow {
             this.close();
         }).addTo(panel);
 
-        btnTemplates = new Button("Templates"
-                , () -> {
+
+        btnTemplates = new Button("Templates", () -> {
+
             Controller.navigateTo(new ViewTemplatesController(tricount));
         }
         ).addTo(panel);
