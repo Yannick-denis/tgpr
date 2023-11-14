@@ -123,7 +123,6 @@ public class EditTricountView extends DialogWindow {
 
         btnDelete = new Button("Delete", () -> {
             deleteT();
-            Controller.navigateTo(new TricountListController());
         }
         ).addTo(panel);
 
@@ -215,6 +214,7 @@ public class EditTricountView extends DialogWindow {
     private void deleteT (){
         if (askConfirmation("You're about to delete this tricount. Do you confirm!", "Delete Tricount")) {
             tricount.delete();
+            Controller.navigateTo(new TricountListController());
         }
     }
 }

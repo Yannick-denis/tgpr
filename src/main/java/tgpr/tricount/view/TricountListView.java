@@ -36,12 +36,9 @@ public class TricountListView extends BasicWindow {
     private final Paginator pagination;
     private  Menu menuFile = new Menu("File");
     private final Button createTricount;
+    private    Button close;
 //    private final profileController controllerProfil;
     public TricountListView(TricountListController controller , profileController controllerProfil) {
-
-
-
-
         this.controller = controller;
         setTitle(getTitleWithUser());
         setHints(List.of(Hint.EXPANDED));
@@ -105,6 +102,10 @@ public class TricountListView extends BasicWindow {
         pagination = new Paginator(this,12,this::pageChanged);
         pnlBasDePage.addComponent(pagination, BorderLayout.Location.RIGHT);
         reloadData();
+        close=new Button("ce bouton naparait pas",()->close());
+        close.setVisible(false);
+        close.addTo(root);
+        addShortcut(close,KeyStroke.fromString("<A-c>"));
 
 
 

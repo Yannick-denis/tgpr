@@ -3,11 +3,9 @@ package tgpr.tricount.view;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.*;
-import tgpr.tricount.controller.AddExpenseController;
-import tgpr.tricount.controller.EditTricountController;
-import tgpr.tricount.controller.OperationController;
-import tgpr.tricount.controller.ViewTricoutController;
+import tgpr.tricount.controller.*;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
@@ -144,13 +142,14 @@ public class ViewTricountView extends DialogWindow {
         new Button("Balance", this::view_balance).addTo(panel);
         new Button("New expense", this::add_operation).addTo(panel);
         new Button("Edit tricount", this::edit_tricount).addTo(panel);
-        new Button("Close", this::close).addTo(panel);
+       Button btnclose= new Button("Close", this::close).addTo(panel);
+       addShortcut(btnclose, KeyStroke.fromString("<A-c>"));
 
 
         return panel;
     }
     private void view_balance(){
-      //  Controller.navigateTo(new ViewBalanceController);
+      Controller.navigateTo(new BalanceController(triC));
 
     }
     private void add_operation(){
@@ -160,13 +159,7 @@ public class ViewTricountView extends DialogWindow {
 
     }
     private void edit_tricount(){
-
-
-//        Controller.navigateTo(new EditTricountController);
-
         Controller.navigateTo(new EditTricountController(triC));
-
-
     }
 
     private String totalExpense(){
