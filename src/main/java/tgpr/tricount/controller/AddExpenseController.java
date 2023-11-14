@@ -3,9 +3,7 @@ package tgpr.tricount.controller;
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
 import tgpr.framework.ErrorList;
-import tgpr.tricount.model.Operation;
-import tgpr.tricount.model.Repartition;
-import tgpr.tricount.model.Tricount;
+import tgpr.tricount.model.*;
 import tgpr.tricount.view.AddExpenseView;
 
 import java.time.LocalDate;
@@ -17,12 +15,12 @@ import java.util.List;
 public class AddExpenseController extends Controller {
     private final AddExpenseView view;
     private AddTemplateController addTemplateController;
-
+    private TemplateItem item;
 
     public Tricount getTricount() {
         return tricount;
     }
-
+    private Template template;
     private Tricount tricount;
 
     // besoin de recevoir l' Id du tricount pour savoir dans quel tricount nous somme
@@ -70,6 +68,12 @@ public class AddExpenseController extends Controller {
             }
         }
     }
+   /* public void saveTemplateItem(List<Repartition> list){
+        for (Repartition repartition : list)
+            addTemplateController.saveTempleItem();
+
+    }
+    */
 
     public ErrorList validateDate(String date, String title, double amount, List<Repartition> repartitions) {
         var erorr = new ErrorList();

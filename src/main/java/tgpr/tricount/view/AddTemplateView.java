@@ -7,8 +7,8 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
+import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.AddTemplateController;
-import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Template;
 import tgpr.tricount.model.TemplateItem;
 import tgpr.tricount.model.User;
@@ -24,12 +24,14 @@ public class AddTemplateView extends DialogWindow {
     private Template template;
     private TemplateItem item;
     private User user;
+    private AddExpenseController addExpenseController;
 
 
-    public AddTemplateView(AddTemplateController addTemplateController, Template template) {
+    public AddTemplateView(AddTemplateController addTemplateController, AddExpenseController addExpenseController) {
         super((addTemplateController.getTemplate() == null) ? "Change Template title": "Create a new Template" );
         this.addTemplateController = addTemplateController;
-        this.addExpenseView = addExpenseView;
+        //this.addExpenseView = addExpenseView;
+        this.addExpenseController = addExpenseController;
         setHints(List.of( Hint.CENTERED, Hint.FIXED_SIZE));
         setFixedSize(new TerminalSize(17, 5));
 
@@ -57,7 +59,10 @@ public class AddTemplateView extends DialogWindow {
                 .setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER)
                 .addTo(root);
-        Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Save":"Create", addTemplateController::onSave).addTo(buttonPanel);
+
+        Button btnSave = new Button((template == null || template.getTitle() == null ) ?  "Save":"Create", () ->{
+            addTemplateController.onSave(template,addTemplateController.getRepartitions());
+        }).addTo(buttonPanel);
         addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
         Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
         addShortcut(btnCancel ,KeyStroke.fromString("<A-c>"));
@@ -82,9 +87,11 @@ public class AddTemplateView extends DialogWindow {
     public TextBox getTxtTitle() {
         return txtTitle;
     }
-    public void saveTemplateItem() {
+    /*public void saveTemplateItem() {
         List<Repartition> repartitions = addExpenseView.getRep();
         addTemplateController.saveTempleItem(repartitions, item);
     }
+
+     */
 }
 
