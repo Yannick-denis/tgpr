@@ -25,8 +25,8 @@
   * delete operation  :    Yannick
   * apply template    :    Margaux
   * view template     :    Lucas
-  * add template      :    Alisson
-  * edit template     :    Alisson
+  * add template      :    Alison
+  * edit template     :    Alison
   * delete template   :   Margaux
   * signup            :   Yannick/Axel
   * profile           :   Zakaria

@@ -31,6 +31,11 @@ public class AddExpenseView extends DialogWindow {
     private TextBox txtAmount=new TextBox("");
     private TextBox Date;
     private ComboBox<String> payBy;
+
+    public CheckBoxList<Repartition> getCheck() {
+        return check;
+    }
+
     private CheckBoxList<Repartition> check ;
     private List<User> participant;
     private  User user;
@@ -357,6 +362,14 @@ public class AddExpenseView extends DialogWindow {
         errcheched.setText(errors.getFirstErrorMessage(Operation.Fields.Repartition));
         btnSave.setEnabled(toutComplet()&&errors.isEmpty());
     }
+
+   /* public void saveTemplateItem() {
+        List<Repartition> repartitions = controler.getRepartitions();
+        addTemplateController.saveTemplateItem(repartitions, item);
+    }
+
+    */
+
 
 
 }

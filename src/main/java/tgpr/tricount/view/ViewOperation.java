@@ -80,6 +80,7 @@ public class ViewOperation  extends DialogWindow {
                 up.setEnabled(false);
 
             }else {
+                close();
                 Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId  - 1 ), operationList));
             }
             }).addTo(buttons);

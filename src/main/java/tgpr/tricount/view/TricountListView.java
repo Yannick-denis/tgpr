@@ -38,7 +38,7 @@ public class TricountListView extends BasicWindow {
     private final Paginator pagination;
 
 
-    private final Menu menuFile = new Menu("File");
+    private  Menu menuFile = new Menu("File");
     private final Button createTricount;
 //    private final profileController controllerProfil;
     public TricountListView(TricountListController controller , profileController controllerProfil) {
