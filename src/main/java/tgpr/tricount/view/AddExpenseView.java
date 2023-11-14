@@ -8,16 +8,11 @@ import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.model.*;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,13 +30,15 @@ public class AddExpenseView extends DialogWindow {
     private TextBox txtAmount=new TextBox("");
     private TextBox Date;
     private ComboBox<String> payBy;
-    private CheckBoxList<Repartition> check ;
+    private CheckBoxList<Repartition> check = new CheckBoxList<Repartition>();;
     private List<User> participant;
     private  List<Repartition> rep =new ArrayList<>();
     private Label errDate =new Label("");
     private Label errTitle =new Label("");
     private Label errAmount =new Label("");
     private Button btnSave;
+    private Button btnApply;
+
 
     public void loadParticipand() {
         participant = controler.getTricount().getParticipants();
@@ -90,12 +87,11 @@ public class AddExpenseView extends DialogWindow {
         panel.addEmpty();
         panel.addEmpty();
         panel.addComponent(new Label("for Whom :\n (wheight <-/-> or -/+)"));
-         check = new CheckBoxList<Repartition>();
 
         for ( Repartition elme : rep) {
             check.addItem(elme,true);
         }
-         check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
+        check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
 
 
 
@@ -164,15 +160,17 @@ public class AddExpenseView extends DialogWindow {
     private Panel applyAndComb(){
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_CENTER);
-        ComboBox<String> selectTampletate = new ComboBox<>();
-        selectTampletate.addItem("No ,I use a custuom repartition ");
+        ComboBox<String> selectTemplate = new ComboBox<>();
+        selectTemplate.addItem("No ,I use a custom repartition ");
         for (Template elem:Template.getByTricount(controler.getTricount().getId())){
-            selectTampletate.addItem(elem.getTitle());
+            selectTemplate.addItem(elem.getTitle());
         }
-        panel.addComponent(selectTampletate);
-        //bouton aply template
-        var btnAply = new Button("Apply", () -> {
-            //save();
+        panel.addComponent(selectTemplate);
+
+        //bouton apply template (Par Margaux)
+        btnApply = new Button("Apply", () -> {
+            apply(Template.getByKey(selectTemplate.getSelectedIndex()));
+            refresh();
         }).addTo(panel);
 
         return panel;
@@ -255,7 +253,45 @@ public class AddExpenseView extends DialogWindow {
         btnSave.setEnabled(toutComplet()&&errors.isEmpty());
     }
 
+    private void apply(Template template){
+        List<TemplateItem> ti = template.getTemplateItems();
+        for (TemplateItem templateItem: ti) {
+            int idx = atIndex(templateItem);
+            rep.get(idx).setWeight(templateItem.getWeight());
+        }
+    }
 
+    private int atIndex(TemplateItem ti){
+        int cpt =0;
+        for (Repartition elem: rep) {
+            if(!isIn(elem, ti.getTemplateId())){
+                elem.setWeight(0);
+            }
+            if(elem.getUserId() == ti.getUserId()){
+                return cpt;
+            }
+            ++cpt;
+        }
+        return cpt;
+    }
+
+    private boolean isIn(Repartition rep, int id){
+        Template te = Template.getByKey(id);
+        List<TemplateItem> ti = te.getTemplateItems();
+        for (TemplateItem elem: ti) {
+            if(elem.getUserId() == rep.getUserId())
+                return true;
+        }
+        return false;
+    }
+
+    private void refresh(){
+        check.clearItems();
+        for (Repartition elem: rep) {
+            check.addItem(elem, elem.getWeight()==0?false:true);
+        }
+        check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
+    }
 }
 
 
