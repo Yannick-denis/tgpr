@@ -20,15 +20,6 @@ import tgpr.tricount.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-axel je tai mis en forme la vue jai ajoute une list pour tout les operation de lu ticount
-la requete est faite tkt pas je l'ai ajoute dans le modele jai egalement ajouter une liste de participant
-je pense quil faut ajoute un liste tmp pour le calcul des ballance afin de sommer tout les poids  pour ch   aque op
-et divise le montant par ce resultat apres multiplier le res par le poids du user
-
-ajoute la logique pour inverser le nom et le montant si pos et agrandir le baground en fonction du montant
-en faisant je croit setSiz(nex TerminalSize(taille de sa balance ex 80 pour 80 euro))
- */
 public class BalanceView extends DialogWindow {
     private final BalanceController controller;
 
