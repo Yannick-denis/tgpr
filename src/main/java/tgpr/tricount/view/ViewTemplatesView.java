@@ -55,11 +55,7 @@ public class ViewTemplatesView extends DialogWindow {
         template = temp.getSelected();
         rep = TemplateItem.getByTemplate(template.getId());
         participant=triC.getParticipants();
-         /*
-         faut verifier que tout les participant se trouve dans rep
-         si ce n'est pas le cas il faut ajoute dans rep les user avec
-         une nouvelle templateitems avec un piod a 0;
-          */
+
         for (User elem :participant){
             if (!isIn(elem)){
                rep.add(new TemplateItem(elem.getId(),template.getId(),0));
