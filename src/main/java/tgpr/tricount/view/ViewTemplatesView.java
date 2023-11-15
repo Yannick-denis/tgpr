@@ -13,6 +13,7 @@ import tgpr.tricount.controller.AddTemplateController;
 import tgpr.tricount.controller.ViewTemplatesController;
 import tgpr.tricount.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static tgpr.framework.Controller.askConfirmation;
@@ -130,6 +131,7 @@ public class ViewTemplatesView extends DialogWindow {
 
 
     private Panel createButtons() {
+
         var panel = Panel.horizontalPanel().center();
 
         //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
@@ -140,7 +142,11 @@ public class ViewTemplatesView extends DialogWindow {
             Controller.navigateTo(new ViewTemplatesController(triC));
         }).addTo(panel);
         new Button("Edit Title", ()->{
-            Controller.navigateTo(new AddTemplateController(template,triC,null));
+            List<Repartition> litsForEdit=new ArrayList<>();
+            for (TemplateItem elem :rep){
+                litsForEdit.add(new Repartition(0,elem.getUserId(),elem.getWeight()));
+            }
+            Controller.navigateTo(new AddTemplateController(template,triC,litsForEdit));
             this.close();
             Controller.navigateTo(new ViewTemplatesController(triC));
         }).addTo(panel);

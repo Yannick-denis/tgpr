@@ -46,28 +46,25 @@ public class AddTricountView extends DialogWindow {
         }
         private Panel createFields() {
             Panel panel = Panel.gridPanel(2, Margin.of(1));
-            //Panel panel2 = Panel.gridPanel(2, Margin.of(3));
 
-
-            // body
             new Label("Titre").addTo(panel);
             txtTitle.addTo(panel)
                     .setPreferredSize(new TerminalSize(20,1))
                     .setTextChangeListener((tkt,byuser)->validate());
             panel.addEmpty();
             errBody.setForegroundColor(TextColor.ANSI.RED).addTo(panel);
-            //  txtBody.setTextChangeListener((txt, byUser) -> validate());
+
             new Label ("Description").addTo(panel);
             txtDescription=new TextBox().sizeTo(30,5).addTo(panel);
 
-            // private
+
             return panel;
         }
 
         private Panel createButtons() {
             var panel = Panel.horizontalPanel().center();
 
-            //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
+
             btncreate= new Button ("Create", () ->{
                 save();
             }).setEnabled(false).addTo(panel);
@@ -85,10 +82,7 @@ public class AddTricountView extends DialogWindow {
             btncreate.setEnabled(error.isEmpty());
 
         }
-/////cccccc
 
-
-        ///cccc
         private void save() {
             controler.save(txtTitle.getText(),txtDescription.getText());
             close();

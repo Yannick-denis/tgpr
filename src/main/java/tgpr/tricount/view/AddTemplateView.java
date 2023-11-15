@@ -30,7 +30,6 @@ public class AddTemplateView extends DialogWindow {
     public AddTemplateView(AddTemplateController addTemplateController, AddExpenseController addExpenseController) {
         super((addTemplateController.getTemplate() == null || addTemplateController.getTemplate().getTitle() == null) ? "Create a new Template Change ": "Template title" );
         this.addTemplateController = addTemplateController;
-        //this.addExpenseView = addExpenseView;
         this.addExpenseController = addExpenseController;
         setHints(List.of( Hint.CENTERED, Hint.FIXED_SIZE));
         setFixedSize(new TerminalSize(25, 5));

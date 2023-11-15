@@ -7,7 +7,6 @@ import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
-import tgpr.tricount.view.AddParticipantView;
 import tgpr.tricount.view.EditTricountView;
 
 public class EditTricountController extends Controller {
