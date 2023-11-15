@@ -1,6 +1,8 @@
 package tgpr.tricount.controller;
 
 import tgpr.framework.Controller;
+import tgpr.framework.Model;
+import tgpr.tricount.model.Subscription;
 import tgpr.tricount.model.Tricount;
 
 
@@ -17,6 +19,7 @@ public class AddTricountControler extends Controller {
     private Tricount tricount;
     private User me;
     public AddTricountControler(User userConected){
+
         this.me=userConected;
     }
 
@@ -29,9 +32,13 @@ public class AddTricountControler extends Controller {
         if (description.isEmpty()){
             description=null;
         }
+        Model.clearCache();
         tricount= new Tricount(title,description,me.getId());
         tricount.save();
-
+        Subscription sub=new Subscription(Tricount.getByTitleAndUser(title,me).getId(),me.getId());
+        sub.save();
+        Model.clearCache();
+        Controller.navigateTo(new TricountListController());
 
     }
 

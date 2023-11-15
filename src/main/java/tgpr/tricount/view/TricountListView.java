@@ -9,6 +9,7 @@ import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.Panel;
 
 import com.googlecode.lanterna.input.KeyStroke;
+import tgpr.framework.Model;
 import tgpr.tricount.controller.*;
 import tgpr.tricount.model.Tricount;
 
@@ -39,6 +40,7 @@ public class TricountListView extends BasicWindow {
     private Button close;
 
     public TricountListView(TricountListController controller, profileController controllerProfil) {
+        Model.clearCache();
         this.controller = controller;
         setTitle(getTitleWithUser());
         setHints(List.of(Hint.EXPANDED));
@@ -94,6 +96,7 @@ public class TricountListView extends BasicWindow {
     }
 
     public void reloadData() {
+        Model.clearCache();
         var tricounts = controller.getTricounts(filter.getText());
         pagination.setCount(tricounts.size());
         pnlBody.removeAllComponents();
