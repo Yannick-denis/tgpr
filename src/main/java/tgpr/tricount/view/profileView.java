@@ -61,7 +61,7 @@ public class profileView extends DialogWindow  {
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
 
         Button btnEditProfile = new Button("Edit Profile" , () -> {Controller.navigateTo(new EditProfileController());} ).addTo(buttons);
-        Button btnChangePassword = new Button("Change Password").addTo(buttons);
+        Button btnChangePassword = new Button("Change Password",() -> {Controller.navigateTo(new ChangePasswordController());}).addTo(buttons);
         Button btnClose = new Button("Close" , this::close).addTo(buttons);
         addShortcut(btnClose, KeyStroke.fromString("<A-c>"));
 
