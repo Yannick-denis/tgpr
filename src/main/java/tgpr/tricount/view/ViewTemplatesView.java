@@ -8,7 +8,9 @@ import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import tgpr.framework.*;
+import tgpr.framework.ColumnSpec;
+import tgpr.framework.Controller;
+import tgpr.framework.ObjectTable;
 import tgpr.tricount.controller.AddTemplateController;
 import tgpr.tricount.controller.ViewTemplatesController;
 import tgpr.tricount.model.*;
@@ -61,6 +63,7 @@ public class ViewTemplatesView extends DialogWindow {
         template = temp.getSelected();
         if (template == null) {
             new Label("No template yet").setForegroundColor(TextColor.ANSI.RED).addTo(root);
+
         } else {
             rep = TemplateItem.getByTemplate(template.getId());
             participant = triC.getParticipants();
@@ -129,7 +132,6 @@ public class ViewTemplatesView extends DialogWindow {
 
     }
 
-
     private Panel createButtons() {
 
         var panel = Panel.horizontalPanel().center();
@@ -137,7 +139,7 @@ public class ViewTemplatesView extends DialogWindow {
         //btnPost.setEnabled(false).addTo(panel).addListener(button -> post());
 
         new Button("New",()->{
-            Controller.navigateTo(new AddTemplateController(template,triC,null));
+            Controller.navigateTo(new AddTemplateController(new Template(null, triC.getId()),triC,null));
             this.close();
             Controller.navigateTo(new ViewTemplatesController(triC));
         }).addTo(panel);
@@ -146,11 +148,11 @@ public class ViewTemplatesView extends DialogWindow {
             for (TemplateItem elem :rep){
                 litsForEdit.add(new Repartition(0,elem.getUserId(),elem.getWeight()));
             }
-            Controller.navigateTo(new AddTemplateController(template,triC,litsForEdit));
+            Controller.navigateTo(new AddTemplateController(template ,triC,litsForEdit));
             this.close();
             Controller.navigateTo(new ViewTemplatesController(triC));
-        }).addTo(panel);
-        Button btndel= new Button("Delete", this::deleteTemplate).addTo(panel);
+        }).setEnabled(template != null).addTo(panel);
+        Button btndel= new Button("Delete", this::deleteTemplate).setEnabled(template != null).addTo(panel);
         addShortcut(btndel, KeyStroke.fromString("<A-d>"));
         Button btnsave= new Button("Save",()->{
             save();

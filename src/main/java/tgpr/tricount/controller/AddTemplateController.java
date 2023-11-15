@@ -24,6 +24,7 @@ public class AddTemplateController extends Controller {
     public AddTemplateController(Template template, Tricount tricount, List<Repartition> rep) {
         this.tricount = tricount;
         this.template = new Template(null, tricount.getId());
+        this.template.setId(template.getId());
         addTemplateView = new AddTemplateView(this, addExpenseController);
         this.rep = rep;
     }
@@ -60,7 +61,9 @@ public class AddTemplateController extends Controller {
     public void onSave(Template template, List<Repartition> repartitions) {
         if (template == null) {
             template = new Template("", tricount.getId());
+            System.out.println("lol");
         }
+        System.out.println("toi la bas");
         String enteredTitle = addTemplateView.getTxtTitle().getText();
         template.setTitle(enteredTitle);
         template.save();
