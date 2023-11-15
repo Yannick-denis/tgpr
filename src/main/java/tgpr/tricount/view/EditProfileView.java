@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.EditProfileController;
 import tgpr.tricount.model.User;
@@ -48,7 +49,9 @@ public class EditProfileView extends DialogWindow {
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
         Button save = new Button("Save").addTo(buttons);
+        addShortcut(save, KeyStroke.fromString("<A-s>"));
         Button Cancel = new Button("Cancel" , this::close).addTo(buttons);
+        addShortcut(Cancel, KeyStroke.fromString("<A-c>"));
 
 
     }
