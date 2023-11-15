@@ -22,6 +22,7 @@ import java.awt.Container;
 import java.util.List;
 public class profileView extends DialogWindow  {
     private final profileController controller;
+
     public profileView(profileController controller, String title) {
         super(title);
         this.controller = controller;

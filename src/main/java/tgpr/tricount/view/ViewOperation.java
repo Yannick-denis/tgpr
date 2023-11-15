@@ -9,6 +9,7 @@ import tgpr.framework.ColumnSpec;
 import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.framework.ObjectTable;
+import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
@@ -94,7 +95,7 @@ public class ViewOperation  extends DialogWindow {
             }
         }).addTo(buttons);
         edit = new Button("Edit", () -> {
-            Controller.navigateTo(new EditTricountController(Tricount.getByKey(2)));
+            Controller.navigateTo(new AddExpenseController(operation.getTricount(),operation));
         }).addTo(buttons);
         close = new Button("Close", this::close).addTo(buttons);
         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.End));
