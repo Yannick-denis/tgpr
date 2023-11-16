@@ -21,7 +21,7 @@ public class ChangePasswordController extends Controller {
         var error=validate(oldpassword,newpassword,confirmPassword);
         if (error.isEmpty()){
             String hashedPassword= newpassword.isBlank()? newpassword: Tools.hash(newpassword);
-            user.setHashedPassword(newpassword); // a modifier pour qu'il change l'user actuel au lieu d'en créer un   hashedPassword, User.Role.User
+            user.setHashedPassword(hashedPassword); // a modifier pour qu'il change l'user actuel au lieu d'en créer un   hashedPassword, User.Role.User
             user.save();
             view.close();
         }else {

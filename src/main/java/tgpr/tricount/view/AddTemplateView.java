@@ -84,7 +84,7 @@ public class AddTemplateView extends DialogWindow {
             return addTemplateController.getTemplate().getTitle();
         }
         return (getTemplate().getTitle() != null) ? "" : getTemplate().getTitle();
-    }
+     }
 
 
 
