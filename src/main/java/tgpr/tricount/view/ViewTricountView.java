@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.input.KeyStroke;
+import org.w3c.dom.ls.LSOutput;
 import tgpr.framework.*;
 import tgpr.tricount.controller.*;
 import tgpr.tricount.model.Operation;
@@ -169,7 +170,7 @@ public class ViewTricountView extends DialogWindow {
             resdouble+= elem.getAmount();
         }
         res =new DecimalFormat("#.0#").format(resdouble);
-        return res;
+        return res + "€";
     }
 
     private String myExpense(){
@@ -181,7 +182,8 @@ public class ViewTricountView extends DialogWindow {
           }
         }
         res =new DecimalFormat("#.0#").format(resdouble);
-        return res;
+
+        return res + "€";
     }
 
     private String myBalance(List<Operation> list){
