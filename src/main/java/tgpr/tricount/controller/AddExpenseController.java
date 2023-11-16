@@ -47,6 +47,7 @@ public class AddExpenseController extends Controller {
     public void save(String title, int tricountId,
                      double amount, LocalDate operationDate, int initiatorId,
                      LocalDateTime createdAt, Operation operation) {
+
         Operation ope;
         if (operation == null) {
             ope = new Operation(title, tricountId, amount, operationDate, initiatorId, createdAt);
@@ -86,7 +87,7 @@ public class AddExpenseController extends Controller {
         } else if (dateInTheFuture(date)) {
             erorr.add("Date many not be in the future", Operation.Fields.CreatedAt);
         }
-        if (amount < 0) {
+         if (amount<0) {
             erorr.add("amount must be positive", Operation.Fields.Amount);
         }
         if (title.length() < 3) {

@@ -72,6 +72,7 @@ public class Tricount extends Model {
                         select u.* from subscriptions s
                         join users u on s.user=u.id
                         where tricount=:id
+                        order by full_name
                         """,
                 new Params("id", id));
     }
