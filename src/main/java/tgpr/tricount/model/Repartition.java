@@ -43,7 +43,7 @@ public class Repartition extends Model {
 
 
     public double getAmount() {
-        return  getWeight() * (getMontant_op() / getSum_weights());
+        return  (getWeight() *( getMontant_op() / getSum_weights()));
     }
 
     public void setAmount(double amount) {
