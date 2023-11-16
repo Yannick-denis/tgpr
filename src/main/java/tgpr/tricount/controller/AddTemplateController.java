@@ -62,11 +62,12 @@ public class AddTemplateController extends Controller {
     public void onSave(Template template, List<Repartition> repartitions) {
         if (template == null) {
             template = new Template("", tricount.getId());
-            System.out.println("lol");
+
         }
-        System.out.println("toi la bas");
+
         String enteredTitle = addTemplateView.getTemTitel();
         template.setTitle(enteredTitle);
+
         template.save();
         template = Template.getByTitle(tricount.getId(), enteredTitle);
         saveTempleItem(template.getId(), repartitions);
