@@ -64,7 +64,7 @@ public class SinupControler extends Controller {
         if (name==null|| name.isEmpty()){
             erorr.add("name required",User.Fields.FullName);
         }
-        if (!mail.matches(".*[@].*")){
+        if (!mail.matches(".*[@].*[.][a-z]+")){
             erorr.add("mail invalid",User.Fields.Mail);
         }
 
