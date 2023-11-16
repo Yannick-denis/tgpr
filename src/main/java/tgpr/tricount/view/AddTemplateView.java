@@ -1,6 +1,7 @@
 // AddTemplateView.java
 package tgpr.tricount.view;
 
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
@@ -24,6 +25,8 @@ public class AddTemplateView extends DialogWindow {
         this.addTemplateController = addTemplateController;
         setHints(List.of(Hint.CENTERED));
         //setFixedSize(new TerminalSize(25, 5));
+        setHints(List.of(Hint.CENTERED, Hint.FIXED_SIZE));
+        setFixedSize(new TerminalSize(25, 5));
         Panel root = new Panel();
         setComponent(root);
 

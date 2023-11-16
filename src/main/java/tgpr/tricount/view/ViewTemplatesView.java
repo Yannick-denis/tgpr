@@ -80,7 +80,10 @@ public class ViewTemplatesView extends DialogWindow {
             for (TemplateItem elem : rep) {
                 boxitem.addItem(elem, elem.getWeight() == 0 ? false : true);
             }
-            boxitem.addListener((index, checked) -> boxitem.getSelectedItem().setWeight(checked ? 1 : 0));
+            boxitem.addListener((index, checked) -> {
+                boxitem.getSelectedItem().setWeight(checked ? 1 : 0);
+                repartitiontitle.setText("Repartition : (modifed)");
+            });
 
             this.addKeyboardListener(boxitem, keyStroke -> {
 
