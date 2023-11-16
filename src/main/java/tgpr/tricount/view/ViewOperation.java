@@ -76,21 +76,23 @@ public class ViewOperation  extends DialogWindow {
         new EmptySpace().addTo(buttons);
         new EmptySpace().addTo(buttons);
         int currentId = getOperation().getTricount().getOperations().indexOf(operation);
-        int maxIndex = getOperation().getTricount().getOperations().size();
+        int maxIndex = getOperation().getTricount().getOperations().size() - 1;
         up = new Button("Up", () ->{
-            if(currentId == 0){
-                up.setEnabled(false);
-            }else {
-                close();
+            int newId = currentId - 1;
+            if(newId  >= 0 ){
                 Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId  - 1 ), operationList));
+                close();
+            }else {
+                up.setEnabled(false);
             }
             }).addTo(buttons);
         down = new Button("Down", () ->{
-            if(currentId == maxIndex - 1){
-                down.setEnabled(false);
-
-            }else {
+            int newId = currentId + 1;
+            if(newId <= maxIndex){
                 Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId + 1 ), operationList));
+                close();
+            }else {
+                down.setEnabled(false);
             }
         }).addTo(buttons);
         edit = new Button("Edit", () -> {

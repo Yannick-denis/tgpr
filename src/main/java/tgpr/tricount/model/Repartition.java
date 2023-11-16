@@ -4,6 +4,8 @@ import org.springframework.util.Assert;
 import tgpr.framework.Model;
 import tgpr.framework.Params;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -43,7 +45,14 @@ public class Repartition extends Model {
 
 
     public double getAmount() {
-        return  (getWeight() *( getMontant_op() / getSum_weights()));
+        double weight = getWeight();
+        double montantOp = getMontant_op();
+        double sumWeights = getSum_weights();
+
+        BigDecimal result = BigDecimal.valueOf(weight * (montantOp / sumWeights));
+        result = result.setScale(2, RoundingMode.HALF_UP);
+
+        return result.doubleValue();
     }
 
     public void setAmount(double amount) {
