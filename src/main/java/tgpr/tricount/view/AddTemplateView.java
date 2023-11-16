@@ -68,6 +68,7 @@ public class AddTemplateView extends DialogWindow {
             addTemplateController.onSave(getTemplate(), addTemplateController.getRepartitions());
             validateForEdit();
         }).addTo(buttonPanel);
+        btnSave.setEnabled(false);
         addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
 
         Button btnCancel = new Button("Cancel", addTemplateController::onCancel).addTo(buttonPanel);
@@ -101,7 +102,7 @@ public class AddTemplateView extends DialogWindow {
 
             );
             errTitle.setText(errors.getFirstErrorMessage(Template.Fields.Title));
-            btnSave.setEnabled(false);
+            btnSave.setEnabled(errors.isEmpty());
         }
 
 

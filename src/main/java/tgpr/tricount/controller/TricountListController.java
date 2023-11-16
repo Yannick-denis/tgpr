@@ -1,5 +1,6 @@
 package tgpr.tricount.controller;
 
+import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.tricount.model.Security;
 import tgpr.tricount.model.Tricount;
@@ -27,8 +28,9 @@ public class TricountListController extends Controller {
             return Tricount.getFiltered(filter);
         }
 
-
-
+    public void exit() {
+        System.exit(0);
+    }
 
 
 }

@@ -51,7 +51,7 @@ public class TricountListView extends BasicWindow {
         menuFile = new Menu("File");
         addShortcut(menuFile, KeyStroke.fromString("<A-f>"));
         menuBar.add(menuFile);
-        MenuItem menuLogout = new MenuItem("Logout!", controller::logout);
+        MenuItem menuLogout = new MenuItem("Logout", controller::logout);
         menuFile.add(menuLogout);
 
 
@@ -142,7 +142,7 @@ public class TricountListView extends BasicWindow {
             Controller.navigateTo(controllerProfil);
         });
         menuFile.add(menuprofile);
-        MenuItem menuLogout = new MenuItem("Logout", controller::logout);
+        MenuItem menuLogout = new MenuItem("Exit", controller::exit);
         addShortcut(menuLogout, KeyStroke.fromString("<A-c>"));
         menuFile.add(menuLogout);
         return menuBar;
