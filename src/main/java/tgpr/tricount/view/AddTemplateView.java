@@ -17,20 +17,23 @@ public class AddTemplateView extends DialogWindow {
     private  AddTemplateController addTemplateController;
     private  TextBox txtTitle ;
     private Label errTitle =new Label("");
-    private  Button btnSave;
+    private  Button btnSave = new Button("");
 
     public AddTemplateView(AddTemplateController addTemplateController, AddExpenseController addExpenseController) {
         super(( addTemplateController.getTemplate() == null || addTemplateController.getTemplate().getTitle() == null) ? "Create a new Template Change" : "Template title");
         this.addTemplateController = addTemplateController;
         setHints(List.of(Hint.CENTERED));
         //setFixedSize(new TerminalSize(25, 5));
+        if (addTemplateController.getTemplate().getTitle()!=null){
+            setTitle("Template title change");
+        }
         Panel root = new Panel();
         setComponent(root);
 
         new EmptySpace().addTo(root);
 
         Panel inputPanel = new Panel()
-                .setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
+                .setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(0))
                 .setLayoutData(Layouts.LINEAR_CENTER)
                 .addTo(root);
 
@@ -38,9 +41,13 @@ public class AddTemplateView extends DialogWindow {
         txtTitle = new TextBox().addTo(inputPanel).setTextChangeListener((txt,txtTitle) ->
                 validateForEdit()
         ).sizeTo(15);
-
+        if (addTemplateController.getTemplate().getTitle()!=null){
+            txtTitle.setText(addTemplateController.getTemplate().getTitle());
+        }
+        new EmptySpace().addTo(root);
         errTitle.addTo(inputPanel).setForegroundColor(TextColor.ANSI.RED);;
         if (getTemplate().getTitle() != null) {
+            System.out.println("cc");
             txtTitle.setText(getTemplateTitle());
         }
 
@@ -67,10 +74,16 @@ public class AddTemplateView extends DialogWindow {
     }
 
     private String getTemplateTitle() {
+        if (addTemplateController.getTemplate().getTitle()!=null){
+            return addTemplateController.getTemplate().getTitle();
+        }
         return (getTemplate().getTitle() != null) ? "" : getTemplate().getTitle();
     }
 
     private String getSaveButtonText() {
+        if (addTemplateController.getTemplate().getTitle()!=null){
+            return "Save";
+        }
         return (getTemplate().getTitle() == null ) ? "Create" : "Save";
     }
 
