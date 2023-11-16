@@ -73,6 +73,7 @@ public class ChangePasswordView extends DialogWindow {
 
     private void save() {
         controller.save(oldpassword.getText(), newpassword.getText(), confirmPassword.getText());
+        close();
     }
 
     private void validate() {
