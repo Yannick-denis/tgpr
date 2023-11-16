@@ -65,7 +65,7 @@ public class AddTemplateController extends Controller {
             System.out.println("lol");
         }
         System.out.println("toi la bas");
-        String enteredTitle = addTemplateView.getTxtTitle().getText();
+        String enteredTitle = addTemplateView.getTemTitel();
         template.setTitle(enteredTitle);
         template.save();
         template = Template.getByTitle(tricount.getId(), enteredTitle);
