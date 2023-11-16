@@ -23,7 +23,7 @@ public class AddTemplateController extends Controller {
 
     public AddTemplateController(Template template, Tricount tricount, List<Repartition> rep) {
         this.tricount = tricount;
-        this.template = template;
+        this.template = new Template(null, tricount.getId());
         this.template.setId(template.getId());
         addTemplateView = new AddTemplateView(this, addExpenseController);
         this.rep = rep;
