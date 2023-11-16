@@ -76,9 +76,12 @@ public class AddExpenseView extends DialogWindow {
         loadParticipand();
 
         for (User elem : participant) {
-            payBy.addItem(elem.getFullName());
-            System.out.println(elem.getFullName());
-
+            if (elem.equals(Security.getLoggedUser())){
+                   payBy.addItem(elem.getFullName());
+                payBy.setSelectedItem(elem.getFullName());
+            }else {
+                payBy.addItem(elem.getFullName());
+            }
         }
         panel.addComponent(payBy);
         panel.addComponent(new Label("use a repartition \n template (optional) "));
@@ -160,6 +163,7 @@ public class AddExpenseView extends DialogWindow {
         txtTitle.setText(operation.getTitle());
         txtAmount.setText(String.valueOf( operation.getAmount()));
         Date.setText(operation.getOperationDate().asString());
+        payBy.setSelectedItem(operation.getInitiator().getFullName());
         rep=null;
         rep=new ArrayList<>();
         for (User elem :participant){
@@ -322,8 +326,9 @@ public class AddExpenseView extends DialogWindow {
     //probleme avec amount et date
     //pay by fonctionne
     private void save() {
+
         controler.save(txtTitle.getText(), controler.getIdTricount()
-                , Double.parseDouble(txtAmount.getText()), StringToDate()
+                ,Double.parseDouble(txtAmount.getText()) , StringToDate()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now(),operation);
         operation=Operation.getByTitle(txtTitle.getText());
@@ -339,7 +344,7 @@ public class AddExpenseView extends DialogWindow {
     private  void validate(){
         double amount;
         String title;
-        if (txtAmount.getText().isEmpty()){
+        if (txtAmount.getText().isEmpty()||!txtAmount.getText().matches("[\\d.\\d]")){
             amount=0;
         }else{
             amount=Double.parseDouble(txtAmount.getText());
@@ -351,6 +356,9 @@ public class AddExpenseView extends DialogWindow {
         }
         var errors = controler.validateDate(Date.getText(),
                                           title  ,amount,check.getCheckedItems());
+        if (!txtAmount.getText().matches("^[0-9]+(?:\\.[0-9]+)?$") ){
+            errors.add("enters a valid decimal number",Operation.Fields.Amount);
+        }
         errDate.setText(errors.getFirstErrorMessage(Operation.Fields.CreatedAt));
         errAmount.setText(errors.getFirstErrorMessage(Operation.Fields.Amount));
         errTitle.setText(errors.getFirstErrorMessage(Operation.Fields.Title));
