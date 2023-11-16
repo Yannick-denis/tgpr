@@ -12,6 +12,7 @@ import tgpr.framework.ColumnSpec;
 import tgpr.framework.Controller;
 import tgpr.framework.ObjectTable;
 import tgpr.tricount.controller.AddTemplateController;
+import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.ViewTemplatesController;
 import tgpr.tricount.model.*;
 
@@ -160,7 +161,8 @@ public class ViewTemplatesView extends DialogWindow {
         Button btnsave= new Button("Save",()->{
             save();
             refrech();
-        }).addTo(panel);
+            Controller.navigateTo(new EditTricountController(triC));
+        }).setEnabled(template != null).addTo(panel);
         addShortcut(btnsave, KeyStroke.fromString("<A-s>"));
        Button btnclose=  new Button("Close", this::close).addTo(panel);
         addShortcut(btnclose, KeyStroke.fromString("<A-c>"));

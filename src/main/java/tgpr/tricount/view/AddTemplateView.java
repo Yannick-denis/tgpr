@@ -22,13 +22,15 @@ public class AddTemplateView extends DialogWindow {
     public AddTemplateView(AddTemplateController addTemplateController, AddExpenseController addExpenseController) {
         super(( addTemplateController.getTemplate() == null || addTemplateController.getTemplate().getTitle() == null) ? "Create a new Template Change" : "Template title");
         this.addTemplateController = addTemplateController;
+        if (addTemplateController.getTemplate().getTitle() != null ){
+            setTitle("Template title");
+        }
         setHints(List.of(Hint.CENTERED));
-        //setFixedSize(new TerminalSize(25, 5));
         Panel root = new Panel();
         setComponent(root);
 
         new EmptySpace().addTo(root);
-
+        
         Panel inputPanel = new Panel()
                 .setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_CENTER)
@@ -67,10 +69,16 @@ public class AddTemplateView extends DialogWindow {
     }
 
     private String getTemplateTitle() {
-        return (getTemplate().getTitle() != null) ? "" : getTemplate().getTitle();
+        if (getTemplate().getTitle() != null){
+            setTitle(getTemplate().getTitle());
+        }
+        return (getTemplate().getTitle() == null) ? "" : getTemplate().getTitle();
     }
 
     private String getSaveButtonText() {
+        if (getTemplate().getTitle() != null){
+            return "Save";
+        }
         return (getTemplate().getTitle() == null ) ? "Create" : "Save";
     }
 
