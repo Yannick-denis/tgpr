@@ -202,7 +202,7 @@ public class EditTricountView extends DialogWindow {
             }
         }
         else {
-            showError("This user is involved in an expense or craator");
+            showError("This user is involved in an expense or creator");
         }
         refresh();
     }
