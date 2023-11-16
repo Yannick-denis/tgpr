@@ -69,6 +69,7 @@ public class BalanceController extends Controller {
         } else {
             res = ((amountTotal / poids) * monpids) - amountuser;
         }
+        res = (double)Math.round(res * 100) /100;
         return res;
     }
 }
