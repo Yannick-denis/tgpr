@@ -4,6 +4,7 @@ package tgpr.tricount.controller;
 
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
+import tgpr.framework.ErrorList;
 import tgpr.tricount.model.*;
 import tgpr.tricount.view.AddExpenseView;
 import tgpr.tricount.view.AddTemplateView;
@@ -71,6 +72,14 @@ public class AddTemplateController extends Controller {
         saveTempleItem(template.getId(), repartitions);
         addTemplateView.close();
     }
+    public ErrorList validateForEdit(String title){
+        var error = new ErrorList();
+        if (title.length() < 3){
+            error.add("Minimum 3 chars", Template.Fields.Title);
+        }
+        return error;
+    }
+
     public void onCancel() {
         addTemplateView.close();
     }
