@@ -17,11 +17,6 @@ public class AddTemplateView extends DialogWindow {
     private AddTemplateController addTemplateController;
     private TextBox txtTitle;
     private Label errTitle = new Label("");
-
-    public Button getBtnSave() {
-        return btnSave;
-    }
-
     private Button btnSave = new Button("");
 
     public AddTemplateView(AddTemplateController addTemplateController, AddExpenseController addExpenseController) {
@@ -31,7 +26,12 @@ public class AddTemplateView extends DialogWindow {
             setTitle("Template title");
         }
         setHints(List.of(Hint.CENTERED));
-        Panel root = new Panel();
+        //setFixedSize(new TerminalSize(25, 5));
+        if (addTemplateController.getTemplate().getTitle() != null) {
+            setTitle("Template title change");
+        }
+
+                Panel root = new Panel();
         setComponent(root);
 
         new EmptySpace().addTo(root);
@@ -67,7 +67,6 @@ public class AddTemplateView extends DialogWindow {
         btnSave = new Button(getSaveButtonText(), () -> {
             addTemplateController.onSave(getTemplate(), addTemplateController.getRepartitions());
             validateForEdit();
-
         }).addTo(buttonPanel);
         addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
 
@@ -90,11 +89,10 @@ public class AddTemplateView extends DialogWindow {
 
 
     private String getSaveButtonText() {
-        if (getTemplate().getTitle() == null){
-            return "Create";
+        if (getTemplate().getTitle() != null){
+            return "Save";
         }
-
-        return (getTemplate().getTitle() != null ) ? "Save" : "Create";
+        return (getTemplate().getTitle() == null ) ? "Create" : "Save";
     }
 
         private void validateForEdit() {
@@ -103,6 +101,7 @@ public class AddTemplateView extends DialogWindow {
 
             );
             errTitle.setText(errors.getFirstErrorMessage(Template.Fields.Title));
+            btnSave.setEnabled(false);
         }
 
 
