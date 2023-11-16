@@ -262,7 +262,7 @@ public class AddExpenseView extends DialogWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_CENTER);
         ComboBox<String> selectTemplate = new ComboBox<>();
-        selectTemplate.addItem("No ,I use a custom repartition ");
+        selectTemplate.addItem("No ,I use a custom repartition ").isReadOnly();
         for (Template elem:Template.getByTricount(controler.getTricount().getId())){
             selectTemplate.addItem(elem.getTitle());
         }
@@ -364,10 +364,15 @@ public class AddExpenseView extends DialogWindow {
     */
 
     private void apply(Template template){
-        List<TemplateItem> ti = template.getTemplateItems();
-        for (TemplateItem templateItem: ti) {
-            int idx = atIndex(templateItem);
-            rep.get(idx).setWeight(templateItem.getWeight());
+        try {
+            List<TemplateItem> ti = template.getTemplateItems();
+            for (TemplateItem templateItem : ti) {
+                int idx = atIndex(templateItem);
+                rep.get(idx).setWeight(templateItem.getWeight());
+            }
+        }
+        catch(Exception e){
+
         }
     }
 
