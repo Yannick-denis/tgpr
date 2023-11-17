@@ -126,7 +126,7 @@ public class ViewTricountView extends DialogWindow {
                new ColumnSpec<>("Operation           ", Operation::getTitle),
                new ColumnSpec<>("      Amount", Operation::getAmountTostring),
                new ColumnSpec<>("Pay by    ", Operation::getInitiator),
-               new ColumnSpec<>("Date", Operation::getOperationDate)
+               new ColumnSpec<>("Date", Operation::getOperationDateFormat)
 
        ).addTo(panel);
         operationsTable.add(triC.getOperations());

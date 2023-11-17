@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -120,6 +121,11 @@ public class Operation extends Model {
 
     public LocalDate getOperationDate() {
         return operationDate;
+    }
+
+    public String getOperationDateFormat(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return operationDate.format(formatter);
     }
 
     public void setOperationDate(LocalDate operationDate) {
