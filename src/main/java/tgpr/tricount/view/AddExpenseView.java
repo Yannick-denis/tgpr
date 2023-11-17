@@ -328,7 +328,13 @@ public class AddExpenseView extends DialogWindow {
     private void save() {
 
         controler.save(txtTitle.getText(), controler.getIdTricount()
-                ,Double.parseDouble(txtAmount.getText()) , StringToDate()
+                ,
+                try {
+                    Double.parseDouble(txtAmount.getText())
+                }catch (Exception e){
+                    controler.showMar();
+        }
+                , StringToDate()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now(),operation);
         operation=Operation.getByTitle(txtTitle.getText());

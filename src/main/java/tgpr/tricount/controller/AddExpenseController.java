@@ -82,7 +82,7 @@ public class AddExpenseController extends Controller {
         String today = LocalDate.now().asString();
         if (view.getTitle().equals("Add new expense")) {
             if (Operation.getByTitle(title) != null) {
-                erorr.add("alread exist", Operation.Fields.Title);
+                erorr.add("Already exist", Operation.Fields.Title);
             }
         }
         if (repartitions.size() < 1) {
@@ -128,6 +128,10 @@ public class AddExpenseController extends Controller {
         if (askConfirmation("You are about to delete this expense. Please confirm.", "delete Expense")) {
             operation.delete();
         }
+    }
+
+    public void showMar() {
+        showError("Margaux arrete tes betise 8888888");
     }
 }
 
