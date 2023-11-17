@@ -75,8 +75,13 @@ public class AddTemplateController extends Controller {
     }
     public ErrorList validateForEdit(String title){
         var error = new ErrorList();
-        if (title.length() < 3){
-            error.add("Minimum 3 chars", Template.Fields.Title);
+        if (title.length() < 3 || Template.getByTitleBis(title) != null){
+            if (title.length() < 3) {
+                error.add("Minimum 3 chars", Template.Fields.Title);
+            }
+            else {
+                error.add("Already exist", Template.Fields.Title);
+            }
         }
         return error;
     }

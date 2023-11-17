@@ -99,7 +99,6 @@ public class AddTemplateView extends DialogWindow {
         private void validateForEdit() {
             var errors = addTemplateController.validateForEdit(
                     txtTitle.getText()
-
             );
             errTitle.setText(errors.getFirstErrorMessage(Template.Fields.Title));
             btnSave.setEnabled(errors.isEmpty());

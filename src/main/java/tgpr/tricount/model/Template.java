@@ -146,4 +146,9 @@ public class Template extends Model {
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
     }
+
+    public static Template getByTitleBis(String title) {
+        return queryOne(Template.class, "select * from templates where title=:title",
+                new Params("title", title));
+    }
 }
