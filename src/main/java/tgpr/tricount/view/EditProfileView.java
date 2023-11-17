@@ -19,7 +19,7 @@ public class EditProfileView extends DialogWindow {
     private Label lblMail = new Label("");
     private Label lblFullName = new Label("");
     private Label lblIban = new Label("");
-    private  Button save;
+    private  Button btnsave;
     public EditProfileView(EditProfileController controller, String title) {
         super(title);
         this.controller = controller;
@@ -52,8 +52,14 @@ public class EditProfileView extends DialogWindow {
 
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
-         save = new Button("Save").setEnabled(false).addTo(buttons);
-        addShortcut(save, KeyStroke.fromString("<A-s>"));
+
+         btnsave = new Button("Save", () -> {
+             this.save();
+             this.close();
+         }).addTo(buttons);
+         btnsave.setEnabled(false);
+
+        addShortcut(btnsave, KeyStroke.fromString("<A-s>"));
         Button Cancel = new Button("Cancel" , this::close).addTo(buttons);
         addShortcut(Cancel, KeyStroke.fromString("<A-c>"));
 
@@ -68,6 +74,10 @@ public class EditProfileView extends DialogWindow {
         lblFullName.setText(error.getFirstErrorMessage(User.Fields.FullName));
         lblMail.setText(error.getFirstErrorMessage(User.Fields.Mail));
         lblIban.setText(error.getFirstErrorMessage(User.Fields.Iban));
-       save.setEnabled(error.isEmpty());
+        btnsave.setEnabled(error.isEmpty());
+    }
+
+    private void save(){
+        //faire la fonction save
     }
 }
