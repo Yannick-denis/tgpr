@@ -31,7 +31,6 @@ public class EditTricountView extends DialogWindow {
     private ComboBox<String> selectUser = new ComboBox<>();
 
     private final Label errTitle = new Label("");
-    private final Label errDescription = new Label("");
 
     private Button btnAdd;
     private List<User> listPourCombo = User.getAll();
@@ -86,8 +85,8 @@ public class EditTricountView extends DialogWindow {
         }
 
         panel.addEmpty();
-        errDescription.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
 
+        panel.addEmpty();
 
         new Label("Subscribers:").addTo(panel);
         listeBox = new ActionListBox().addTo(panel);
@@ -161,11 +160,9 @@ public class EditTricountView extends DialogWindow {
     private void validateForEdit() {
         var errors = controller.validateForEdit(
                 txtTitle.getText(),
-                txtDescription.getText(),
                 titleOriginal
         );
         errTitle.setText(errors.getFirstErrorMessage(Tricount.Fields.Title));
-        errDescription.setText(errors.getFirstErrorMessage(Tricount.Fields.Description));
 
         btnSave.setEnabled(errors.isEmpty());
     }

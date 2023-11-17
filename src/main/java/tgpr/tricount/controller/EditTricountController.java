@@ -34,7 +34,7 @@ public class EditTricountController extends Controller {
         }
     }
 
-    public ErrorList validateForEdit(String title, String descriptions, String titleOriginal){
+    public ErrorList validateForEdit(String title, String titleOriginal){
         var error = new ErrorList();
         if (title.length() < 3 || Tricount.getByTitle(title) != null){
             if (title.length() < 3) {
@@ -45,9 +45,7 @@ public class EditTricountController extends Controller {
                 error.add("Already exist", Tricount.Fields.Title);
             }
         }
-        if (descriptions.length() < 3){
-            error.add("Minimum 3 chars", Tricount.Fields.Description);
-        }
+
         return error;
     }
 
