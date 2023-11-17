@@ -6,11 +6,11 @@ import tgpr.framework.Params;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class Operation extends Model {
@@ -48,8 +48,10 @@ public class Operation extends Model {
     public List<Repartition> getRepartitions() {
         return queryList(Repartition.class, """
                         select *
-                        from repartitions
+                        from repartitions 
+                        join users u on user= u.id
                         where operation=:id
+                        order by u.full_name
                         """,
                 new Params("id", id));
     }
@@ -83,33 +85,20 @@ public class Operation extends Model {
     public double getAmount() {
         return amount;
     }
+    public String getAmountTostring(){
+        return new DecimalFormat("#0.0#").format(amount)+" €";
+    }
 
     public void setAmount(double amount) {
+
         this.amount = amount;
     }
 
     private LocalDate operationDate;
-
-    public LocalDate getOperationDate() {
-        return operationDate;
-    }
-
-    public void setOperationDate(LocalDate operationDate) {
-        this.operationDate = operationDate;
-    }
-
     private int initiatorId;
 
     public int getInitiatorId() {
         return initiatorId;
-    }
-
-    public void setInitiatorId(int initiatorId) {
-        this.initiatorId = initiatorId;
-    }
-
-    public User getInitiator() {
-        return User.getByKey(initiatorId);
     }
 
     private LocalDateTime createdAt;
@@ -121,6 +110,28 @@ public class Operation extends Model {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    public void setInitiatorId(int initiatorId) {
+        this.initiatorId = initiatorId;
+    }
+
+    public User getInitiator() {
+        return User.getByKey(initiatorId);
+    }
+
+    public LocalDate getOperationDate() {
+        return operationDate;
+    }
+
+    public String getOperationDateFormat(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return operationDate.format(formatter);
+    }
+
+    public void setOperationDate(LocalDate operationDate) {
+        this.operationDate = operationDate;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -165,9 +176,15 @@ public class Operation extends Model {
                 new Params("id", id));
     }
 
+
     public static Operation getByKey(int id) {
         return queryOne(Operation.class, "select * from operations where id=:id",
                 new Params("id", id));
+    }
+
+    public static Operation getByTitle(String title) {
+        return queryOne(Operation.class, "select * from operations where title =:title",
+                new Params("title", title));
     }
 
     public static List<Operation> getAll() {
@@ -211,5 +228,7 @@ public class Operation extends Model {
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
     }
+
+
 
 }
