@@ -54,18 +54,20 @@ public class BalanceView extends DialogWindow {
 
 
     private Panel compasantCentral() {
+
         Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
         List<User> listparticipant = controller.getTricount().getParticipants();
+        String eur = "€";
         for (User user : listparticipant) {
             double balance = controller.balance(user.getId());//balance();
             if (balance < 0) {
-                new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.RED).addTo(panel);
+                new Label((String.valueOf(balance)) + eur).setBackgroundColor(TextColor.ANSI.RED).addTo(panel);
                 new Label("|").addTo(panel);
                 new Label(user.getFullName()).addTo(panel);
             } else {
                 new Label(user.getFullName()).addTo(panel);
                 new Label("|").addTo(panel);
-                new Label(String.valueOf(balance)).setBackgroundColor(TextColor.ANSI.GREEN).addTo(panel);
+                new Label((String.valueOf(balance)) + eur).setBackgroundColor(TextColor.ANSI.GREEN).addTo(panel);
             }
         }
         return panel;
