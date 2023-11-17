@@ -40,6 +40,13 @@
 
 ### Liste des fonctionnalités supplémentaires
 
+  * alt+c => close la vue acuetel
+  * alt+l =>login
+  * alt+s => save
+  * alt +s =>sinup
+  * alt +f =>menufile
+  * alt +d => delete sur certain
+
 ### Divers
 
 ...
