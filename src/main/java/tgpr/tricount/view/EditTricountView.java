@@ -31,7 +31,6 @@ public class EditTricountView extends DialogWindow {
     private ComboBox<String> selectUser = new ComboBox<>();
 
     private final Label errTitle = new Label("");
-    private final Label errDescription = new Label("");
 
     private Button btnAdd;
     private List<User> listPourCombo = User.getAll();
@@ -40,12 +39,14 @@ public class EditTricountView extends DialogWindow {
     private Button btnCancel;
     private Button btnSave;
     private Button btnTemplates;
+    private final String titleOriginal;
 
 
     public EditTricountView(EditTricountController controller, Tricount tricount){
         super("Edit Tricount");
         this.controller = controller;
         this.tricount = tricount;
+        titleOriginal = tricount.getTitle();
 
         setHints(List.of(Hint.CENTERED));
         setCloseWindowWithEscape(true);
@@ -84,8 +85,8 @@ public class EditTricountView extends DialogWindow {
         }
 
         panel.addEmpty();
-        errDescription.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
 
+        panel.addEmpty();
 
         new Label("Subscribers:").addTo(panel);
         listeBox = new ActionListBox().addTo(panel);
@@ -127,11 +128,13 @@ public class EditTricountView extends DialogWindow {
         }
         ).addTo(panel);
 
+        //if()
         btnSave = new Button("Save", () -> {
             this.save();
             this.close();
         }).addTo(panel);
         addShortcut(btnSave, KeyStroke.fromString("<A-s>"));
+        btnSave.setEnabled(false);
 
         btnTemplates = new Button("Templates", () -> {
 
@@ -157,12 +160,11 @@ public class EditTricountView extends DialogWindow {
     private void validateForEdit() {
         var errors = controller.validateForEdit(
                 txtTitle.getText(),
-                txtDescription.getText()
+                titleOriginal
         );
         errTitle.setText(errors.getFirstErrorMessage(Tricount.Fields.Title));
-        errDescription.setText(errors.getFirstErrorMessage(Tricount.Fields.Description));
 
-        btnAdd.setEnabled(errors.isEmpty());
+        btnSave.setEnabled(errors.isEmpty());
     }
 
     private void refresh(){

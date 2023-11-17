@@ -3,10 +3,7 @@ package tgpr.tricount.controller;
 import com.googlecode.lanterna.gui2.Window;
 import tgpr.framework.Controller;
 import tgpr.framework.ErrorList;
-import tgpr.tricount.model.Repartition;
-import tgpr.tricount.model.Subscription;
-import tgpr.tricount.model.Tricount;
-import tgpr.tricount.model.User;
+import tgpr.tricount.model.*;
 import tgpr.tricount.view.EditTricountView;
 
 public class EditTricountController extends Controller {
@@ -37,14 +34,18 @@ public class EditTricountController extends Controller {
         }
     }
 
-    public ErrorList validateForEdit(String title, String descriptions){
+    public ErrorList validateForEdit(String title, String titleOriginal){
         var error = new ErrorList();
-        if (title.length() < 3){
-            error.add("Minimum 3 chars", Tricount.Fields.Title);
+        if (title.length() < 3 || Tricount.getByTitle(title) != null){
+            if (title.length() < 3) {
+                error.add("Minimum 3 chars", Tricount.Fields.Title);
+            }
+            else if (!Tricount.getByTitle(title).equals(Tricount.getByTitle(titleOriginal))) {
+                System.out.println(titleOriginal);
+                error.add("Already exist", Tricount.Fields.Title);
+            }
         }
-        if (descriptions.length() < 3){
-            error.add("Minimum 3 chars", Tricount.Fields.Description);
-        }
+
         return error;
     }
 
