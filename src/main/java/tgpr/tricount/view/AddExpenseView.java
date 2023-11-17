@@ -15,12 +15,15 @@ import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.AddTemplateController;
 import tgpr.tricount.model.*;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 
@@ -162,7 +165,12 @@ public class AddExpenseView extends DialogWindow {
         setTitle("Edit Expense");
         this.operation=operation;
         txtTitle.setText(operation.getTitle());
-        txtAmount.setText(String.valueOf( operation.getAmount()));
+        try {
+            txtAmount.setText(String.valueOf(operation.getAmount()));
+        }catch (Exception e){
+            txtAmount.setText("0");
+
+        }
         Date.setText(operation.getOperationDate().asString());
         payBy.setSelectedItem(operation.getInitiator().getFullName());
         rep=null;
