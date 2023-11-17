@@ -114,4 +114,12 @@ public class Subscription extends Model {
                 new Params("tricount", tricountId).add("user", userId));
         Assert.isTrue(c == 1, "Something went wrong");
     }
+
+    public void addNew(){
+        var params = new Params()
+                .add("idTricount", this.tricountId)
+                .add("idUser", this.userId);
+        int x = execute("insert into subscriptions (tricount, user) values (:idTricount, :idUser)",params );
+        Assert.isTrue(x == 1, "Something went wrong");
+    }
 }

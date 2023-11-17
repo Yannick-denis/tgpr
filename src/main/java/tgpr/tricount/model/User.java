@@ -1,9 +1,10 @@
 package tgpr.tricount.model;
 
 import org.springframework.util.Assert;
+import tgpr.framework.Error;
 import tgpr.framework.Model;
 import tgpr.framework.Params;
-import tgpr.framework.Tools;
+import tgpr.tricount.controller.UserValidator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -172,6 +173,10 @@ public class User extends Model {
         return queryOne(User.class, "select * from users where id=:id",
                 new Params("id", id));
     }
+    public static User getNameByKey(int id) {
+        return queryOne(User.class, "select full_name from users where id=:id",
+                new Params("id", id));
+    }
 
     public static User getByMail(String mail) {
         return queryOne(User.class, "select * from users where mail=:mail",
@@ -222,4 +227,16 @@ public class User extends Model {
                 new Params("id", id));
         Assert.isTrue(c == 1, "Something went wrong");
     }
+    public static User checkCredentials(String mail, String password) {
+        var user = User.getByMail(mail);
+        if (user != null && UserValidator.isHerPassword(mail, password) == Error.NOERROR ){
+            return user;
+        }
+        return null;
+    }
+
+
+
+
+
 }

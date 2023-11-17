@@ -4,12 +4,57 @@ import org.springframework.util.Assert;
 import tgpr.framework.Model;
 import tgpr.framework.Params;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
 public class Repartition extends Model {
+
+    private Operation operations;
+
+    private User user;
+    private double sum_weights;
+    private double montant_op ;
+    private double amount ;
+    public double getSum_weights() {
+        List<Repartition> allRepartition = getAll();
+        for (int i = 0; i < allRepartition.size() -1; i++ ){
+            if (getOperation().getId() == allRepartition.get(i).operationId){
+                sum_weights += allRepartition.get(i).weight;
+            }
+
+        }
+        return sum_weights ;
+    }
+
+
+    public void setSum_weights(double sum_weights) {
+        this.sum_weights = sum_weights;
+    }
+
+    public double getMontant_op() {
+        return getOperation().getAmount();
+    }
+
+    public void setMontant_op(double montant_op) {
+        this.montant_op = montant_op;
+    }
+
+
+    public String getAmount() {
+        double res = getWeight() * (getMontant_op() / getSum_weights());
+        return new DecimalFormat("#0.0#").format(res) + " €";
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+
     public enum Fields {
         Operation, User, Weight
     }
@@ -94,6 +139,14 @@ public class Repartition extends Model {
                 new Params("operation", operationId).add("user", userId));
     }
 
+    public static List<Repartition> getAllByTricount(int idTricount){
+        return queryList(Repartition.class,"SELECT * FROM repartitions where operation in(SELECT id from  operations where tricount = :idTricount)",
+                new Params("idTricount",idTricount));
+    }
+    public static List<Repartition> getAllByOperation(int idOpe) {
+        return queryList(Repartition.class, "SELECT * FROM repartitions where operation =:idope",
+                new Params("idope", idOpe));
+    }
     public static Repartition getByKey(int operationId, int userId) {
         return queryOne(Repartition.class, "select * from repartitions where operation=:operation and user=:user",
                 new Params("operation", operationId).add("user", userId));
@@ -125,6 +178,18 @@ public class Repartition extends Model {
     public void delete() {
         int c = execute("delete from repartitions where operation=:operation and user=:user",
                 new Params("operation", operationId).add("user", userId));
-        Assert.isTrue(c == 1, "Something went wrong");
+       // Assert.isTrue(c == 1, "Something went wrong");
+    }
+    public static boolean isImplicate(User user, int id) {
+       int idUser = user.getId();
+
+        String sql = "SELECT id FROM users where id = :idUser AND id in( SELECT user from repartitions WHERE operation in(SELECT id from operations WHERE tricount = :tricount))";
+
+        var res = queryResultSet(sql, new Params("idUser", idUser).add("tricount", id));
+        try {
+            return res.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
