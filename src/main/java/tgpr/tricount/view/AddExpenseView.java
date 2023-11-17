@@ -355,7 +355,12 @@ public class AddExpenseView extends DialogWindow {
         if (txtAmount.getText().isEmpty()||!txtAmount.getText().matches("[\\d.\\d]")){
             amount=0;
         }else{
-            amount=Double.parseDouble(txtAmount.getText());
+            try {
+                amount = Double.parseDouble(txtAmount.getText());
+            }catch (Exception e){
+                amount=-14;
+                controler.showMar();
+            }
         }
         if (txtTitle.getText().isEmpty()){
             title=" ";
