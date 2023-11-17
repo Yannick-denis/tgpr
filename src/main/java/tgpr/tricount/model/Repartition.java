@@ -139,7 +139,10 @@ public class Repartition extends Model {
         return queryList(Repartition.class,"SELECT * FROM repartitions where operation in(SELECT id from  operations where tricount = :idTricount)",
                 new Params("idTricount",idTricount));
     }
-
+    public static List<Repartition> getAllByOperation(int idOpe) {
+        return queryList(Repartition.class, "SELECT * FROM repartitions where operation =:idope",
+                new Params("idope", idOpe));
+    }
     public static Repartition getByKey(int operationId, int userId) {
         return queryOne(Repartition.class, "select * from repartitions where operation=:operation and user=:user",
                 new Params("operation", operationId).add("user", userId));
