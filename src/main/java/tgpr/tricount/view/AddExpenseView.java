@@ -326,15 +326,16 @@ public class AddExpenseView extends DialogWindow {
     //probleme avec amount et date
     //pay by fonctionne
     private void save() {
+          double amount;
+        try {
+            amount =Double.parseDouble(txtAmount.getText());
+        }catch (Exception e){
+            amount=0;
+            controler.showMar();
+        }
 
         controler.save(txtTitle.getText(), controler.getIdTricount()
-                ,
-                try {
-                    Double.parseDouble(txtAmount.getText())
-                }catch (Exception e){
-                    controler.showMar();
-        }
-                , StringToDate()
+                , amount, StringToDate()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now(),operation);
         operation=Operation.getByTitle(txtTitle.getText());
