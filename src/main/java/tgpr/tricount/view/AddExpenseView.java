@@ -9,6 +9,7 @@ import com.googlecode.lanterna.input.KeyType;
 
 import tgpr.framework.Controller;
 
+import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.AddTemplateController;
@@ -326,9 +327,17 @@ public class AddExpenseView extends DialogWindow {
     //probleme avec amount et date
     //pay by fonctionne
     private void save() {
+          double amount;
+        try {
+            amount =Double.parseDouble(txtAmount.getText());
+        }catch (Exception e){
+            amount=0;
+            btnSave.setEnabled(false);
+            controler.showMar();
+        }
 
         controler.save(txtTitle.getText(), controler.getIdTricount()
-                ,Double.parseDouble(txtAmount.getText()) , StringToDate()
+                , amount, StringToDate()
                 , User.getByFullName(payBy.getSelectedItem()).getId(),
                 LocalDateTime.now(),operation);
         operation=Operation.getByTitle(txtTitle.getText());
@@ -347,7 +356,12 @@ public class AddExpenseView extends DialogWindow {
         if (txtAmount.getText().isEmpty()||!txtAmount.getText().matches("[\\d.\\d]")){
             amount=0;
         }else{
-            amount=Double.parseDouble(txtAmount.getText());
+            try {
+                amount = Double.parseDouble(txtAmount.getText());
+            }catch (Exception e){
+                amount=-14;
+                controler.showMar();
+            }
         }
         if (txtTitle.getText().isEmpty()){
             title=" ";
@@ -358,6 +372,12 @@ public class AddExpenseView extends DialogWindow {
                                           title  ,amount,check.getCheckedItems());
         if (!txtAmount.getText().matches("^[0-9]+(?:\\.[0-9]+)?$") ){
             errors.add("enters a valid decimal number",Operation.Fields.Amount);
+        }
+        if (this.getTitle().equals("Add new expense")) {
+
+            if (Operation.getByTitle(title) != null) {
+                errors.add("Already exist", Operation.Fields.Title);
+            }
         }
         errDate.setText(errors.getFirstErrorMessage(Operation.Fields.CreatedAt));
         errAmount.setText(errors.getFirstErrorMessage(Operation.Fields.Amount));
