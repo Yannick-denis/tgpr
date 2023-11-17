@@ -80,11 +80,9 @@ public class AddExpenseController extends Controller {
     public ErrorList validateDate(String date, String title, double amount, List<Repartition> repartitions) {
         var erorr = new ErrorList();
         String today = LocalDate.now().asString();
-        if (view.getTitle().equals("Add new expense")) {
-            if (Operation.getByTitle(title) != null) {
-                erorr.add("Already exist", Operation.Fields.Title);
-            }
-        }
+
+
+
         if (repartitions.size() < 1) {
             erorr.add("you must selected must least one", Operation.Fields.Repartition);
         }

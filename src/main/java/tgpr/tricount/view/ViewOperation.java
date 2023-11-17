@@ -10,12 +10,11 @@ import tgpr.framework.Controller;
 import tgpr.framework.Layouts;
 import tgpr.framework.ObjectTable;
 import tgpr.tricount.controller.AddExpenseController;
-import tgpr.tricount.controller.EditTricountController;
 import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
-import tgpr.tricount.model.Tricount;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -49,9 +48,11 @@ public class ViewOperation  extends DialogWindow {
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(getOperation().getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Amount:"));
-        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount())).addTo(contentPanel).addStyle(SGR.BOLD));
+        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount() + "\u20AC")).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Date:"));
-        contentPanel.addComponent(new Label(String.valueOf(operation.getOperationDate())).addTo(contentPanel).addStyle(SGR.BOLD));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = operation.getOperationDate().format(formatter);
+        contentPanel.addComponent(new Label( formattedDate).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Paid by:"));
         contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel).addStyle(SGR.BOLD));
          new EmptySpace().addTo(contentPanel);
@@ -61,9 +62,8 @@ public class ViewOperation  extends DialogWindow {
         table = new ObjectTable<>(
             new ColumnSpec<>("Participant", Repartition::getUser),
             new ColumnSpec<>("Weight", Repartition::getWeight),
-            new ColumnSpec<>("Amount", Repartition::getAmount)
+            new ColumnSpec<>("Amount", repartition -> repartition.getAmount() + " \u20AC")
         ).addTo(contentPanel);
-        //updateTableData();
         table.addTo(contentPanel);
         table.add(operation.getRepartitions());
 
@@ -76,21 +76,23 @@ public class ViewOperation  extends DialogWindow {
         new EmptySpace().addTo(buttons);
         new EmptySpace().addTo(buttons);
         int currentId = getOperation().getTricount().getOperations().indexOf(operation);
-        int maxIndex = getOperation().getTricount().getOperations().size();
+        int maxIndex = getOperation().getTricount().getOperations().size() - 1;
         up = new Button("Up", () ->{
-            if(currentId == 0){
-                up.setEnabled(false);
-            }else {
-                close();
+            int newId = currentId - 1;
+            if(newId  >= 0 ){
                 Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId  - 1 ), operationList));
+                close();
+            }else {
+                up.setEnabled(false);
             }
             }).addTo(buttons);
         down = new Button("Down", () ->{
-            if(currentId == maxIndex - 1){
-                down.setEnabled(false);
-
-            }else {
+            int newId = currentId + 1;
+            if(newId <= maxIndex){
                 Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId + 1 ), operationList));
+                close();
+            }else {
+                down.setEnabled(false);
             }
         }).addTo(buttons);
         edit = new Button("Edit", () -> {
@@ -103,11 +105,6 @@ public class ViewOperation  extends DialogWindow {
 
 
     }
-    public ObjectTable<Repartition> table1(){
-         ObjectTable<Repartition> tab = getTable();
-           return tab;
-       }
-
     
     public Operation getOperation() {
         return operation;
