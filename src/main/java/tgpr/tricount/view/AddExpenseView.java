@@ -9,6 +9,7 @@ import com.googlecode.lanterna.input.KeyType;
 
 import tgpr.framework.Controller;
 
+import tgpr.framework.Error;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.AddExpenseController;
 import tgpr.tricount.controller.AddTemplateController;
@@ -371,6 +372,12 @@ public class AddExpenseView extends DialogWindow {
                                           title  ,amount,check.getCheckedItems());
         if (!txtAmount.getText().matches("^[0-9]+(?:\\.[0-9]+)?$") ){
             errors.add("enters a valid decimal number",Operation.Fields.Amount);
+        }
+        if (this.getTitle().equals("Add new expense")) {
+
+            if (Operation.getByTitle(title) != null) {
+                errors.add("Already exist", Operation.Fields.Title);
+            }
         }
         errDate.setText(errors.getFirstErrorMessage(Operation.Fields.CreatedAt));
         errAmount.setText(errors.getFirstErrorMessage(Operation.Fields.Amount));
