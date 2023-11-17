@@ -4,7 +4,11 @@
 
 ### Liste des utilisateurs et mots de passe
 
-  * 
+  * boverhaegen@epfc.eu =>Password1,
+  * bepenelle@epfc.eu =>Password1,
+  * xapiegeolet@epfc.eu =>Password1,
+  * mamichel@epfc.eu =>Password1,
+  * admin@epfc.eu =>Password1,
 
 ### Liste des fonctionalité developer
  
