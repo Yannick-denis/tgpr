@@ -4,8 +4,7 @@
 
 ### Liste des utilisateurs et mots de passe
 
-  * login, password, role
-  * A compléter...
+  * 
 
 ### Liste des fonctionalité developer
  
@@ -34,9 +33,8 @@
   * change password   :    Axel
 ### Liste des bugs connus
 
-  * bug 1
-  * bug 2
-  * ...
+  * depuis view operation le dernier de la liste ne s'edit pas pour presever lappli on l'ouvre avec un amount a 0 
+  * le calcul de balance est incorect
 
 ### Liste des fonctionnalités supplémentaires
 

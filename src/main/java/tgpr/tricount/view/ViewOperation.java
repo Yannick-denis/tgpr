@@ -81,7 +81,7 @@ public class ViewOperation  extends DialogWindow {
         int maxIndex = getOperation().getTricount().getOperations().size() - 1;
         up = new Button("Up", () ->{
             int newId = currentId - 1;
-            if(newId  >= 0 ){
+            if(newId  >=0 ){
                 Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId  - 1 ), operationList));
                 close();
             }else {
@@ -90,7 +90,7 @@ public class ViewOperation  extends DialogWindow {
             }).addTo(buttons);
         down = new Button("Down", () ->{
             int newId = currentId + 1;
-            if(newId <= maxIndex){
+            if(newId < maxIndex){
                 Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId + 1 ), operationList));
                 close();
             }else {
