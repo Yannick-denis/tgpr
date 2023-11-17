@@ -124,13 +124,13 @@ public class ViewTricountView extends DialogWindow {
 
        operationsTable = new ObjectTable<>(
                new ColumnSpec<>("Operation           ", Operation::getTitle),
-               new ColumnSpec<>("      Amount", Operation::getAmount),
+               new ColumnSpec<>("      Amount", Operation::getAmountTostring),
                new ColumnSpec<>("Pay by    ", Operation::getInitiator),
                new ColumnSpec<>("Date", Operation::getOperationDate)
 
        ).addTo(panel);
         operationsTable.add(triC.getOperations());
-        operationsTable.setSelectAction(()->Controller.navigateTo(new OperationController(operationsTable.getSelected(),triC.getOperations())));
+        operationsTable.setSelectAction(()->Controller.navigateTo(new OperationController(Operation.getByTitle(operationsTable.getSelected().getTitle()),triC.getOperations())));
 
         return panel;
     }

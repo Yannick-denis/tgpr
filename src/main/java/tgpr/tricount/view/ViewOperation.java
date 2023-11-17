@@ -16,6 +16,7 @@ import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
 import tgpr.tricount.model.Tricount;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 

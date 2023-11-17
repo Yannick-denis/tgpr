@@ -6,6 +6,7 @@ import tgpr.framework.Params;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,8 +43,10 @@ public class Repartition extends Model {
     }
 
 
-    public double getAmount() {
-        return  getWeight() * (getMontant_op() / getSum_weights());
+    public String getAmount() {
+        double res =getWeight() * (getMontant_op() / getSum_weights());
+        return new DecimalFormat("#0.0#").format(res )+" €";
+
     }
 
     public void setAmount(double amount) {

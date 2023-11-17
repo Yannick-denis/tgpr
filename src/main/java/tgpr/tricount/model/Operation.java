@@ -6,6 +6,7 @@ import tgpr.framework.Params;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,8 +47,10 @@ public class Operation extends Model {
     public List<Repartition> getRepartitions() {
         return queryList(Repartition.class, """
                         select *
-                        from repartitions
+                        from repartitions 
+                        join users u on user= u.id
                         where operation=:id
+                        order by u.full_name
                         """,
                 new Params("id", id));
     }
@@ -80,6 +83,9 @@ public class Operation extends Model {
 
     public double getAmount() {
         return amount;
+    }
+    public String getAmountTostring(){
+        return new DecimalFormat("#0.0#").format(amount)+" €";
     }
 
     public void setAmount(double amount) {
