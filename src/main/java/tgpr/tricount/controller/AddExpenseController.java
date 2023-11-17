@@ -20,6 +20,7 @@ public class AddExpenseController extends Controller {
     public Tricount getTricount() {
         return tricount;
     }
+
     private Template template;
     private Tricount tricount;
 
@@ -79,6 +80,11 @@ public class AddExpenseController extends Controller {
     public ErrorList validateDate(String date, String title, double amount, List<Repartition> repartitions) {
         var erorr = new ErrorList();
         String today = LocalDate.now().asString();
+        if (view.getTitle().equals("Add new expense")) {
+            if (Operation.getByTitle(title) != null) {
+                erorr.add("alread exist", Operation.Fields.Title);
+            }
+        }
         if (repartitions.size() < 1) {
             erorr.add("you must selected must least one", Operation.Fields.Repartition);
         }
@@ -87,7 +93,7 @@ public class AddExpenseController extends Controller {
         } else if (dateInTheFuture(date)) {
             erorr.add("Date many not be in the future", Operation.Fields.CreatedAt);
         }
-         if (amount<0) {
+        if (amount < 0) {
             erorr.add("amount must be positive", Operation.Fields.Amount);
         }
         if (title.length() < 3) {
@@ -119,7 +125,7 @@ public class AddExpenseController extends Controller {
     }
 
     public void delet(Operation operation) {
-        if (askConfirmation("You are about to delete this expense. Please confirm.","delete Expense")){
+        if (askConfirmation("You are about to delete this expense. Please confirm.", "delete Expense")) {
             operation.delete();
         }
     }
