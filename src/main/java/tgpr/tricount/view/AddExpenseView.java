@@ -331,6 +331,7 @@ public class AddExpenseView extends DialogWindow {
             amount =Double.parseDouble(txtAmount.getText());
         }catch (Exception e){
             amount=0;
+            btnSave.setEnabled(false);
             controler.showMar();
         }
 
