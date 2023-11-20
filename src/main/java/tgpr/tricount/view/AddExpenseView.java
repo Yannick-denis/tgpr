@@ -198,28 +198,6 @@ public class AddExpenseView extends DialogWindow {
 
 
 
-
-        this.addKeyboardListener(check,keyStroke -> {
-            var character = keyStroke.getCharacter();
-            var type = keyStroke.getKeyType();
-            if (type==KeyType.ArrowRight||character!=null&& character=='+'){
-                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()+1);
-                if (check.getSelectedItem().getWeight()==1){
-                    check.setChecked(check.getSelectedItem(),true);
-                    validate();
-                }
-            }else if ((type== KeyType.ArrowLeft||character!=null &&character=='-')&&check.getSelectedItem().getWeight()>0){
-                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
-                if (check.getSelectedItem().getWeight()==0){
-                    check.setChecked(check.getSelectedItem(),false);
-                    validate();
-                }
-            }
-
-            return  true;
-        });
-
-
         btnDelete.setVisible(true);
         btnSave.setEnabled(false);
 
