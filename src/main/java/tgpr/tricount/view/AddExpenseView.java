@@ -166,10 +166,9 @@ public class AddExpenseView extends DialogWindow {
         this.operation=operation;
         txtTitle.setText(operation.getTitle());
         try {
-            txtAmount.setText(String.valueOf(operation.getAmount()));
+            txtAmount.setText(String.valueOf((double)Math.round(operation.getAmount()*100)/100));
         }catch (Exception e){
             txtAmount.setText("0");
-
         }
         Date.setText(operation.getOperationDate().asString());
         payBy.setSelectedItem(operation.getInitiator().getFullName());
@@ -233,7 +232,7 @@ public class AddExpenseView extends DialogWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(1).setBottomMarginSize(0).setLeftMarginSize(0))
                 .setLayoutData(Layouts.LINEAR_CENTER);
         txtAmount = new TextBox().addTo(panel)
-                .setValidationPattern(Pattern.compile("[.\\d]{0,10}"))
+                .setValidationPattern(Pattern.compile("[.\\d]{0,9}"))
                 .setTextChangeListener((txt, byUser)-> validate());
         errAmount.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         return  panel;
