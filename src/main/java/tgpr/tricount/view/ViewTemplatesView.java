@@ -24,15 +24,10 @@ import static tgpr.framework.ViewManager.gui;
 
 public class ViewTemplatesView extends DialogWindow {
     private final ViewTemplatesController controller;
-
-    private final Button btnPost = new Button("Post");
-    private final Label errBody = new Label("");
-    private final CheckBox chkPrivate = new CheckBox();
-    private ObjectTable<Template> templateTable;
     private List<User> participant;
     private CheckBoxList<TemplateItem> boxitem;
     private ObjectTable<Template> temp;
-    private CheckBox repartition;
+
     private List<TemplateItem> rep;
 
     private Tricount triC;
@@ -71,7 +66,7 @@ public class ViewTemplatesView extends DialogWindow {
 
             for (User elem : participant) {
                 if (!isIn(elem)) {
-                    rep.add(new TemplateItem(elem.getId(), template.getId(), 0));
+                    rep.add(new TemplateItem(elem.getId(),0, 0));
                 }
             }
             repartitiontitle= new Label("Repartition : ")
@@ -161,7 +156,7 @@ public class ViewTemplatesView extends DialogWindow {
         Button btnsave= new Button("Save",()->{
             save();
             refrech();
-            Controller.navigateTo(new EditTricountController(triC));
+
         }).setEnabled(template != null).addTo(panel);
         addShortcut(btnsave, KeyStroke.fromString("<A-s>"));
        Button btnclose=  new Button("Close", this::close).addTo(panel);
@@ -185,12 +180,12 @@ public class ViewTemplatesView extends DialogWindow {
         }
     }
 
-    static MessageDialogButton showMessage(String message, String title, MessageDialogButton... buttons) {
-        return MessageDialog.showMessageDialog(gui, title, message, buttons);
-    }
-
     private void save() {
+        if (askConfirmation("Do you want save ","Save confirmation")){
         controller.save(rep);
+        close();
+        Controller.navigateTo(new EditTricountController(triC));
+        }
     }
 
 

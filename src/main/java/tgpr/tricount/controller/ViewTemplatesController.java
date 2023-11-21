@@ -49,6 +49,11 @@ public class ViewTemplatesController extends Controller {
     public void save(List<TemplateItem> rep) {
         for (TemplateItem elem : rep) {
             if (elem.getWeight() == 0) {
+                   try {
+                       elem.delete();
+                   }catch (Exception e){
+
+                   }
 
             } else {
                 elem.save();
