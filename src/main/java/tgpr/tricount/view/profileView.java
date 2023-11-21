@@ -33,12 +33,13 @@ import static tgpr.framework.Controller.navigateTo;
 
 public class profileView extends DialogWindow  {
     private final profileController controller;
-
+    private  User me;
     public profileView(profileController controller, String title) {
         super(title);
         this.controller = controller;
         User user = Security.getLoggedUser();
         Label nom = new Label(user.getFullName());
+        me=new User(user.getMail(),user.getHashedPassword(),user.getFullName(),user.getRole());
 
 
         setHints(List.of(Hint.CENTERED));
@@ -60,7 +61,12 @@ public class profileView extends DialogWindow  {
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
                 .setLayoutData(Layouts.LINEAR_CENTER).addTo(root);
 
-        Button btnEditProfile = new Button("Edit Profile" , () -> {Controller.navigateTo(new EditProfileController());} ).addTo(buttons);
+        Button btnEditProfile = new Button("Edit Profile" , () -> {
+            navigateTo(new EditProfileController());
+            close();
+            navigateTo(new profileController());
+
+        } ).addTo(buttons);
         Button btnChangePassword = new Button("Change Password",() -> {Controller.navigateTo(new ChangePasswordController());}).addTo(buttons);
         Button btnClose = new Button("Close" , this::close).addTo(buttons);
         addShortcut(btnClose, KeyStroke.fromString("<A-c>"));
