@@ -90,7 +90,6 @@ public class Operation extends Model {
     }
 
     public void setAmount(double amount) {
-
         this.amount = amount;
     }
 

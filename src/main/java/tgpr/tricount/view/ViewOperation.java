@@ -99,7 +99,6 @@ public class ViewOperation  extends DialogWindow {
         }).addTo(buttons);
         edit = new Button("Edit", () -> {
             Controller.navigateTo(new AddExpenseController(operation.getTricount(),operation));
-            close();
         }).addTo(buttons);
         close = new Button("Close", this::close).addTo(buttons);
         root.addComponent(buttons, LinearLayout.createLayoutData(LinearLayout.Alignment.End));
