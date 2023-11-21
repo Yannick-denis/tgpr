@@ -8,6 +8,7 @@ import org.w3c.dom.ls.LSOutput;
 import tgpr.framework.*;
 import tgpr.tricount.controller.*;
 import tgpr.tricount.model.Operation;
+import tgpr.tricount.model.Security;
 import tgpr.tricount.model.Tricount;
 import tgpr.tricount.model.User;
 
@@ -130,7 +131,11 @@ public class ViewTricountView extends DialogWindow {
 
        ).addTo(panel);
         operationsTable.add(triC.getOperations());
-        operationsTable.setSelectAction(()->Controller.navigateTo(new OperationController(Operation.getByTitle(operationsTable.getSelected().getTitle()),triC.getOperations())));
+        operationsTable.setSelectAction(()->{
+            Controller.navigateTo(new OperationController(Operation.getByTitle(operationsTable.getSelected().getTitle()),triC.getOperations()));
+            close();
+            Controller.navigateTo(new ViewTricoutController(triC,Security.getLoggedUser()));
+        });
 
         return panel;
     }
@@ -156,6 +161,8 @@ public class ViewTricountView extends DialogWindow {
     private void add_operation(){
 //        Controller.navigateTo(new AddOperationController);
         Controller.navigateTo(new AddExpenseController(triC));
+        close();
+        Controller.navigateTo(new ViewTricoutController(triC, Security.getLoggedUser()));
 
 
     }
