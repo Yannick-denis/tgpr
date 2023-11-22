@@ -16,6 +16,7 @@ public class AddExpenseController extends Controller {
     private final AddExpenseView view;
     private AddTemplateController addTemplateController;
     private TemplateItem item;
+    private  Operation operation;
 
     public Tricount getTricount() {
         return tricount;
@@ -34,6 +35,7 @@ public class AddExpenseController extends Controller {
     public AddExpenseController(Tricount tricount, Operation operation) {
         this.tricount = tricount;
         tricount.setId(tricount.getId());
+        this.operation=operation;
         view = new AddExpenseView(this, operation);
     }
 
@@ -86,8 +88,10 @@ public class AddExpenseController extends Controller {
         var erorr = new ErrorList();
         String today = LocalDate.now().asString();
 
-
-
+        //faut il ignore la casse???? a voir demain
+        if (Operation.getByTitle(title)!=null && (operation ==null||!title.equals(operation.getTitle())) ){
+            erorr.add("Arely  exist", Operation.Fields.Title);
+        }
         if (repartitions.size() < 1) {
             erorr.add("you must selected must least one", Operation.Fields.Repartition);
         }
