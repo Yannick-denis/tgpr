@@ -14,9 +14,7 @@ import tgpr.tricount.controller.OperationController;
 import tgpr.tricount.model.Operation;
 import tgpr.tricount.model.Repartition;
 
-import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
-
 import java.util.List;
 
 
@@ -50,7 +48,7 @@ public class ViewOperation  extends DialogWindow {
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(getOperation().getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Amount:"));
-        contentPanel.addComponent(new Label(String.valueOf(operation.getAmount() + "\u20AC")).addTo(contentPanel).addStyle(SGR.BOLD));
+        contentPanel.addComponent(new Label(String.valueOf(operation.getAmountTostring()    )).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Date:"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = operation.getOperationDate().format(formatter);
