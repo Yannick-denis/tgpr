@@ -79,8 +79,10 @@ public class AddTemplateController extends Controller {
             if (title.length() < 3) {
                 error.add("Minimum 3 chars", Template.Fields.Title);
             }
-            else {
-                error.add("Already exist", Template.Fields.Title);
+            if (getTemplate().getId() == 0) {
+                if (Template.getByTitleBis(title) != null) {
+                    error.add("Already exist", Template.Fields.Title);
+                }
             }
         }
         return error;
