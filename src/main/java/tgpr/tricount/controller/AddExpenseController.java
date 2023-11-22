@@ -134,6 +134,7 @@ public class AddExpenseController extends Controller {
     public void delet(Operation operation) {
         if (askConfirmation("You are about to delete this expense. Please confirm.", "delete Expense")) {
             operation.delete();
+            view.close();
         }
     }
 

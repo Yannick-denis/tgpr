@@ -157,7 +157,6 @@ public class AddExpenseView extends DialogWindow {
 
     private void delete() {
         controler.delet(operation);
-        close();
 
     }
 
