@@ -89,7 +89,7 @@ public class AddExpenseController extends Controller {
         String today = LocalDate.now().asString();
 
         //faut il ignore la casse???? a voir demain
-        if (Operation.getByTitle(title)!=null && (operation ==null||!title.equals(operation.getTitle())) ){
+        if (Operation.getByTitle(title)!=null && (operation ==null||title.compareToIgnoreCase(operation.getTitle())!=0) ){
             erorr.add("Arely  exist", Operation.Fields.Title);
         }
         if (repartitions.size() < 1) {
