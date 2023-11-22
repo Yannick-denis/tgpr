@@ -14,15 +14,10 @@ import java.util.List;
 
 public class AddExpenseController extends Controller {
     private final AddExpenseView view;
-    private AddTemplateController addTemplateController;
-    private TemplateItem item;
     private  Operation operation;
-
     public Tricount getTricount() {
         return tricount;
     }
-
-    private Template template;
     private Tricount tricount;
 
     // besoin de recevoir l' Id du tricount pour savoir dans quel tricount nous somme
