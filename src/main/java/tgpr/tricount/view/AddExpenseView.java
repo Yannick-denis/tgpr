@@ -47,12 +47,13 @@ public class AddExpenseView extends DialogWindow {
     private Label  errcheched =new Label("");
     private Label errTitle =new Label("");
     private Label errAmount =new Label("");
+    private ComboBox<String> selectTemplate = new ComboBox<>();
     private Button btnSave;
 
     private Button btnDelete;
 
     private Button btnApply;
-
+    private  String oldTitlle;
 
 
     public AddExpenseView(AddExpenseController controler) {
@@ -165,6 +166,7 @@ public class AddExpenseView extends DialogWindow {
         setTitle("Edit Expense");
         this.operation=operation;
         txtTitle.setText(operation.getTitle());
+        oldTitlle=operation.getTitle();
         try {
             txtAmount.setText(String.valueOf((double)Math.round(operation.getAmount()*100)/100));
         }catch (Exception e){
@@ -251,7 +253,7 @@ public class AddExpenseView extends DialogWindow {
     private Panel applyAndComb(){
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_CENTER);
-        ComboBox<String> selectTemplate = new ComboBox<>();
+        selectTemplate = new ComboBox<>();
         selectTemplate.addItem("No ,I use a custom repartition ").isReadOnly();
         for (Template elem:Template.getByTricount(controler.getTricount().getId())){
             selectTemplate.addItem(elem.getTitle());
@@ -421,5 +423,12 @@ public class AddExpenseView extends DialogWindow {
             check.addItem(elem, elem.getWeight()==0?false:true);
         }
         check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
+
+
+        selectTemplate.clearItems();
+        selectTemplate.addItem("No ,I use a custom repartition ").isReadOnly();
+        for (Template elem:Template.getByTricount(controler.getTricount().getId())){
+            selectTemplate.addItem(elem.getTitle());
+        }
     }
 }

@@ -54,6 +54,11 @@ public class AddExpenseController extends Controller {
             ope = new Operation(title, tricountId, amount, operationDate, initiatorId, createdAt);
         } else {
             ope = operation;
+            ope.setAmount(amount);
+            ope.setTitle(title);
+            ope.setOperationDate(operationDate);
+            ope.setInitiatorId(initiatorId);
+            ope.setCreatedAt(createdAt);
         }
         ope.save();
         view.close();
