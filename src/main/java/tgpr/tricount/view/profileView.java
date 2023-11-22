@@ -4,6 +4,8 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.BorderLayout;
 import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.Component;
+import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
@@ -51,11 +53,11 @@ public class profileView extends DialogWindow  {
         Panel panel = new Panel().addTo(root);
 
         new EmptySpace().addTo(panel);
-        new Label("Hey "+ user.getFullName() + "!").addTo(panel);
+        hey().addTo(panel);
         new EmptySpace().addTo(panel);
-        new Label("I know your email address is "+ user.getMail() + ".").addTo(panel);
+        mail().addTo(panel);
         new EmptySpace().addTo(panel);
-        new Label("What can I do for you?").addTo(panel);
+        new Label(" What can I do for you?").addTo(panel);
         new EmptySpace().addTo(panel);
 
         Panel buttons = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL))
@@ -71,6 +73,22 @@ public class profileView extends DialogWindow  {
         Button btnClose = new Button("Close" , this::close).addTo(buttons);
         addShortcut(btnClose, KeyStroke.fromString("<A-c>"));
 
+    }
+
+    private Panel mail() {
+        Panel panel =new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(0).setVerticalSpacing(1));
+        new Label("I know your email address is ").addTo(panel);
+        new Label(me.getMail()).setForegroundColor(TextColor.ANSI.BLUE).addTo(panel);
+        new Label( ".").addTo(panel);
+        return panel;
+    }
+
+    private Panel hey() {
+        Panel panel =new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
+        new Label("Hey ").addTo(panel);
+        new Label(me.getFullName()).setForegroundColor(TextColor.ANSI.BLUE).addTo(panel);
+        new Label("!").addTo(panel);
+        return panel;
     }
 }
 
