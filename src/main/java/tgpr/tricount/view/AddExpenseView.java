@@ -52,7 +52,7 @@ public class AddExpenseView extends DialogWindow {
     private Button btnDelete;
 
     private Button btnApply;
-
+    private  String oldTitlle;
 
 
     public AddExpenseView(AddExpenseController controler) {
@@ -165,6 +165,7 @@ public class AddExpenseView extends DialogWindow {
         setTitle("Edit Expense");
         this.operation=operation;
         txtTitle.setText(operation.getTitle());
+        oldTitlle=operation.getTitle();
         try {
             txtAmount.setText(String.valueOf((double)Math.round(operation.getAmount()*100)/100));
         }catch (Exception e){
