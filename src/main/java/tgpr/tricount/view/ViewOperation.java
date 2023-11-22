@@ -18,18 +18,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-public class ViewOperation  extends DialogWindow {
+public class ViewOperation extends DialogWindow {
     private Repartition repartition;
     private Operation operation = getOperation();
     private OperationController controller;
-    private  ObjectTable<Repartition> table;
+    private ObjectTable<Repartition> table;
     private Button up;
     private Button down;
     private Button edit;
     private Button close;
     private List<Operation> operationList;
     private int index;
-  
+
 
     public ViewOperation(OperationController controllerView) {
         super("View Expense Detail");
@@ -48,25 +48,24 @@ public class ViewOperation  extends DialogWindow {
         contentPanel.addComponent(new Label("Title:"));
         contentPanel.addComponent(new Label(getOperation().getTitle()).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Amount:"));
-        contentPanel.addComponent(new Label(String.valueOf(operation.getAmountTostring()    )).addTo(contentPanel).addStyle(SGR.BOLD));
+        contentPanel.addComponent(new Label(String.valueOf(operation.getAmountTostring())).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Date:"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = operation.getOperationDate().format(formatter);
-        contentPanel.addComponent(new Label( formattedDate).addTo(contentPanel).addStyle(SGR.BOLD));
+        contentPanel.addComponent(new Label(formattedDate).addTo(contentPanel).addStyle(SGR.BOLD));
         contentPanel.addComponent(new Label("Paid by:"));
         contentPanel.addComponent(new Label(operation.getInitiator().getFullName()).addTo(contentPanel).addStyle(SGR.BOLD));
-         new EmptySpace().addTo(contentPanel);
-         new EmptySpace().addTo(contentPanel);
+        new EmptySpace().addTo(contentPanel);
+        new EmptySpace().addTo(contentPanel);
 
-      new Label("From whom:").addTo(contentPanel);
+        new Label("From whom:").addTo(contentPanel);
         table = new ObjectTable<>(
-            new ColumnSpec<>("Participant", Repartition::getUser),
-            new ColumnSpec<>("Weight", Repartition::getWeight),
-            new ColumnSpec<>("Amount", Repartition::getAmount)
+                new ColumnSpec<>("Participant", Repartition::getUser),
+                new ColumnSpec<>("Weight", Repartition::getWeight),
+                new ColumnSpec<>("Amount", Repartition::getAmount)
         ).addTo(contentPanel);
         table.addTo(contentPanel);
         table.add(operation.getRepartitions());
-
 
 
         Panel buttons = new Panel().setLayoutManager(new GridLayout(4))
@@ -77,27 +76,34 @@ public class ViewOperation  extends DialogWindow {
         new EmptySpace().addTo(buttons);
         int currentId = getOperation().getTricount().getOperations().indexOf(operation);
         int maxIndex = getOperation().getTricount().getOperations().size() - 1;
-        up = new Button("Up", () ->{
+        up = new Button("Up", () -> {
             int newId = currentId - 1;
-            if(newId  >=0 ){
-                Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId  - 1 ), operationList));
+            if (newId >= 0) {
                 close();
-            }else {
+                Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(newId), operationList));
+
+            } else {
                 up.setEnabled(false);
             }
-            }).addTo(buttons);
-        down = new Button("Down", () ->{
+        }).addTo(buttons);
+        if (currentId <= 0) {
+            up.setEnabled(false);
+        }
+        down = new Button("Down", () -> {
             int newId = currentId + 1;
-            if(newId < maxIndex){
-                Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(currentId + 1 ), operationList));
+            if (newId <= maxIndex) {
                 close();
-            }else {
+                Controller.navigateTo(new OperationController(operation.getTricount().getOperations().get(newId), operationList));
+            } else {
                 down.setEnabled(false);
             }
         }).addTo(buttons);
+        if (currentId >= maxIndex) {
+            down.setEnabled(false);
+        }
         edit = new Button("Edit", () -> {
-            Controller.navigateTo(new AddExpenseController(operation.getTricount(),operation));
-            if (Operation.getByTitle(operation.getTitle())==null){
+            Controller.navigateTo(new AddExpenseController(operation.getTricount(), operation));
+            if (Operation.getByTitle(operation.getTitle()) == null) {
                 close();
             }
         }).addTo(buttons);
@@ -107,7 +113,7 @@ public class ViewOperation  extends DialogWindow {
 
 
     }
-    
+
     public Operation getOperation() {
         return operation;
     }
@@ -115,6 +121,7 @@ public class ViewOperation  extends DialogWindow {
     public ObjectTable<Repartition> getTable() {
         return table;
     }
+
     public OperationController getController() {
         return controller;
     }
@@ -122,6 +129,7 @@ public class ViewOperation  extends DialogWindow {
     public void setController(OperationController controller) {
         this.controller = controller;
     }
+
     public void setUp(Button up) {
         this.up = up;
     }
