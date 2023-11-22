@@ -73,18 +73,17 @@ public class AddTemplateController extends Controller {
         saveTempleItem(template.getId(), repartitions);
         addTemplateView.close();
     }
-    public ErrorList validateForEdit(String title){
+    public ErrorList validateForEdit(String title, String titleOriginal){
         var error = new ErrorList();
-        if (title.length() < 3 || Template.getByTitleBis(title) != null){
             if (title.length() < 3) {
                 error.add("Minimum 3 chars", Template.Fields.Title);
             }
-            if (getTemplate().getId() == 0) {
-                if (Template.getByTitleBis(title) != null) {
-                    error.add("Already exist", Template.Fields.Title);
-                }
+            Template existingTemplate = Template.getByTitleBis(title);
+            if (existingTemplate != null && existingTemplate.getTricountId() == getTemplate().getTricountId()) {
+                if (existingTemplate.getId() != getTemplate().getId())
+                    error.add("Title already exists ", Template.Fields.Title);
             }
-        }
+
         return error;
     }
 
