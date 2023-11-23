@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static tgpr.framework.Controller.askConfirmation;
+import static tgpr.framework.Controller.navigateTo;
 import static tgpr.framework.ViewManager.gui;
 
 public class ViewTemplatesView extends DialogWindow {
@@ -52,7 +53,10 @@ public class ViewTemplatesView extends DialogWindow {
         ).addTo(root);
         temp.add(triC.getTemplates());
         temp.addSelectionChangeListener((oldRow, newRow, byUser) -> {
+            temp.getItem(oldRow).setTitle(temp.getItem(oldRow).getTitle().replace("> ",""));
+            temp.getItem(newRow).setTitle("> "+temp.getItem(newRow).getTitle());
             template = temp.getSelected();
+            temp.refresh();
             refrech();
             System.out.println(template.toString());
         });
