@@ -53,9 +53,9 @@ public class ViewTemplatesView extends DialogWindow {
         ).addTo(root);
         temp.add(triC.getTemplates());
         temp.addSelectionChangeListener((oldRow, newRow, byUser) -> {
+            template = temp.getSelected();
             temp.getItem(oldRow).setTitle(temp.getItem(oldRow).getTitle().replace("> ",""));
             temp.getItem(newRow).setTitle("> "+temp.getItem(newRow).getTitle());
-            template = temp.getSelected();
             temp.refresh();
             refrech();
             System.out.println(template.toString());
@@ -151,8 +151,10 @@ public class ViewTemplatesView extends DialogWindow {
             for (TemplateItem elem :rep){
                 litsForEdit.add(new Repartition(0,elem.getUserId(),elem.getWeight()));
             }
+            template.setTitle(template.getTitle().replace("< ",""));
             Controller.navigateTo(new AddTemplateController(template ,triC,litsForEdit));
-            this.close();
+            template.setTitle("> "+template.getTitle());
+            temp.refresh();
             Controller.navigateTo(new ViewTemplatesController(triC));
         }).setEnabled(template != null).addTo(panel);
         Button btndel= new Button("Delete", this::deleteTemplate).setEnabled(template != null).addTo(panel);
