@@ -47,6 +47,7 @@ public class AddTemplateView extends DialogWindow {
                 validateForEdit()
         ).sizeTo(15);
         if (addTemplateController.getTemplate().getTitle() != null) {
+            addTemplateController.getTemplate().setTitle(addTemplateController.getTemplate().getTitle().replace("> ",""));
             txtTitle.setText(addTemplateController.getTemplate().getTitle());
         }
         new EmptySpace().addTo(root);

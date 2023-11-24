@@ -155,7 +155,6 @@ public class ViewTemplatesView extends DialogWindow {
             Controller.navigateTo(new AddTemplateController(template ,triC,litsForEdit));
             template.setTitle("> "+template.getTitle());
             temp.refresh();
-            Controller.navigateTo(new ViewTemplatesController(triC));
         }).setEnabled(template != null).addTo(panel);
         Button btndel= new Button("Delete", this::deleteTemplate).setEnabled(template != null).addTo(panel);
         addShortcut(btndel, KeyStroke.fromString("<A-d>"));
