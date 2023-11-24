@@ -7,6 +7,7 @@ import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
 import com.googlecode.lanterna.input.KeyStroke;
 import tgpr.framework.Layouts;
 import tgpr.tricount.controller.EditProfileController;
+import tgpr.tricount.model.Security;
 import tgpr.tricount.model.User;
 
 import java.util.List;
@@ -19,13 +20,15 @@ public class EditProfileView extends DialogWindow {
     private Label lblMail = new Label("");
     private Label lblFullName = new Label("");
     private Label lblIban = new Label("");
-    private  Button btnsave;
+    private  Button btnsave=new Button("");
+    private User me;
     public EditProfileView(EditProfileController controller, String title) {
         super(title);
         this.controller = controller;
 
         setHints(List.of(Hint.CENTERED));
         setCloseWindowWithEscape(true);
+        me = Security.getLoggedUser();
 
         Panel root = Panel.verticalPanel();
         setComponent(root);
@@ -33,18 +36,24 @@ public class EditProfileView extends DialogWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(0))
                 .setLayoutData(Layouts.LINEAR_BEGIN).addTo(root);
         panel.addComponent(new Label("Mail:"));
-        txtMail = new TextBox().setTextChangeListener((txt, byUser)-> validate())
+        txtMail = new TextBox()
                 .addTo(panel).sizeTo(20);
+        txtMail.setText(me.getMail()==null?"":me.getMail());
+        txtMail.setTextChangeListener((txt, byUser)-> validate());
         new EmptySpace().addTo(panel);
        lblMail.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         panel.addComponent(new Label("Full Name:"));
-        txtFullName = new TextBox().setTextChangeListener((txt, byUser)-> validate())
+        txtFullName = new TextBox()
                 .addTo(panel).sizeTo(35);
+        txtFullName.setText(me.getFullName()==null?"": me.getFullName());
+        txtFullName.setTextChangeListener((txt, byUser)-> validate());
         new EmptySpace().addTo(panel);
       lblFullName.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         panel.addComponent(new Label("IBAN:"));
         txtIban = new TextBox().setTextChangeListener((txt, byUser)-> validate())
                 .addTo(panel).sizeTo(20);
+        txtIban.setText(me.getIban()==null?"": me.getIban());
+        txtIban.setTextChangeListener((txt, byUser)-> validate());
         new EmptySpace().addTo(panel);
         lblIban.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
 
@@ -78,6 +87,15 @@ public class EditProfileView extends DialogWindow {
     }
 
     private void save(){
-        //faire la fonction save
+        var error= controller.validate(
+                txtMail.getText(),
+                txtFullName.getText(),
+                txtIban.getText()
+        );
+        if (error.isEmpty()){
+            controller.save( txtMail.getText(),
+                    txtFullName.getText(),
+                    txtIban.getText());
+        }
     }
 }

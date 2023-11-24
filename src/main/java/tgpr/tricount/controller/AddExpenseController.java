@@ -14,14 +14,10 @@ import java.util.List;
 
 public class AddExpenseController extends Controller {
     private final AddExpenseView view;
-    private AddTemplateController addTemplateController;
-    private TemplateItem item;
-
+    private  Operation operation;
     public Tricount getTricount() {
         return tricount;
     }
-
-    private Template template;
     private Tricount tricount;
 
     // besoin de recevoir l' Id du tricount pour savoir dans quel tricount nous somme
@@ -34,6 +30,7 @@ public class AddExpenseController extends Controller {
     public AddExpenseController(Tricount tricount, Operation operation) {
         this.tricount = tricount;
         tricount.setId(tricount.getId());
+        this.operation=operation;
         view = new AddExpenseView(this, operation);
     }
 
@@ -54,6 +51,11 @@ public class AddExpenseController extends Controller {
             ope = new Operation(title, tricountId, amount, operationDate, initiatorId, createdAt);
         } else {
             ope = operation;
+            ope.setAmount(amount);
+            ope.setTitle(title);
+            ope.setOperationDate(operationDate);
+            ope.setInitiatorId(initiatorId);
+            ope.setCreatedAt(createdAt);
         }
         ope.save();
         view.close();
@@ -81,8 +83,10 @@ public class AddExpenseController extends Controller {
         var erorr = new ErrorList();
         String today = LocalDate.now().asString();
 
-
-
+        //faut il ignore la casse???? a voir demain
+        if (Operation.getByTitle(title)!=null && (operation ==null||title.compareToIgnoreCase(operation.getTitle())!=0) ){
+            erorr.add("Arely  exist", Operation.Fields.Title);
+        }
         if (repartitions.size() < 1) {
             erorr.add("you must selected must least one", Operation.Fields.Repartition);
         }
@@ -125,6 +129,7 @@ public class AddExpenseController extends Controller {
     public void delet(Operation operation) {
         if (askConfirmation("You are about to delete this expense. Please confirm.", "delete Expense")) {
             operation.delete();
+            view.close();
         }
     }
 

@@ -18,6 +18,7 @@ public class AddTemplateView extends DialogWindow {
     private TextBox txtTitle;
     private Label errTitle = new Label("");
     private Button btnSave = new Button("");
+    private  String titleOriginal;
 
     public AddTemplateView(AddTemplateController addTemplateController, AddExpenseController addExpenseController) {
         super((addTemplateController.getTemplate() == null || addTemplateController.getTemplate().getTitle() == null) ? "Create a new Template Change" : "Template title");
@@ -46,6 +47,7 @@ public class AddTemplateView extends DialogWindow {
                 validateForEdit()
         ).sizeTo(15);
         if (addTemplateController.getTemplate().getTitle() != null) {
+            addTemplateController.getTemplate().setTitle(addTemplateController.getTemplate().getTitle().replace("> ",""));
             txtTitle.setText(addTemplateController.getTemplate().getTitle());
         }
         new EmptySpace().addTo(root);
@@ -98,7 +100,8 @@ public class AddTemplateView extends DialogWindow {
 
         private void validateForEdit() {
             var errors = addTemplateController.validateForEdit(
-                    txtTitle.getText()
+                    txtTitle.getText(),
+                    titleOriginal
             );
             errTitle.setText(errors.getFirstErrorMessage(Template.Fields.Title));
             btnSave.setEnabled(errors.isEmpty());

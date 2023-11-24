@@ -47,12 +47,13 @@ public class AddExpenseView extends DialogWindow {
     private Label  errcheched =new Label("");
     private Label errTitle =new Label("");
     private Label errAmount =new Label("");
+    private ComboBox<String> selectTemplate = new ComboBox<>();
     private Button btnSave;
 
     private Button btnDelete;
 
     private Button btnApply;
-
+    private  String oldTitlle;
 
 
     public AddExpenseView(AddExpenseController controler) {
@@ -156,7 +157,6 @@ public class AddExpenseView extends DialogWindow {
 
     private void delete() {
         controler.delet(operation);
-        close();
 
     }
 
@@ -165,11 +165,11 @@ public class AddExpenseView extends DialogWindow {
         setTitle("Edit Expense");
         this.operation=operation;
         txtTitle.setText(operation.getTitle());
+        //oldTitlle=operation.getTitle();
         try {
-            txtAmount.setText(String.valueOf(operation.getAmount()));
+            txtAmount.setText(String.valueOf((double)Math.round(operation.getAmount()*100)/100));
         }catch (Exception e){
             txtAmount.setText("0");
-
         }
         Date.setText(operation.getOperationDate().asString());
         payBy.setSelectedItem(operation.getInitiator().getFullName());
@@ -196,28 +196,6 @@ public class AddExpenseView extends DialogWindow {
 
         } );
 
-
-
-
-        this.addKeyboardListener(check,keyStroke -> {
-            var character = keyStroke.getCharacter();
-            var type = keyStroke.getKeyType();
-            if (type==KeyType.ArrowRight||character!=null&& character=='+'){
-                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()+1);
-                if (check.getSelectedItem().getWeight()==1){
-                    check.setChecked(check.getSelectedItem(),true);
-                    validate();
-                }
-            }else if ((type== KeyType.ArrowLeft||character!=null &&character=='-')&&check.getSelectedItem().getWeight()>0){
-                check.getSelectedItem().setWeight(check.getSelectedItem().getWeight()-1);
-                if (check.getSelectedItem().getWeight()==0){
-                    check.setChecked(check.getSelectedItem(),false);
-                    validate();
-                }
-            }
-
-            return  true;
-        });
 
 
         btnDelete.setVisible(true);
@@ -255,7 +233,7 @@ public class AddExpenseView extends DialogWindow {
         Panel panel = new Panel().setLayoutManager(new GridLayout(1).setBottomMarginSize(0).setLeftMarginSize(0))
                 .setLayoutData(Layouts.LINEAR_CENTER);
         txtAmount = new TextBox().addTo(panel)
-                .setValidationPattern(Pattern.compile("[.\\d]{0,10}"))
+                .setValidationPattern(Pattern.compile("[.\\d]{0,9}"))
                 .setTextChangeListener((txt, byUser)-> validate());
         errAmount.addTo(panel).setForegroundColor(TextColor.ANSI.RED);
         return  panel;
@@ -274,7 +252,7 @@ public class AddExpenseView extends DialogWindow {
     private Panel applyAndComb(){
         Panel panel = new Panel().setLayoutManager(new GridLayout(2).setTopMarginSize(1).setVerticalSpacing(1))
                 .setLayoutData(Layouts.LINEAR_CENTER);
-        ComboBox<String> selectTemplate = new ComboBox<>();
+        selectTemplate = new ComboBox<>();
         selectTemplate.addItem("No ,I use a custom repartition ").isReadOnly();
         for (Template elem:Template.getByTricount(controler.getTricount().getId())){
             selectTemplate.addItem(elem.getTitle());
@@ -444,5 +422,12 @@ public class AddExpenseView extends DialogWindow {
             check.addItem(elem, elem.getWeight()==0?false:true);
         }
         check.addListener((index,checked)-> check.getSelectedItem().setWeight(checked?1:0) );
+
+
+        selectTemplate.clearItems();
+        selectTemplate.addItem("No ,I use a custom repartition ").isReadOnly();
+        for (Template elem:Template.getByTricount(controler.getTricount().getId())){
+            selectTemplate.addItem(elem.getTitle());
+        }
     }
 }

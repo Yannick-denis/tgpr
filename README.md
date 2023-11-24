@@ -37,7 +37,6 @@
   * change password   :    Axel
 ### Liste des bugs connus
 
-  * depuis view operation le dernier de la liste ne s'edit pas pour presever lappli on l'ouvre avec un amount a 0 
   * le calcul de balance est incorect
 
 ### Liste des fonctionnalités supplémentaires
