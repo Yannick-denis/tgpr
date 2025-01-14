@@ -80,6 +80,7 @@ public class AddExpenseView extends DialogWindow {
         payBy = new ComboBox<>();
         loadParticipand();
 
+
         for (User elem : participant) {
             if (elem.equals(Security.getLoggedUser())){
                    payBy.addItem(elem.getFullName());

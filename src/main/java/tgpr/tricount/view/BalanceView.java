@@ -1,5 +1,6 @@
 package tgpr.tricount.view;
 
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.DialogWindow;
@@ -55,7 +56,7 @@ public class BalanceView extends DialogWindow {
 
     private Panel compasantCentral() {
 
-        Panel panel = new Panel().setLayoutManager(new GridLayout(3).setTopMarginSize(1).setVerticalSpacing(1));
+        Panel panel = new Panel().setLayoutManager(new GridLayout(4).setTopMarginSize(1).setVerticalSpacing(1).setVerticalSpacing(0));
         List<User> listparticipant = controller.getTricount().getParticipants();
         String eur = "€";
         for (User user : listparticipant) {
